@@ -1,3 +1,6 @@
+/* 
+  Todas la etiquedas.
+*/
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +13,203 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button{
+  outline: none !important;
+}
+a:hover{
+  text-decoration: none !important;
+}
+
+a{
+  color: #365068 !important;
+}
+/* ------------------------------------------
+  Estilos generales en todos los componentes  
+  -------------------------------------------*/
+.flx-center{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5em;
+}
+
+.btn-red-small{
+  background: #d91415 !important;
+  outline: none !important;
+  text-transform: inherit !important;
+  font-size: 16px !important;
+  letter-spacing: 1px !important;
+  border: 1px solid #d91415 !important;
+}
+
+.btn-red-small:hover{
+  background-color: #ffffff !important;
+  border: 1px solid #d91415 !important;
+  color: #d91415;
+}
+
+.btn-edit-outline{
+  background: #ffffff !important;
+  outline: none !important;
+  text-transform: inherit !important;
+  font-size: 16px !important;
+  letter-spacing: 1px !important;
+  border: 1px solid #d91415 !important;
+  color: #d91415 !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+  margin-right: 25px !important;
+}
+
+.btn-edit-outline:hover{
+  background-color: #d91415 !important;
+  border: 1px solid #d91415 !important;
+  color: #fff !important;
+}
+
+.w-100{
+  width: 100%;
+}
+
+.footer-pagination{
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 26px;
+  background: #ffffff;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.title-drawer{
+  width: 100%;
+  background: #F4F8FB;
+  padding: 14px;
+  color: #323E4A;
+  font-size: 16px;
+  letter-spacing: 0.46px;
+  line-height: 19px;
+  font-weight: 600;
+  width: 100%;
+  background: #F4F8FB;
+  padding: 2px 10px;
+  color: #323E4A;
+  font-size: 16px;
+  letter-spacing: 0.46px;
+  line-height: 19px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title-drawer p{
+  margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-drawer{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 32em;
+  background: #f4f8fb;
+  display: flex;
+  padding: 10px 25px;
+}
+
+.form-control:focus{
+  color: #365068 !important;
+  border-color: #365068 !important;
+  box-shadow: none !important;
+}
+
+.form-group label{
+  color: #365068;
+  letter-spacing: 0.9px;
+}
+
+.txt-breadcrumb{
+  color: #365068 !important;
+  font-weight: 600 !important;
+}
+
+/* AppBar. */
+.MuiAppBar-colorPrimary{
+  background-color: #d91415 !important;
+}
+
+.MuiTypography-body1{
+  font-size: 15px !important;
+}
+
+.MuiListItemIcon-root{
+  min-width: 30px !important;
+}
+.invalid-feedback{
+  display: flex !important;
+}
+
+/* Secon app bar */
+.MuiButtonGroup-groupedTextHorizontal:not(:last-child) {
+  border-right: 1px solid #efefef !important;
+}
+
+/* .MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover{
+  background-color: red !important;
+} */
+.MuiCheckbox-colorSecondary.Mui-checked{
+  color: #d91415 !important;
+}
+
+/* ProgressBar */
+.MuiLinearProgress-barColorSecondary{
+  background: #f8ed00 !important;
+}
+
+.MuiLinearProgress-colorSecondary{
+  background: #d91415 !important;
+}
+
+/*---------------------------------------------- 
+  CHARTS - ESTILOS PARA ESTADISTICAS
+---------------------------------------------*/
+.containerLabelsCharts {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 15px;
+}
+
+.itemChart {
+  display: flex;
+  align-items: center;
+}
+
+.itemChart .iconList{
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  border-radius: 18px;
+  margin-right: 10px;
+}
+
+.itemChart p{
+  margin: 0;
+  color: #363B4E;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: left;
+}
+
+/*---------------------------------------------- 
+  MEDIAS
+---------------------------------------------*/
+
+/* Ajusta el alto del AppBar del menu. */
+@media (min-width: 600px){
+  .MuiToolbar-regular {
+    min-height: auto !important;
+  }
 }
