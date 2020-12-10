@@ -26,22 +26,50 @@ export const filterBasic = (data, anio, tipo, nombreGerencia) => {
 // Calulos para obtener la grafica de Ingresos vs gastos..
 export const filterMes = (data, anio, tipo, nombreGerencia, mes) => {
     const dataFilter = data.filter((e) => {
-        // Los filtros excluyen disponibilidad inicial. Para excluirla se convierte en minusculas y con esto se valida.
+        // Los filtros excluyen disponibilidad inicial si esta false. Para excluirla se convierte en minusculas y con esto se valida.
         var validateNombreGrupo = e.nombre_grupo.toLowerCase() !== 'disponibilidad inicial';
         // Se valida el tipo simulando un Like de mysql con este query.
         var validateTipo = e.tipo.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
-        var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        if(nombreGerencia !== 'all'){
+            // var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+            // var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+            var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        }else{
+            var validateNomGerencia = true;
+        }
         // Retorna data con validaciones.
-        return (e.anio === anio && validateNombreGrupo && (e.clase === undefined || e.clase === '0') && validateNomGerencia && validateTipo && e.mes === mes );
+        return (e.anio === anio && validateNombreGrupo && (e.clase === undefined || e.clase === '0') && validateNomGerencia && validateTipo && e.mes === mes);
     });
 
     // Suma de todos los elementos en la columna valor que vengan en dataFilter.
     const sumData = dataFilter.reduce((a, b) => {
         return a + (b.valor || 0); 
     }, 0);
-    
-     
+    return sumData;
+}
+
+// Calulos para obtener la grafica de Ingresos vs gastos..
+export const filterNameGroup = (data, anio, tipo, nombreGerencia, mes, namegroup) => {
+    const dataFilter = data.filter((e) => {
+        // Los filtros excluyen disponibilidad inicial si esta false. Para excluirla se convierte en minusculas y con esto se valida.
+        var validateNombreGrupo = e.nombre_grupo.toLowerCase() === namegroup.toLowerCase();
+        // Se valida el tipo simulando un Like de mysql con este query.
+        var validateTipo = e.tipo.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
+        //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
+        if(nombreGerencia !== 'all'){
+            var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        }else{
+            var validateNomGerencia = true;
+        }
+        // Retorna data con validaciones.
+        return (e.anio === anio && validateNombreGrupo && (e.clase === undefined || e.clase === '0') && validateNomGerencia && validateTipo && e.mes === mes);
+    });
+
+    // Suma de todos los elementos en la columna valor que vengan en dataFilter.
+    const sumData = dataFilter.reduce((a, b) => {
+        return a + (b.valor || 0); 
+    }, 0);
     return sumData;
 }
 
@@ -61,7 +89,12 @@ export const filterMesesGroup = (data, anio, tipo, nombreGerencia, meses, invers
         // se busca que el mes de la data este presente en el array recibido.
         var validateMeses = (meses.indexOf(e.mes) !== -1);
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
-        var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        if(nombreGerencia !== 'all'){
+            // var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+            var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        }else{
+            var validateNomGerencia = true;
+        }
         // Retorna data con validaciones.
         return (e.anio === anio && validateNombreGrupo && (e.clase === undefined || e.clase === '0') && validateNomGerencia && validateTipo && validateMeses);
     });
