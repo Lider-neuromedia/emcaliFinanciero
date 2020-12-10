@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Header from '../menu/Header';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
-import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes} from '../../services/ejecucionPresupuesta'
+import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, optionsIngreVsGas} from '../../services/ejecucionPresupuesta'
 import { HorizontalBar, Bar, Doughnut  } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -65,6 +65,12 @@ export default function Ingresos() {
     const [ingresosAnioAnt, setIngresosAnioAnt] = useState({recaudadosAnt : 0, proyectados : 0, recaudadosAct: 0});
     const [loading, setLoading] = useState(true);
 
+
+    const [recaudados2019, setRecaudados2019] = useState([]);
+    const [proyectados2020, setProyectados2020] = useState([]);
+    const [recaudados2020, setRecaudados2020] = useState([]);
+
+    
     // Hook de React.
     useEffect(() => {
         loadDataExcel();
@@ -80,17 +86,36 @@ export default function Ingresos() {
     }
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
         var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var ingresos_recaudados_anio_anterior_data = [];
+        var ingresos_proyectados_anio_act_data = [];
+        var ingresos_recaudados_anio_act_data = [];
         
         // Grafica #1
         var recaudados_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', nombre_gerencia, meses);
         var proyectados_anio_act = filterMesesGroup(data, 2020, 'Ingresos Proyectados', nombre_gerencia, meses);
         var recaudados_anio_act = filterMesesGroup(data, 2020, 'Ingresos Recaudados', nombre_gerencia, meses);
         
+        // Grafica #2
+        meses.forEach(mes => {
+            var ingresos_recaudados_anio_anterior = filterMes(data, 2019, 'Ingresos Recaudados', nombre_gerencia, mes);
+            var ingresos_proyectados_anio_act = filterMes(data, 2020, 'Ingresos Proyectados', nombre_gerencia, mes);
+            var ingresos_recaudados_anio_act = filterMes(data, 2020, 'Ingresos Recaudados', nombre_gerencia, mes);
+
+            ingresos_recaudados_anio_anterior_data.push(ingresos_recaudados_anio_anterior);
+            ingresos_proyectados_anio_act_data.push(ingresos_proyectados_anio_act);
+            ingresos_recaudados_anio_act_data.push(ingresos_recaudados_anio_act);
+
+        });
+
         setIngresosAnioAnt({
             recaudadosAnt : recaudados_anio_anterior, 
             proyectados : proyectados_anio_act, 
             recaudadosAct: recaudados_anio_act
         });
+
+        setRecaudados2019(ingresos_recaudados_anio_anterior_data);
+        setProyectados2020(ingresos_proyectados_anio_act_data);
+        setRecaudados2020(ingresos_recaudados_anio_act_data);
 
         setLoading(false);
     }
@@ -107,7 +132,7 @@ export default function Ingresos() {
     const dataIngresosAnios = {
         labels: ['', '', ''],
         datasets: [{
-            label: 'Ingresos',
+            label: 'Ejecución acumulada',
             data: [ingresosAnioAnt.recaudadosAnt, ingresosAnioAnt.proyectados, ingresosAnioAnt.recaudadosAct],
             backgroundColor: [
                 '#507FF2',
@@ -122,6 +147,27 @@ export default function Ingresos() {
             borderWidth: 1
         }]
     };
+
+    const dataIngreVsGas = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: 'Recaudado - 2019',
+            data: recaudados2019,
+            backgroundColor: '#FFC503',
+          },
+          {
+            label: 'Proyectados - 2020',
+            data: proyectados2020,
+            backgroundColor: '#2119C8',
+          },
+          {
+            label: 'Recaudados - 2020',
+            data: recaudados2020,
+            backgroundColor: '#2DFF2D',
+          },
+        ],
+    }
 
     return (
         (!services.sesionActive) ?
@@ -164,6 +210,35 @@ export default function Ingresos() {
                             </Grid>
                             <Grid item xs={12} md={5} lg={5}>
                                 <Paper className={fixedHeightPaper}>
+                                {
+                                    loading ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                            </div>
+                                        </div>
+                                :
+                                        <div>
+                                            <Bar  data={dataIngreVsGas} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <p>Recaudados - 2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <p>Proyectados - 2020</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <p>Recaudados - 2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 }
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={4} lg={4}>
