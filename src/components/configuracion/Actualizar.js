@@ -2,6 +2,11 @@ import React, {useState} from "react";
 import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
+import { Link } from 'react-router-dom';
+import {Button, Snackbar} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+import axios from 'axios';
+import services from '../../services';
 // Imagenes.
 import ejecucionPres from '../../assets/images/icons/actualizacion/ejecución_presupuestal.png';
 import ejecucionPresWhite from '../../assets/images/icons/actualizacion/ejecución_presupuestal_white.png';
@@ -13,7 +18,6 @@ import cartera from '../../assets/images/icons/actualizacion/cartera.png';
 import carteraWhite from '../../assets/images/icons/actualizacion/cartera_white.png';
 import comercial from '../../assets/images/icons/actualizacion/comercial.png';
 import comercialWhite from '../../assets/images/icons/actualizacion/comercial_white.png';
-import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
     imgConfig: {
         width: 'min-content',
         marginTop: '20px'
+    },
+    labelFile: {
+        margin: 0, 
+        height: '100%', 
+        cursor: 'pointer'
     }
 }));
 
@@ -87,18 +96,58 @@ export default function Actualizar(){
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [isHover, setisHover] = useState('');
+    const [selectFile, setSelectFile] = useState(null);
+    const [message, setMessage] = useState({type: 'default', message: ''});
+    const [openMessage, setOpenMessage] = useState(false);
+
+    const onChangeFile = (name) => (event) => {
+        var file = event.target.files[0];
+        if (file) {
+            setSelectFile(file);
+            uploadFile(file, name);
+        }else{
+            setSelectFile(null);
+        }
+    }
+
+    const uploadFile = (file, name) => {
+        const formData = new FormData();
+        
+        formData.append("file", file);
+        formData.append("name", 'datos_pr');
+        axios.post(services.baseUrl + 'uploadFile', formData, services.configAutorization).then(
+            response => {
+                var data = response.data;
+                if (data.response === 'success' && data.status === 200) {
+                    setOpenMessage(true);
+                    setMessage({type: 'success', message: data.message});
+                    setSelectFile(null);
+                }
+            }
+        ).catch(
+            error => {
+
+            }
+        )
+    }
 
     return (
         <div className={classes.root}>
             <Header itemsHeader={itemsHeader}/>
             <main className={classes.content}>
+                {/* Mensajes */}
+                <Snackbar open={openMessage} autoHideDuration={6000} onClose={() => setOpenMessage(false)}>
+                    <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage(false)} severity={message.type}>
+                        {message.message}
+                    </MuiAlert>
+                </Snackbar>
                 <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         {/* Ejecucion presupuestal */}
                         <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('ejecucion_pre')} onMouseLeave={() => setisHover('')}>
+                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('ejecucion_pre')} onMouseLeave={() => setisHover('')}>
+                                <label htmlFor="file" className={classes.labelFile}>
                                     <div className={classes.containerConfig}>
                                         {isHover === 'ejecucion_pre' ?
                                             <img src={ejecucionPresWhite} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
@@ -106,79 +155,83 @@ export default function Actualizar(){
                                             <img src={ejecucionPres} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
                                         }
                                         <p className={classes.titleConfig}>
-                                            Ejecución presupuestal
+                                            {(selectFile === null) ? 'Ejecución presupuestal' : selectFile.name }
                                         </p>
+                                        
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="file"
+                                                name="file"
+                                                onChange={onChangeFile("datos_pr")}
+                                                type="file"
+                                            />
+
+                                            {/* <Button color="secondary" variant="contained" component="span">
+                                                {(selectFile === null) ? 'Upload button' : selectFile.name } 
+                                            </Button> */}
                                     </div>
-                                </Paper>
-                            </Link>                            
+                                </label>
+                            </Paper>
                         </Grid>
                         {/* Pyg */}
                         <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('pyg')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'pyg' ?
-                                            <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
-                                        : 
-                                            <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Pyg
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
+                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('pyg')} onMouseLeave={() => setisHover('')}>
+                                <div className={classes.containerConfig}>
+                                    {isHover === 'pyg' ?
+                                        <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
+                                    : 
+                                        <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
+                                    }
+                                    <p className={classes.titleConfig}>
+                                        Pyg
+                                    </p>
+                                </div>
+                            </Paper>
                         </Grid>
                         {/* Gestion */}
                         <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('gestion')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'gestion' ?
-                                            <img src={gestionWhite} className={classes.imgConfig} alt="Gestion"/>
-                                        : 
-                                            <img src={gestion} className={classes.imgConfig} alt="Gestion"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Gestión
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
+                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('gestion')} onMouseLeave={() => setisHover('')}>
+                                <div className={classes.containerConfig}>
+                                    {isHover === 'gestion' ?
+                                        <img src={gestionWhite} className={classes.imgConfig} alt="Gestion"/>
+                                    : 
+                                        <img src={gestion} className={classes.imgConfig} alt="Gestion"/>
+                                    }
+                                    <p className={classes.titleConfig}>
+                                        Gestión
+                                    </p>
+                                </div>
+                            </Paper>
                         </Grid>
                         {/* Cartera */}
                         <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('cartera')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'cartera' ?
-                                            <img src={carteraWhite} className={classes.imgConfig} alt="Cartera"/>
-                                        : 
-                                            <img src={cartera} className={classes.imgConfig} alt="Cartera"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Cartera
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
+                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('cartera')} onMouseLeave={() => setisHover('')}>
+                                <div className={classes.containerConfig}>
+                                    {isHover === 'cartera' ?
+                                        <img src={carteraWhite} className={classes.imgConfig} alt="Cartera"/>
+                                    : 
+                                        <img src={cartera} className={classes.imgConfig} alt="Cartera"/>
+                                    }
+                                    <p className={classes.titleConfig}>
+                                        Cartera
+                                    </p>
+                                </div>
+                            </Paper>                           
                         </Grid>
                         {/* Comercial */}
                         <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('comercial')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'comercial' ?
-                                            <img src={comercialWhite} className={classes.imgConfig} alt="Comercial"/>
-                                        : 
-                                            <img src={comercial} className={classes.imgConfig} alt="Comercial"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Comercial
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
+                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('comercial')} onMouseLeave={() => setisHover('')}>
+                                <div className={classes.containerConfig}>
+                                    {isHover === 'comercial' ?
+                                        <img src={comercialWhite} className={classes.imgConfig} alt="Comercial"/>
+                                    : 
+                                        <img src={comercial} className={classes.imgConfig} alt="Comercial"/>
+                                    }
+                                    <p className={classes.titleConfig}>
+                                        Comercial
+                                    </p>
+                                </div>
+                            </Paper>                           
                         </Grid>
 
                     </Grid>

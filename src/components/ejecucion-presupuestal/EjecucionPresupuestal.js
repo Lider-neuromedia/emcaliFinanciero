@@ -53,6 +53,7 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Ejecución Presupuestal</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>Todos</Button>
                 <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}>Corporativo</Button>
                 <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
                 <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
@@ -70,7 +71,7 @@ export default function EjecucionPresupuestal() {
 
     // Estados.
     const [dataExcel, setDataExcel] = useState([]);
-    const [filters, setFilters] = useState({nombre_gerencia : 'uene'});
+    const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [ejecucionAcumulada, setEjecucionAcumulada] = useState({ingresos : 0, gastos : 0});
     const [ingresosVs, setIngresosVs] = useState([]);
     const [gastosVs, setGastosVs] = useState([]);

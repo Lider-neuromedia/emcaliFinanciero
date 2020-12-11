@@ -10,7 +10,11 @@ export const filterBasic = (data, anio, tipo, nombreGerencia) => {
         // Se valida el tipo simulando un Like de mysql con este query.
         var validateTipo = e.tipo.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
-        var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        if(nombreGerencia !== 'all'){
+            var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
+        }else{
+            var validateNomGerencia = true;
+        }
         // Retorna data con validaciones.
         return (e.anio === anio && validateNombreGrupo && (e.clase === undefined || e.clase === '0') && validateNomGerencia && validateTipo );
     });
@@ -32,8 +36,6 @@ export const filterMes = (data, anio, tipo, nombreGerencia, mes) => {
         var validateTipo = e.tipo.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
         if(nombreGerencia !== 'all'){
-            // var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
-            // var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
             var validateNomGerencia = e.nombre_gerencia.toLowerCase() === nombreGerencia.toLowerCase();
         }else{
             var validateNomGerencia = true;

@@ -82,7 +82,7 @@ function Login() {
                         {(loading) &&
                             <LinearProgress color="secondary"/>
                         }
-                         <Snackbar open={openMessage} autoHideDuration={6000} onClose={() => setOpenMessage(false)}>
+                        <Snackbar open={openMessage} autoHideDuration={6000} onClose={() => setOpenMessage(false)}>
                             <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage(false)} severity="error">
                                 Usuario y/o contraseña incorrectos.
                             </MuiAlert>
