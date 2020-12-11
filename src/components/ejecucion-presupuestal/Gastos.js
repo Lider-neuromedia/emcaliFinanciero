@@ -75,7 +75,7 @@ export default function Gastos() {
 
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('http://127.0.0.1:8000/api/download-template', function (data, err) {
+        loadServerExcel('http://127.0.0.1:8000/api/download-template/ejecucion_presupuestal', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
         });
