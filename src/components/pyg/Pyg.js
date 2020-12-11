@@ -43,16 +43,17 @@ const useStyles = makeStyles((theme) => ({
 
 
 // Items que iran en el header.
-export const itemsHeader = () => {
+export const itemsHeader = (changeFilter) => {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography color="textPrimary" className="txt-breadcrumb">PyG</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }}>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }}>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }}>UENE</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>Todos</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -157,6 +158,13 @@ export default function Pyg() {
 
     }
 
+    // Cambiar los filtros en base a nombre gerencia.
+    const changeFilterNomGerencia = (value)  => (event) => {
+        setFilters({nombre_gerencia : value});
+        // Inicializacion del loading.
+        setLoading(true);
+        loadCharts(dataExcel, value);
+    }
     
     /* 
         DATA - GRAFICOS.
@@ -289,7 +297,7 @@ export default function Pyg() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'pyg'} itemsHeader={itemsHeader} />
+                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia)}  />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>
