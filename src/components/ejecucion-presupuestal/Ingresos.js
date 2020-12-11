@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Header from '../menu/Header';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
-import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas} from '../../services/ejecucionPresupuesta'
+import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas, optionsGastosDoughnut} from '../../services/ejecucionPresupuesta'
 import { HorizontalBar, Bar, Doughnut  } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -80,6 +80,8 @@ export default function Ingresos() {
     const [ingresos_capital_anios_anterior, setIngresosCapital_anios_anterior] = useState([]);
     const [ingresos_capital_anios_act, setIngresosCapital_anios_act] = useState([]);
 
+    // const [ingresosDoughnut, setIngresosDoughnut] = useState({valueOne : 0, valueTwo : 0, valueThree : 0, valueFour : 0});
+
 
     // Hook de React.
     useEffect(() => {
@@ -134,6 +136,18 @@ export default function Ingresos() {
         setRecaudados2019(ingresos_recaudados_anio_anterior_data);
         setProyectados2020(ingresos_proyectados_anio_act_data);
         setRecaudados2020(ingresos_recaudados_anio_act_data);
+
+        // Grafica 3
+        // var ing_uene = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses, true);
+        // var ing_corporativo = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
+        // var ing_uenaa = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
+        // var ing_telco = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
+
+        // var ingresosUene = Math.round((inv_comprometidos / inv_proyectados) * 100, -1);
+        // var ingresosCorporativo = Math.round((inv_causados / inv_comprometidos) * 100, -1);
+        // var ingresosUenaa = Math.round((inv_causados / inv_comprometidos) * 100, -1);
+        // var ingresosTelco = Math.round((inv_causados / inv_comprometidos) * 100, -1);
+
 
         // Grafica #4
         meses.forEach(mes => {
@@ -222,6 +236,29 @@ export default function Ingresos() {
           },
         ],
     }
+
+    // const dataIngresosDoughnut = {
+    //     labels: ['', '', '', ''],
+    //     datasets: [
+    //       {
+    //         label: '',
+    //         data: [ingresosDoughnut.valueOne, ingresosDoughnut.valueTwo, ingresosDoughnut.valueThree, ingresosDoughnut.valueFour],
+    //         backgroundColor: [
+    //             '#8064A2',
+    //             '#FFB12E',
+    //             '#FFB12E',
+    //             '#FFB12E',
+    //         ],
+    //         borderColor: [
+    //             '#8064A2',
+    //             '#FFB12E',
+    //             '#FFB12E',
+    //             '#FFB12E',
+    //         ],
+    //         borderWidth: 1,
+    //       },
+    //     ],
+    // }
 
     const dataDisponibilidadInicial = {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
@@ -345,6 +382,11 @@ export default function Ingresos() {
                             </Grid>
                             <Grid item xs={12} md={4} lg={4}>
                                 <Paper className={fixedHeightPaper}>
+                                    {/* <div style={{display: 'flex'}}>
+                                        <div style={{width: '50%'}}>
+                                            <Doughnut data={dataInversionDoughnut} options={optionsGastosDoughnut}/>
+                                        </div>
+                                    </div> */}
                                 </Paper>
                             </Grid>
 
