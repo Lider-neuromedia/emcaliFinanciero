@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import clsx from 'clsx';
 import { Breadcrumbs, Typography, ButtonGroup, Button, makeStyles, Container, Grid, Paper } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Header from '../menu/Header';
 import { Redirect } from 'react-router-dom';
 import services from '../../services';
-
+import {loadServerExcel} from '../../services';
+import {filterColumnMes, optionsIngresosOper} from '../../services/pyg';
+import { Bar  } from 'react-chartjs-2';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     },
     heightSmall: {
         height: 185
+    },
+    heightAuto : {
+        height: 'auto'
     }
 }));
 
@@ -56,6 +62,227 @@ export default function Pyg() {
 
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const [dataExcel, setDataExcel] = useState([]);
+    const [filters, setFilters] = useState({nombre_gerencia : 'all'});
+    const [ingresosOpera, setIngresosOpera] = useState({ anio_ant : 0, anio_act : 0});
+    const [costosVenta, setCostosVenta] = useState({ anio_ant : 0, anio_act : 0});
+    const [gastosOper, setGastosOper] = useState({ anio_ant : 0, anio_act : 0});
+    const [ebitda, setEbitda] = useState({ anio_ant : 0, anio_act : 0});
+    const [utilidadNeta, setUtilidadNeta] = useState({ anio_ant : 0, anio_act : 0});
+    const [ebitdaGerencia, setEbitdaGerencia] = useState({ uene : 0, uenaa : 0, telco : 0});
+    const [loading, setLoading] = useState(true);
+
+    // Hook de React.
+    useEffect(() => {
+        loadDataExcel();
+    }, []);
+
+    // Hace la petición de carga que trae la informacion del excel desde el backend.
+    const loadDataExcel = () => {
+        // Carga del excel.
+        loadServerExcel('http://127.0.0.1:8000/api/download-template/pyg', function (data, err) {
+            setDataExcel(data.data);
+            loadCharts(data.data);
+        });
+    }
+
+    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        
+        // Grafica #1
+        var ingresos_oper_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, 'Septiembre', 'ingresos_operacionales');
+        var ingresos_oper_anio_act = filterColumnMes(data, 2020, nombre_gerencia, 'Septiembre', 'ingresos_operacionales');
+
+        // Grafica 2
+        var costos_vta_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, 'Septiembre', 'costos_venta');
+        var costos_vta_anio_act = filterColumnMes(data, 2020, nombre_gerencia, 'Septiembre', 'costos_venta');
+        
+        // Grafica 3
+        var gastos_op_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, 'Septiembre', 'gastos_operacionales');
+        var gastos_op_anio_act = filterColumnMes(data, 2020, nombre_gerencia, 'Septiembre', 'gastos_operacionales');
+            
+        // Grafica 4
+        var ebitda_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, 'Septiembre', 'ebitda');
+        var ebitda_anio_act = filterColumnMes(data, 2020, nombre_gerencia, 'Septiembre', 'ebitda');
+            
+        // Grafica 5
+        var utilidad_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, 'Septiembre', 'utilidad_neta');
+        var utilidad_anio_act = filterColumnMes(data, 2020, nombre_gerencia, 'Septiembre', 'utilidad_neta');
+            
+        // Grafica 6
+        var ebitda_gerencia_uene = filterColumnMes(data, 2020, 'uene', 'Septiembre', 'ebitda');
+        var ebitda_gerencia_uenaa = filterColumnMes(data, 2020, 'uenaa', 'Septiembre', 'ebitda');
+        var ebitda_gerencia_telco = filterColumnMes(data, 2020, 'telco', 'Septiembre', 'ebitda');
+    
+        // Cambiar estados. 
+        // Grafica #1
+        setIngresosOpera({
+            anio_ant : ingresos_oper_anio_ant,
+            anio_act : ingresos_oper_anio_act
+        });
+
+        // Grafica #2
+        setCostosVenta({
+            anio_ant : costos_vta_anio_ant,
+            anio_act : costos_vta_anio_act
+        });
+
+        // Grafica #3
+        setGastosOper({
+            anio_ant : gastos_op_anio_ant,
+            anio_act : gastos_op_anio_act
+        });
+        
+        // Grafica #4
+        setEbitda({
+            anio_ant : ebitda_anio_ant,
+            anio_act : ebitda_anio_act
+        });
+        
+        // Grafica #5
+        setUtilidadNeta({
+            anio_ant : utilidad_anio_ant,
+            anio_act : utilidad_anio_act
+        });
+        
+        // Grafica #6
+        setEbitdaGerencia({
+            uene : ebitda_gerencia_uene,
+            uenaa : ebitda_gerencia_uenaa,
+            telco : ebitda_gerencia_telco
+        });
+
+        // Al final desactivamos loading.
+        setLoading(false);
+
+    }
+
+    
+    /* 
+        DATA - GRAFICOS.
+    */
+
+    // Grafica #1 - Ingresos operacionales
+    const dataIngresosOper = {
+    labels: ['', ''],
+    datasets: [
+        {
+        label: 'Ingresos operacionales',
+        data: [ingresosOpera.anio_ant, ingresosOpera.anio_act],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
+
+    // Grafica #2 - Costos de venta
+    const dataCostosVnta = {
+    labels: ['', ''],
+    datasets: [
+        {
+        label: 'Costos de venta',
+        data: [costosVenta.anio_ant, costosVenta.anio_act],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
+
+    // Grafica #3 - gastos operacionales
+    const dataGastosOpe = {
+    labels: ['', ''],
+    datasets: [
+        {
+        label: 'Gastos operacionales',
+        data: [gastosOper.anio_ant, gastosOper.anio_act],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
+
+    // Grafica #4 - ebitda
+    const dataEbitda = {
+    labels: ['', ''],
+    datasets: [
+        {
+        label: 'Ebitda',
+        data: [ebitda.anio_ant, ebitda.anio_act],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
+
+    // Grafica #5 - utilidad neta
+    const dataUtilidad = {
+    labels: ['', ''],
+    datasets: [
+        {
+        label: 'Utilidad neta',
+        data: [utilidadNeta.anio_ant, utilidadNeta.anio_act],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
+
+    // Grafica #6 - utilidad neta
+    const dataEbitdaGerencia = {
+    labels: ['', '', ''],
+    datasets: [
+        {
+        label: 'Ebitda gerencia',
+        data: [ebitdaGerencia.uene, ebitdaGerencia.uenaa, ebitdaGerencia.telco],
+        backgroundColor: [
+            '#F8AA27',
+            '#94DEA9',
+            '#507FF2'
+        ],
+        borderColor: [
+            '#F8AA27',
+            '#94DEA9',
+            '#507FF2'
+        ],
+        borderWidth: 1,
+        },
+    ],
+    }
 
     return (
         (!services.sesionActive) ?
@@ -71,15 +298,84 @@ export default function Pyg() {
                             <Grid item xs={12} md={2} lg={2}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightSmall}>
+                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                        {(loading) ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={200} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                         :
+                                         <div>
+                                            <Bar data={dataIngresosOper} height={350} options={optionsIngresosOper} />
+                                            <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                         </div>
+                                        }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightSmall}>
+                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                            <div>
+                                                <Bar data={dataCostosVnta} height={350} options={optionsIngresosOper} />
+                                                <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                        <p>2019</p>
+                                                    </div>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                        <p>2020</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightSmall}>
+                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                            <div>
+                                                <Bar data={dataGastosOpe} height={350} options={optionsIngresosOper} />
+                                                <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                        <p>2019</p>
+                                                    </div>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                        <p>2020</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                 </Grid>
@@ -88,11 +384,57 @@ export default function Pyg() {
                             <Grid item xs={12} md={10} lg={10}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={2} lg={2}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <Bar data={dataEbitda} height={600} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <p>2019</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                            <p>2020</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={2} lg={2}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <Bar data={dataEbitdaGerencia} height={600} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <p>2019</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                            <p>2020</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={8} lg={8}>
@@ -100,7 +442,30 @@ export default function Pyg() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={2} lg={2}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <Bar data={dataUtilidad} height={600} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <p>2019</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                            <p>2020</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={2} lg={2}>

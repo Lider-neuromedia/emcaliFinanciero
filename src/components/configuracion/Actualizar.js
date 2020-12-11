@@ -97,15 +97,19 @@ export default function Actualizar(){
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [isHover, setisHover] = useState('');
     const [selectFile, setSelectFile] = useState(null);
+    const [moduleSelect, setModuleSelect] = useState(null);
     const [message, setMessage] = useState({type: 'default', message: ''});
     const [openMessage, setOpenMessage] = useState(false);
 
     const onChangeFile = (name) => (event) => {
         var file = event.target.files[0];
+        console.log(name);
         if (file) {
             setSelectFile(file);
-            uploadFile(file, name);
+            setModuleSelect(name);
+            // uploadFile(file, name);
         }else{
+            setModuleSelect(null);
             setSelectFile(null);
         }
     }
@@ -122,6 +126,7 @@ export default function Actualizar(){
                     setOpenMessage(true);
                     setMessage({type: 'success', message: data.message});
                     setSelectFile(null);
+                    setModuleSelect(null);
                 }
             }
         ).catch(
@@ -155,20 +160,23 @@ export default function Actualizar(){
                                             <img src={ejecucionPres} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
                                         }
                                         <p className={classes.titleConfig}>
-                                            {(selectFile === null) ? 'Ejecución presupuestal' : selectFile.name }
+                                            {(selectFile === null) ? 
+                                                'Ejecución presupuestal' 
+                                             : 
+                                                (moduleSelect === 'datos_pr') ?
+                                                    selectFile.name 
+                                                 :
+                                                    'Ejecución Presupuestal'
+                                            }
                                         </p>
                                         
-                                            <input
-                                                style={{ display: 'none' }}
-                                                id="file"
-                                                name="file"
-                                                onChange={onChangeFile("datos_pr")}
-                                                type="file"
-                                            />
-
-                                            {/* <Button color="secondary" variant="contained" component="span">
-                                                {(selectFile === null) ? 'Upload button' : selectFile.name } 
-                                            </Button> */}
+                                        <input
+                                            style={{ display: 'none' }}
+                                            id="file"
+                                            name="file"
+                                            onChange={onChangeFile("datos_pr")}
+                                            type="file"
+                                        />
                                     </div>
                                 </label>
                             </Paper>
@@ -176,16 +184,34 @@ export default function Actualizar(){
                         {/* Pyg */}
                         <Grid item xs={12} md={2} lg={2}>
                             <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('pyg')} onMouseLeave={() => setisHover('')}>
-                                <div className={classes.containerConfig}>
-                                    {isHover === 'pyg' ?
-                                        <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
-                                    : 
-                                        <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
-                                    }
-                                    <p className={classes.titleConfig}>
-                                        Pyg
-                                    </p>
-                                </div>
+                                <label htmlFor="file_pyg" className={classes.labelFile}>
+                                    <div className={classes.containerConfig}>
+                                        {isHover === 'pyg' ?
+                                            <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
+                                        : 
+                                            <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
+                                        }
+                                        <p className={classes.titleConfig}>
+                                            {(selectFile === null) ? 
+                                                'Pyg' 
+                                             : 
+                                                (moduleSelect === 'datos_pyg') ?
+                                                    selectFile.name 
+                                                 :
+                                                    'Pyg'
+                                            }
+                                            
+                                        </p>
+
+                                        <input
+                                            style={{ display: 'none' }}
+                                            id="file_pyg"
+                                            name="file_pyg"
+                                            onChange={onChangeFile("datos_pyg")}
+                                            type="file"
+                                        />
+                                    </div>
+                                </label>
                             </Paper>
                         </Grid>
                         {/* Gestion */}
