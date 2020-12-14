@@ -103,11 +103,10 @@ export default function Actualizar(){
 
     const onChangeFile = (name) => (event) => {
         var file = event.target.files[0];
-        console.log(name);
         if (file) {
             setSelectFile(file);
             setModuleSelect(name);
-            // uploadFile(file, name);
+            uploadFile(file, name);
         }else{
             setModuleSelect(null);
             setSelectFile(null);

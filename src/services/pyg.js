@@ -5,9 +5,10 @@
 // Calulos filtrar por mes los ingresos..
 export const filterColumnMes = (data, anio, nombreGerencia, mes, column) => {
     const dataFilter = data.filter((e) => {
+        // creo validacion de nombre gerencia.
+        var validateNomGerencia = false;
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
         if(nombreGerencia !== 'all'){
-            var validateNomGerencia = false;
             if(e.gerencia){
                 validateNomGerencia = e.gerencia.toLowerCase() === nombreGerencia.toLowerCase();
             }
@@ -54,6 +55,55 @@ export const optionsIngresosOper = {
         display: false
     },
     tooltips: {enabled: false},
+    plugins: {
+        datalabels: {
+            color: '#365068',
+            align: 'top',
+            padding: 0,
+            rotation: -90,
+            labels: {
+                value: {
+                    color: '#365068',
+                }
+            },
+            formatter: function(value, context) {
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                // if (currencyFormat.length >= 7) {
+                //     return currencyFormat.substring(0, 11);
+                // }else{
+                //     return currencyFormat;
+                // }
+                return currencyFormat;
+            }
+        }
+    }
+}
+
+
+export const optionsGroupBar = {
+    scales: { 
+        xAxes: [{
+            ticks: {
+                beginAtZero: true,
+            },
+            gridLines: {
+                display:false
+            }
+        }],
+        yAxes: [{
+            display: false,
+            ticks: {
+                beginAtZero: true,
+            },
+            gridLines: {
+                display:false
+            }
+        }],
+    },
+    title: {
+        display: false
+    },
+    tooltips: {enabled: true},
     plugins: {
         datalabels: {
             color: '#365068',

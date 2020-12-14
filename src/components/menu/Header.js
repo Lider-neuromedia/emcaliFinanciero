@@ -1,21 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
+import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, IconButton, Button,
+    ListItem, ListItemIcon, ListItemText, Collapse, withStyles, Menu, MenuItem  } from '@material-ui/core';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
 import MenuIcon from '@material-ui/icons/Menu';
 import Close from '@material-ui/icons/Close';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
 import logoSideBar from '../../assets/images/logo_sidebar.png';
 import logoSideBarSmall from '../../assets/images/logosidebar_reducido.png';
 import ejecucionPresupuestal from '../../assets/images/icons/ejecucion_presupuestal.png';
@@ -34,6 +25,37 @@ import { Link } from 'react-router-dom';
 
 
 const drawerWidth = 220;
+
+const StyledMenu = withStyles({
+    paper: {
+      border: '1px solid #d3d4d5',
+    },
+  })((props) => (
+    <Menu
+      elevation={0}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      {...props}
+    />
+  ));
+  
+  const StyledMenuItem = withStyles((theme) => ({
+    root: {
+      '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+  }))(MenuItem);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -169,6 +191,16 @@ export default function Header(props) {
     const [openPyG, setOpenPyG] = React.useState((props.active === 'pyg') ? true : false); //Open list PyG.
     const [openCartera, setOpenCartera] = React.useState((props.active === 'cartera') ? true : false); //Open list Cartera.
     const [itemActive, setItemActive] = React.useState((props.active) ? props.active : 'ejecucion_pres');
+    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -243,10 +275,25 @@ export default function Header(props) {
                     </Link>
                     <Button
                         className={classes.button}
-                        startIcon={<img src={shape} alt="usuario" />}
+                        startIcon={<img src={shape} alt="usuario"/>}
+                        onClick={handleClick}
                     >
-                        Juan Camilo Rojas
+                        {user.nombres + ' ' + user.apellidos}
                     </Button>
+                    <StyledMenu
+                        id="customized-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <StyledMenuItem>
+                            <ListItemIcon>
+                                <InboxIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary="Inbox" />
+                        </StyledMenuItem>
+                    </StyledMenu>
                 </Toolbar>
                 <div className={classes.seconAppBar}>
                     {itemsHeaderProps()}
