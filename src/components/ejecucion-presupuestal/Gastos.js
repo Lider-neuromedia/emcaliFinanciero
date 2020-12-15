@@ -66,6 +66,24 @@ export default function Gastos() {
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [loading, setLoading] = useState(true);
     const [ejecucionAcumulada, serEjecucionAcumulada2020] = useState({Proyectados : 0, Comprometidos : 0, Causados: 0});
+
+    const [Gastos_proyectados, setGastos_proyectados] = useState([]);
+    const [Gastos_comprometidos, setGastos_comprometidos] = useState([]);
+    const [Gastos_causados, setGastos_causados] = useState([]);
+
+    const [gastosComprocaucom, setGastosComprocaucom] = useState({valueOne : 0, valueTwo : 0});
+
+    const [inversionAnterior, setGastos_inversion_anterior] = useState([]);
+    const [inversionAct, setGastos_inversion_act] = useState([]);
+
+    const [operacionAnterior, setGastos_operacion_anterior] = useState([]);
+    const [operacionAct, setGastos_operacion_act] = useState([]);
+
+    const [funcionalidadAnterior, setGastos_funcionalidad_anterior] = useState([]);
+    const [funcionalidadAct, setGastos_funcionalidad_act] = useState([]);
+
+    const [servicioAnterior, setGastos_servicio_anterior] = useState([]);
+    const [servicioAct, setGastos_servicio_act] = useState([]);
     // const [comprometidos2020, setComprometidos2020] = useState([]);
     // const [causados2020, setCausados2020] = useState([]);
 
@@ -83,10 +101,21 @@ export default function Gastos() {
 
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
         var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
-        // var gastos_proyectados_data = [];
-        // var gastos_comprometidos_data = [];
-        // var gastos_causados_data = [];
+        var dataGastos_proyectados = [];
+        var dataGastos_comprometidos = [];
+        var dataGastos_causados = [];
 
+        var dataGastos_inversionAnt= [];
+        var dataGastos_inversionAct = [];
+
+        var dataGastos_operacionAnt= [];
+        var dataGastos_operacionAct = [];
+
+        var dataGastos_funcionalidadAnt= [];
+        var dataGastos_funcionalidadAct = [];
+
+        var dataGastos_servicioAnt= [];
+        var dataGastos_servicioAct = [];
         // var disponibilidad_inicial_anio_anterior_data = [];
         // var disponibilidad_inicial_anio_act_data = [];
 
@@ -107,8 +136,7 @@ export default function Gastos() {
         //     recaudadosAct: recaudados_anio_act
         // });
 
-        // Grafica #2
-        // meses.forEach(mes => {
+        // Grafica #1
         var gastos_proyectados = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses);
         var gastos_comprometidos = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses);
         var gastos_causados = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses);
@@ -119,14 +147,75 @@ export default function Gastos() {
             Causados: gastos_causados
         });
 
-        // gastos_proyectados_data.push(gastos_proyectados);
-        // gastos_comprometidos_data.push(gastos_comprometidos);
-        // gastos_causados_data.push(gastos_causados);
-        // });
+        // Grafica # 1_1
 
-        // setProyectados2020(gastos_proyectados_data);
-        // setComprometidos2020(gastos_comprometidos_data);
-        // setCausados2020(gastos_causados_data);
+        var gastos_comPro = Math.round((gastos_comprometidos / gastos_causados) * 100, -1);
+        var gastos_Caucom = Math.round((gastos_causados / gastos_comprometidos) * 100, -1);
+
+        setGastosComprocaucom({valueOne : gastos_comPro, valueTwo : gastos_Caucom})
+        // setGastosCaucom({valueOne : inversionComproVsProy, valueTwo : inversionCausVsComp})
+
+        // Grafica # 2
+        meses.forEach(mes => {
+            var gastos_proyectados2 = filterMes(data, 2020, 'Gastos Proyectados', nombre_gerencia, mes);
+            var gastos_comprometidos2 = filterMes(data, 2020, 'Gastos Comprometidos', nombre_gerencia, mes);
+            var gastos_causados2 = filterMes(data, 2020, 'Gastos Causados', nombre_gerencia, mes);
+
+            dataGastos_proyectados.push(gastos_proyectados2);
+            dataGastos_comprometidos.push(gastos_comprometidos2);
+            dataGastos_causados.push(gastos_causados2);
+        });
+
+        setGastos_proyectados(dataGastos_proyectados);
+        setGastos_comprometidos(dataGastos_comprometidos);
+        setGastos_causados(dataGastos_causados);
+
+        // Grafica # 8
+        meses.forEach(mes => {
+            var gastos_inversion_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', nombre_gerencia, mes, true, false);
+            var gastos_inversion_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, mes, true, false);
+            dataGastos_inversionAnt.push(gastos_inversion_anterior);
+            dataGastos_inversionAct.push(gastos_inversion_act);
+        });
+
+        setGastos_inversion_anterior(dataGastos_inversionAnt);
+        setGastos_inversion_act(dataGastos_inversionAct);
+
+        // Grafica # 9
+        meses.forEach(mes => {
+            var gastos_operacion_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', nombre_gerencia, mes, false, true);
+            var gastos_operacion_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, mes, false, true);
+            dataGastos_operacionAnt.push(gastos_operacion_anterior);
+            dataGastos_operacionAct.push(gastos_operacion_act);
+
+        });
+
+        setGastos_operacion_anterior(dataGastos_operacionAnt);
+        setGastos_operacion_act(dataGastos_operacionAct);
+
+        // Grafica # 10
+        meses.forEach(mes => {
+            var gastos_funcionalidad_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', nombre_gerencia, mes, false, false, true);
+            var gastos_funcionalidad_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, mes, false, false, true);
+            dataGastos_funcionalidadAnt.push(gastos_funcionalidad_anterior);
+            dataGastos_funcionalidadAct.push(gastos_funcionalidad_act);
+
+        });
+
+        setGastos_funcionalidad_anterior(dataGastos_funcionalidadAnt);
+        setGastos_funcionalidad_act(dataGastos_funcionalidadAct);
+
+         // Grafica # 11
+         meses.forEach(mes => {
+            var gastos_servicio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', nombre_gerencia, mes, false, false, false, true);
+            var gastos_servicio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, mes, false, false, false, true);
+            dataGastos_servicioAnt.push(gastos_servicio_anterior);
+            dataGastos_servicioAct.push(gastos_servicio_act);
+
+        });
+
+        setGastos_servicio_anterior(dataGastos_servicioAnt);
+        setGastos_servicio_act(dataGastos_servicioAct);
         
         setLoading(false);
     }
@@ -139,6 +228,7 @@ export default function Gastos() {
         loadCharts(dataExcel, value);
     }
 
+    // Grafica #1
     const dataIngresosAnios = {
         labels: ['', '', ''],
         datasets: [{
@@ -158,6 +248,95 @@ export default function Gastos() {
         }]
     };
 
+    const dataGastos = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: 'Recaudado - 2020',
+            data: Gastos_proyectados,
+            backgroundColor: '#FFC503',
+          },
+          {
+            label: 'Proyectados - 2020',
+            data: Gastos_comprometidos,
+            backgroundColor: '#2119C8',
+          },
+          {
+            label: 'Recaudados - 2020',
+            data: Gastos_causados,
+            backgroundColor: '#2DFF2D',
+          },
+        ],
+    }
+
+    // Grafico #8
+    const dataIngresos = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: '2019',
+            data: inversionAnterior,
+            backgroundColor: '#4F81BD',
+          },
+          {
+            label: '2020',
+            data: inversionAct,
+            backgroundColor: '#FF0000',
+          }
+        ],
+    };
+
+    // Grafico #9
+    const dataOperacion = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: '2019',
+            data: operacionAnterior,
+            backgroundColor: '#4F81BD',
+          },
+          {
+            label: '2020',
+            data: operacionAct,
+            backgroundColor: '#FF0000',
+          }
+        ],
+    };
+
+    // Grafico #10
+    const dataFuncionalidad = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: '2019',
+            data: funcionalidadAnterior,
+            backgroundColor: '#4F81BD',
+          },
+          {
+            label: '2020',
+            data: funcionalidadAct,
+            backgroundColor: '#FF0000',
+          }
+        ],
+    };
+
+    // Grafico #11
+    const dataServicio = {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [
+          {
+            label: '2019',
+            data: servicioAnterior,
+            backgroundColor: '#4F81BD',
+          },
+          {
+            label: '2020',
+            data: servicioAct,
+            backgroundColor: '#FF0000',
+          }
+        ],
+    };
+
     return (
         (!services.sesionActive) ?
             <Redirect to="/" />
@@ -173,38 +352,38 @@ export default function Gastos() {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
-                                        <Paper className={fixedHeightPaper}>
-                                    {
-                                        loading ? 
-                                            <div>
-                                                <Skeleton variant="rect" width={'100%'} height={150} />
-                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                    <Skeleton variant="text" width={'25%'}/>
-                                                    <Skeleton variant="text" width={'25%'}/>
-                                                    <Skeleton variant="text" width={'25%'}/>
+                                            <Paper className={fixedHeightPaper}>
+                                                {
+                                                    loading ? 
+                                                        <div>
+                                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                                <Skeleton variant="text" width={'25%'}/>
+                                                                <Skeleton variant="text" width={'25%'}/>
+                                                                <Skeleton variant="text" width={'25%'}/>
 
-                                                </div>
-                                            </div>
-                                        :
-                                            <div>
-                                                <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum}/>
-                                                <div className="containerLabelsCharts">
-                                                    <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                        <p>Proyectados</p>
-                                                    </div>
-                                                    <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                        <p>Comprometidos</p>
-                                                    </div>
-                                                    <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#00CE80'}}></span>
-                                                        <p>Causados</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    }
-                                </Paper>
+                                                            </div>
+                                                        </div>
+                                                    :
+                                                        <div>
+                                                            <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum}/>
+                                                            <div className="containerLabelsCharts">
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                                    <p>Proyectados</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                                    <p>Comprometidos</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#00CE80'}}></span>
+                                                                    <p>Causados</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                }
+                                            </Paper>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={6} lg={6}>
@@ -219,22 +398,147 @@ export default function Gastos() {
                             </Grid>
                             <Grid item xs={12} md={8} lg={8}>
                                 <Paper className={classes.heightFull}>
+                                    {(loading) ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div>
+                                            <Bar  data={dataGastos} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <p>Ingresos recaudados</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <p>Gastos recaudados</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </Paper>
                             </Grid>
-
                             {/* Charts */}
-                            <Grid item xs={12} md={4} lg={4}>
+                            
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
+                                {
+                                    loading ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                            </div>
+                                        </div>
+                                :
+                                        <div>
+                                            <Bar  data={dataIngresos} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FF0000'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 }
                                 </Paper>
                             </Grid>
-
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
+                                {
+                                    loading ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                            </div>
+                                        </div>
+                                :
+                                        <div>
+                                            <Bar  data={dataOperacion} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FF0000'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 }
                                 </Paper>
                             </Grid>
-
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
+                                {
+                                    loading ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                            </div>
+                                        </div>
+                                :
+                                        <div>
+                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FF0000'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 }
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                {
+                                    loading ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'25%'}/>
+                                            </div>
+                                        </div>
+                                :
+                                        <div>
+                                            <Bar  data={dataServicio} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FF0000'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                 }
                                 </Paper>
                             </Grid>
                         </Grid>

@@ -76,11 +76,20 @@ export const filterNameGroup = (data, anio, tipo, nombreGerencia, mes, namegroup
 }
 
 // Calulos para obtener la grafica de gastos por año.
-export const filterMesesGroup = (data, anio, tipo, nombreGerencia, meses, inversion = false) => {
+export const filterMesesGroup = (data, anio, tipo, nombreGerencia, meses, inversion = false, operacion = false, funcionalidad = false, servicio = false) => {
     const dataFilter = data.filter((e) => {
         // Si el parametro inversion esta verdadero. El filtro nombre de grupo cambia, y trae toda la informacion de inversion.
         if (inversion) {
             var string = 'INVERSION';
+            var validateNombreGrupo = e.nombre_grupo.toLowerCase().indexOf(string.toLowerCase()) > -1;
+        }else if (operacion) {
+            var string = 'OPERACIÓN';
+            var validateNombreGrupo = e.nombre_grupo.toLowerCase().indexOf(string.toLowerCase()) > -1;
+        }else if (funcionalidad) {
+            var string = 'FUNCIONAMIENTO';
+            var validateNombreGrupo = e.nombre_grupo.toLowerCase().indexOf(string.toLowerCase()) > -1;
+        }else if (servicio) {
+            var string = 'SERVICIO DE LA DEUDA';
             var validateNombreGrupo = e.nombre_grupo.toLowerCase().indexOf(string.toLowerCase()) > -1;
         }else{
             // Los filtros excluyen disponibilidad inicial. Para excluirla se convierte en minusculas y con esto se valida.
