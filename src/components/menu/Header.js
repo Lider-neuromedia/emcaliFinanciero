@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, IconButton, Button,
     ListItem, ListItemIcon, ListItemText, Collapse, withStyles, Menu, MenuItem  } from '@material-ui/core';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import MenuIcon from '@material-ui/icons/Menu';
 import Close from '@material-ui/icons/Close';
 import logoSideBar from '../../assets/images/logo_sidebar.png';
@@ -22,13 +20,15 @@ import pygAct from '../../assets/images/icons/pyg_active.png';
 import settings from '../../assets/images/icons/settings.png';
 import shape from '../../assets/images/icons/shape.png';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import services, {setSesionActive} from '../../services';
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 220;
 
 const StyledMenu = withStyles({
     paper: {
-      border: '1px solid #d3d4d5',
+      border: '1px solid #d91415',
     },
   })((props) => (
     <Menu
@@ -36,7 +36,7 @@ const StyledMenu = withStyles({
       getContentAnchorEl={null}
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'center',
+        horizontal: 'center'
       }}
       transformOrigin={{
         vertical: 'top',
@@ -45,17 +45,6 @@ const StyledMenu = withStyles({
       {...props}
     />
   ));
-  
-  const StyledMenuItem = withStyles((theme) => ({
-    root: {
-      '&:focus': {
-        backgroundColor: theme.palette.primary.main,
-        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem);
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -151,7 +140,7 @@ const useStyles = makeStyles((theme) => ({
         textTransform: 'inherit',
         fontWeight: 600,
         color: '#fff',
-        letterSpacing: '1px'
+        letterSpacing: '1px',
     },
     seconAppBar: {
         width: '100%',
@@ -191,12 +180,31 @@ export default function Header(props) {
     const [openPyG, setOpenPyG] = React.useState((props.active === 'pyg') ? true : false); //Open list PyG.
     const [openCartera, setOpenCartera] = React.useState((props.active === 'cartera') ? true : false); //Open list Cartera.
     const [itemActive, setItemActive] = React.useState((props.active) ? props.active : 'ejecucion_pres');
-    const [user, setUser] = React.useState(JSON.parse(localStorage.getItem('user')));
+    const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : ''});
     const [anchorEl, setAnchorEl] = React.useState(null);
+    let history = useHistory();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const logout = () => {
+        var baseUrl = services.baseUrl;
+        axios.post(baseUrl + 'auth/logout', null, services.configAutorization).then(
+            res => {
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                handleClose();
+
+                setSesionActive(false);
+                history.push('/');
+            }
+        ).catch(
+            error => {
+
+            }
+        )
+    }
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -287,12 +295,12 @@ export default function Header(props) {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <StyledMenuItem>
+                        <MenuItem onClick={logout}>
                             <ListItemIcon>
                                 <InboxIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="Inbox" />
-                        </StyledMenuItem>
+                            <ListItemText primary="Cerrar sesión" />
+                        </MenuItem>
                     </StyledMenu>
                 </Toolbar>
                 <div className={classes.seconAppBar}>
