@@ -56,52 +56,55 @@ export default function IngresosOperacionales(){
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <div className={classes.root}>
-            <Header active={'pyg'} itemsHeader={itemsHeader}/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header active={'pyg'} itemsHeader={itemsHeader}/>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
 
-                        {/* Chart */}
-                        <Grid item xs={12} md={6} lg={6}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} md={6} lg={6}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            {/* Chart */}
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                        {/* Charts */}
-                        <Grid item xs={12} md={8} lg={8}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            {/* Charts */}
+                            <Grid item xs={12} md={8} lg={8}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                        <Grid item xs={12} md={4} lg={4}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                        {/* Charts */}
-                        <Grid item xs={12} md={4} lg={4}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            {/* Charts */}
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                        <Grid item xs={12} md={4} lg={4}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
+                            
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
                         </Grid>
-                        
-                        <Grid item xs={12} md={4} lg={4}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                    </Container>
+                </main>
+            </div>
     )
 }

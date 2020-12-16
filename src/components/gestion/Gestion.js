@@ -2,6 +2,8 @@ import React from "react";
 import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
+import { Redirect } from 'react-router-dom';
+import services from '../../services';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,59 +63,62 @@ export default function Gestion(){
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <div className={classes.root}>
-            <Header active={'gestion'} itemsHeader={itemsHeader}/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                <Grid container spacing={3}>
-                        {/* Chart */}
-                        <Grid item xs={12} md={8} lg={8}>
-                            <Paper className={classes.heightFull}>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} md={4} lg={4}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} md={12} lg={12}>
-                                    <Paper className={fixedHeightPaper}>
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={12} md={12} lg={12}>
-                                    <Paper className={fixedHeightPaper}>
-                                    </Paper>
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header active={'gestion'} itemsHeader={itemsHeader}/>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                            {/* Chart */}
+                            <Grid item xs={12} md={8} lg={8}>
+                                <Paper className={classes.heightFull}>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                        </Paper>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
 
-                        {/* Charts */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={fixedHeightPaper}>
-                                <p variant="p" className={classes.titleGestion}>
-                                    Gestiones Realizadas
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Desde el 2 de marzo Emcali inicio seguimiento diario a las inversiones junto con el consorcio EMCALI
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Los recursos solo se invertian en el % de participación de las consorciadas, aunque el contrato de fiducia no lo establece como requisito
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Implementación de comité de inversiones en conjunto con el Consorcio EMCALI y las fiducias administradoras de los recursos
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Acompañamiento en dicho Comité de profesionales en gestión de portafolios de las fiduciarias participantes del consorcio
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Análisis semanal de mercados y prospectivas para toma de decisiones de inversión
-                                </p>
-                                <p variant="p" className={classes.textGestion}>
-                                    - Control del flujo de caja para identificar excedentes de liquidez para inversión den FIC
-                                </p>
-                            </Paper>
+                            {/* Charts */}
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                    <p variant="p" className={classes.titleGestion}>
+                                        Gestiones Realizadas
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Desde el 2 de marzo Emcali inicio seguimiento diario a las inversiones junto con el consorcio EMCALI
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Los recursos solo se invertian en el % de participación de las consorciadas, aunque el contrato de fiducia no lo establece como requisito
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Implementación de comité de inversiones en conjunto con el Consorcio EMCALI y las fiducias administradoras de los recursos
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Acompañamiento en dicho Comité de profesionales en gestión de portafolios de las fiduciarias participantes del consorcio
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Análisis semanal de mercados y prospectivas para toma de decisiones de inversión
+                                    </p>
+                                    <p variant="p" className={classes.textGestion}>
+                                        - Control del flujo de caja para identificar excedentes de liquidez para inversión den FIC
+                                    </p>
+                                </Paper>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                    </Container>
+                </main>
+            </div>
     )
 }

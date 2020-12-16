@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper, Tabs, Tab } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import UENE from '../../assets/images/icons/comercial/uene.png'
 import acueducto from '../../assets/images/icons/comercial/acueducto.png'
 import alcantarillado from '../../assets/images/icons/comercial/alcantarillado.png'
 import internet from '../../assets/images/icons/comercial/internet.png'
 import telecomunicaciones from '../../assets/images/icons/comercial/telecomunicaciones.png'
 import tv from '../../assets/images/icons/comercial/tv.png'
+import services from '../../services';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -89,54 +90,57 @@ export default function Comercial() {
     };
 
     return (
-        <div className={classes.root}>
-            <Header active={'comercial'} itemsHeader={() => itemsHeader(tabActive)}/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header active={'comercial'} itemsHeader={() => itemsHeader(tabActive)}/>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
 
-                        {/* Tabs */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper square>
-                                <Tabs
-                                    value={value}
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                    onChange={handleChange}
-                                    aria-label="disabled tabs example"
-                                    variant="fullWidth"
-                                    className={classes.tabs}
-                                >
-                                    <Tab label="UENE" onClick={() => {setTabActive('UENE')}} icon={<img src={UENE} style={{marginRight: '5px'}} alt="energia" />}/>
-                                    <Tab label="Acueducto" onClick={() => {setTabActive('Acueducto')}} icon={<img src={acueducto} style={{marginRight: '5px'}} alt="energia" />}/>
-                                    <Tab label="Alcantarillado" onClick={() => {setTabActive('Alcantarillado')}} icon={<img src={alcantarillado} style={{marginRight: '5px'}} alt="energia" />}/>
-                                    <Tab label="Telecomunicaciones línea básica" onClick={() => {setTabActive('Telecomunicaciones')}} icon={<img src={telecomunicaciones} style={{marginRight: '5px'}} alt="energia" />} />
-                                    <Tab label="Internet" onClick={() => {setTabActive('Internet')}} icon={<img src={internet} style={{marginRight: '5px'}} alt="energia" />}/>
-                                    <Tab label="Televisión" onClick={() => {setTabActive('Televisión')}} icon={<img src={tv} style={{marginRight: '5px'}} alt="energia" />}/>
-                                </Tabs>
-                            </Paper>
-                        </Grid>
+                            {/* Tabs */}
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper square>
+                                    <Tabs
+                                        value={value}
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                        onChange={handleChange}
+                                        aria-label="disabled tabs example"
+                                        variant="fullWidth"
+                                        className={classes.tabs}
+                                    >
+                                        <Tab label="UENE" onClick={() => {setTabActive('UENE')}} icon={<img src={UENE} style={{marginRight: '5px'}} alt="energia" />}/>
+                                        <Tab label="Acueducto" onClick={() => {setTabActive('Acueducto')}} icon={<img src={acueducto} style={{marginRight: '5px'}} alt="energia" />}/>
+                                        <Tab label="Alcantarillado" onClick={() => {setTabActive('Alcantarillado')}} icon={<img src={alcantarillado} style={{marginRight: '5px'}} alt="energia" />}/>
+                                        <Tab label="Telecomunicaciones línea básica" onClick={() => {setTabActive('Telecomunicaciones')}} icon={<img src={telecomunicaciones} style={{marginRight: '5px'}} alt="energia" />} />
+                                        <Tab label="Internet" onClick={() => {setTabActive('Internet')}} icon={<img src={internet} style={{marginRight: '5px'}} alt="energia" />}/>
+                                        <Tab label="Televisión" onClick={() => {setTabActive('Televisión')}} icon={<img src={tv} style={{marginRight: '5px'}} alt="energia" />}/>
+                                    </Tabs>
+                                </Paper>
+                            </Grid>
 
-                        {/* Charts */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            {/* Charts */}
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                        {/* Charts */}
-                        <Grid item xs={12} md={7} lg={7}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={12} md={5} lg={5}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            {/* Charts */}
+                            <Grid item xs={12} md={7} lg={7}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={5} lg={5}>
+                                <Paper className={fixedHeightPaper}>
+                                </Paper>
+                            </Grid>
 
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                        </Grid>
+                    </Container>
+                </main>
+            </div>
     )
 }

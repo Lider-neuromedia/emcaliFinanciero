@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
+import services from '../../services';
 import {loadServerExcel} from '../../services';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {filterColumnMes, optionsInforGeneral} from '../../services/cartera';
 import Header from '../menu/Header';
 import { Line }  from 'react-chartjs-2';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -149,66 +151,69 @@ export default function Cartera() {
     }
   
     return (
-        <div className={classes.root}>
-            <Header active={'cartera'} itemsHeader={itemsHeader}/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        {/* Charts */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={fixedHeightPaper}>
-                                {(loading) ? 
-                                    <div>
-                                        <Skeleton variant="rect" width={'100%'} height={300} />
-                                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                            <Skeleton variant="text" width={'40%'}/>
-                                            <Skeleton variant="text" width={'40%'}/>
-                                        </div>
-                                    </div>
-                                :
-                                    <div>
-                                        <Line data={data} height={100} options={optionsInforGeneral} />
-                                        <div className="containerLabelsCharts" style={{marginTop: 10}}>
-                                            <div className="itemChart">
-                                                <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                <p>Información general</p>
-                                            </div>
-                                            <div className="itemChart">
-                                                <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                <p>Saldo cartera</p>
-                                            </div>
-                                            <div className="itemChart">
-                                                <span className="iconList" style={{background: '#F66666'}}></span>
-                                                <p>Recaudo total</p>
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header active={'cartera'} itemsHeader={itemsHeader}/>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
+                            {/* Charts */}
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={fixedHeightPaper}>
+                                    {(loading) ? 
+                                        <div>
+                                            <Skeleton variant="rect" width={'100%'} height={300} />
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
                                             </div>
                                         </div>
-                                    </div>
-                                }
-                            </Paper>
-                        </Grid>
+                                    :
+                                        <div>
+                                            <Line data={data} height={100} options={optionsInforGeneral} />
+                                            <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <p>Información general</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <p>Saldo cartera</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#F66666'}}></span>
+                                                    <p>Recaudo total</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </Paper>
+                            </Grid>
 
-                        {/* Chart */}
-                        <Grid item xs={12} md={9} lg={9}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} md={12} lg={12}>
-                                    <Paper className={fixedHeightPaper}>
-                                    </Paper>
-                                </Grid>
-                                <Grid item xs={12} md={12} lg={12}>
-                                    <Paper className={fixedHeightPaper}>
-                                    </Paper>
+                            {/* Chart */}
+                            <Grid item xs={12} md={9} lg={9}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                        </Paper>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                        <Grid item xs={12} md={3} lg={3}>
-                            <Paper className={classes.heightFull}>
-                            </Paper>
-                        </Grid>
+                            <Grid item xs={12} md={3} lg={3}>
+                                <Paper className={classes.heightFull}>
+                                </Paper>
+                            </Grid>
 
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                        </Grid>
+                    </Container>
+                </main>
+            </div>
     )
 }

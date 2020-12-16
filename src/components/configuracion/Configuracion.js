@@ -6,8 +6,8 @@ import usuarios from '../../assets/images/icons/usuarios.png';
 import usuariosWhite from '../../assets/images/icons/usuarios_white.png';
 import actualizar from '../../assets/images/icons/actualizar.png';
 import actualizarWhite from '../../assets/images/icons/actualizar_white.png';
-import { Link } from 'react-router-dom';
-
+import { Link, Redirect } from 'react-router-dom';
+import services from '../../services';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -79,50 +79,53 @@ export default function Configuracion(){
     const [isHover, setisHover] = useState('');
 
     return (
-        <div className={classes.root}>
-            <Header itemsHeader={itemsHeader}/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        {/* Actualización */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/actualizacion">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('actualizar')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'actualizar' ?
-                                            <img src={actualizarWhite} className={classes.imgConfig} alt="Actualizar"/>
-                                        : 
-                                            <img src={actualizar} className={classes.imgConfig} alt="Actualizar"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Actualización
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
-                        </Grid>
-                        {/* Usuarios */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Link to="/usuarios">
-                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('user')} onMouseLeave={() => setisHover('')}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'user' ?
-                                            <img src={usuariosWhite} className={classes.imgConfig} alt="Usuarios"/>
-                                        : 
-                                            <img src={usuarios} className={classes.imgConfig} alt="Usuarios"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            Usuarios
-                                        </p>
-                                    </div>
-                                </Paper>
-                            </Link>                            
-                        </Grid>
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header itemsHeader={itemsHeader}/>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
+                            {/* Actualización */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Link to="/actualizacion">
+                                    <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('actualizar')} onMouseLeave={() => setisHover('')}>
+                                        <div className={classes.containerConfig}>
+                                            {isHover === 'actualizar' ?
+                                                <img src={actualizarWhite} className={classes.imgConfig} alt="Actualizar"/>
+                                            : 
+                                                <img src={actualizar} className={classes.imgConfig} alt="Actualizar"/>
+                                            }
+                                            <p className={classes.titleConfig}>
+                                                Actualización
+                                            </p>
+                                        </div>
+                                    </Paper>
+                                </Link>                            
+                            </Grid>
+                            {/* Usuarios */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Link to="/usuarios">
+                                    <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('user')} onMouseLeave={() => setisHover('')}>
+                                        <div className={classes.containerConfig}>
+                                            {isHover === 'user' ?
+                                                <img src={usuariosWhite} className={classes.imgConfig} alt="Usuarios"/>
+                                            : 
+                                                <img src={usuarios} className={classes.imgConfig} alt="Usuarios"/>
+                                            }
+                                            <p className={classes.titleConfig}>
+                                                Usuarios
+                                            </p>
+                                        </div>
+                                    </Paper>
+                                </Link>                            
+                            </Grid>
 
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                        </Grid>
+                    </Container>
+                </main>
+            </div>
     )
 }

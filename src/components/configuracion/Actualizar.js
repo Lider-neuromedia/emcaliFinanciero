@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import {Button, Snackbar} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
@@ -136,132 +136,135 @@ export default function Actualizar(){
     }
 
     return (
-        <div className={classes.root}>
-            <Header itemsHeader={itemsHeader}/>
-            <main className={classes.content}>
-                {/* Mensajes */}
-                <Snackbar open={openMessage} autoHideDuration={6000} onClose={() => setOpenMessage(false)}>
-                    <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage(false)} severity={message.type}>
-                        {message.message}
-                    </MuiAlert>
-                </Snackbar>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        {/* Ejecucion presupuestal */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('ejecucion_pre')} onMouseLeave={() => setisHover('')}>
-                                <label htmlFor="file" className={classes.labelFile}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'ejecucion_pre' ?
-                                            <img src={ejecucionPresWhite} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
-                                        : 
-                                            <img src={ejecucionPres} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            {(selectFile === null) ? 
-                                                'Ejecución presupuestal' 
-                                             : 
-                                                (moduleSelect === 'datos_pr') ?
-                                                    selectFile.name 
-                                                 :
-                                                    'Ejecución Presupuestal'
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header itemsHeader={itemsHeader}/>
+                <main className={classes.content}>
+                    {/* Mensajes */}
+                    <Snackbar open={openMessage} autoHideDuration={6000} onClose={() => setOpenMessage(false)}>
+                        <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage(false)} severity={message.type}>
+                            {message.message}
+                        </MuiAlert>
+                    </Snackbar>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <Grid container spacing={3}>
+                            {/* Ejecucion presupuestal */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('ejecucion_pre')} onMouseLeave={() => setisHover('')}>
+                                    <label htmlFor="file" className={classes.labelFile}>
+                                        <div className={classes.containerConfig}>
+                                            {isHover === 'ejecucion_pre' ?
+                                                <img src={ejecucionPresWhite} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
+                                            : 
+                                                <img src={ejecucionPres} className={classes.imgConfig} alt="Ejecucion presupuestal"/>
                                             }
-                                        </p>
-                                        
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="file"
-                                            name="file"
-                                            onChange={onChangeFile("datos_pr")}
-                                            type="file"
-                                        />
-                                    </div>
-                                </label>
-                            </Paper>
-                        </Grid>
-                        {/* Pyg */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('pyg')} onMouseLeave={() => setisHover('')}>
-                                <label htmlFor="file_pyg" className={classes.labelFile}>
-                                    <div className={classes.containerConfig}>
-                                        {isHover === 'pyg' ?
-                                            <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
-                                        : 
-                                            <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
-                                        }
-                                        <p className={classes.titleConfig}>
-                                            {(selectFile === null) ? 
-                                                'Pyg' 
-                                             : 
-                                                (moduleSelect === 'datos_pyg') ?
-                                                    selectFile.name 
-                                                 :
-                                                    'Pyg'
-                                            }
+                                            <p className={classes.titleConfig}>
+                                                {(selectFile === null) ? 
+                                                    'Ejecución presupuestal' 
+                                                : 
+                                                    (moduleSelect === 'datos_pr') ?
+                                                        selectFile.name 
+                                                    :
+                                                        'Ejecución Presupuestal'
+                                                }
+                                            </p>
                                             
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="file"
+                                                name="file"
+                                                onChange={onChangeFile("datos_pr")}
+                                                type="file"
+                                            />
+                                        </div>
+                                    </label>
+                                </Paper>
+                            </Grid>
+                            {/* Pyg */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('pyg')} onMouseLeave={() => setisHover('')}>
+                                    <label htmlFor="file_pyg" className={classes.labelFile}>
+                                        <div className={classes.containerConfig}>
+                                            {isHover === 'pyg' ?
+                                                <img src={pygWhite} className={classes.imgConfig} alt="Pyg"/>
+                                            : 
+                                                <img src={pyg} className={classes.imgConfig} alt="Pyg"/>
+                                            }
+                                            <p className={classes.titleConfig}>
+                                                {(selectFile === null) ? 
+                                                    'Pyg' 
+                                                : 
+                                                    (moduleSelect === 'datos_pyg') ?
+                                                        selectFile.name 
+                                                    :
+                                                        'Pyg'
+                                                }
+                                                
+                                            </p>
+
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="file_pyg"
+                                                name="file_pyg"
+                                                onChange={onChangeFile("datos_pyg")}
+                                                type="file"
+                                            />
+                                        </div>
+                                    </label>
+                                </Paper>
+                            </Grid>
+                            {/* Gestion */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('gestion')} onMouseLeave={() => setisHover('')}>
+                                    <div className={classes.containerConfig}>
+                                        {isHover === 'gestion' ?
+                                            <img src={gestionWhite} className={classes.imgConfig} alt="Gestion"/>
+                                        : 
+                                            <img src={gestion} className={classes.imgConfig} alt="Gestion"/>
+                                        }
+                                        <p className={classes.titleConfig}>
+                                            Gestión
                                         </p>
-
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="file_pyg"
-                                            name="file_pyg"
-                                            onChange={onChangeFile("datos_pyg")}
-                                            type="file"
-                                        />
                                     </div>
-                                </label>
-                            </Paper>
-                        </Grid>
-                        {/* Gestion */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('gestion')} onMouseLeave={() => setisHover('')}>
-                                <div className={classes.containerConfig}>
-                                    {isHover === 'gestion' ?
-                                        <img src={gestionWhite} className={classes.imgConfig} alt="Gestion"/>
-                                    : 
-                                        <img src={gestion} className={classes.imgConfig} alt="Gestion"/>
-                                    }
-                                    <p className={classes.titleConfig}>
-                                        Gestión
-                                    </p>
-                                </div>
-                            </Paper>
-                        </Grid>
-                        {/* Cartera */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('cartera')} onMouseLeave={() => setisHover('')}>
-                                <div className={classes.containerConfig}>
-                                    {isHover === 'cartera' ?
-                                        <img src={carteraWhite} className={classes.imgConfig} alt="Cartera"/>
-                                    : 
-                                        <img src={cartera} className={classes.imgConfig} alt="Cartera"/>
-                                    }
-                                    <p className={classes.titleConfig}>
-                                        Cartera
-                                    </p>
-                                </div>
-                            </Paper>                           
-                        </Grid>
-                        {/* Comercial */}
-                        <Grid item xs={12} md={2} lg={2}>
-                            <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('comercial')} onMouseLeave={() => setisHover('')}>
-                                <div className={classes.containerConfig}>
-                                    {isHover === 'comercial' ?
-                                        <img src={comercialWhite} className={classes.imgConfig} alt="Comercial"/>
-                                    : 
-                                        <img src={comercial} className={classes.imgConfig} alt="Comercial"/>
-                                    }
-                                    <p className={classes.titleConfig}>
-                                        Comercial
-                                    </p>
-                                </div>
-                            </Paper>                           
-                        </Grid>
+                                </Paper>
+                            </Grid>
+                            {/* Cartera */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('cartera')} onMouseLeave={() => setisHover('')}>
+                                    <div className={classes.containerConfig}>
+                                        {isHover === 'cartera' ?
+                                            <img src={carteraWhite} className={classes.imgConfig} alt="Cartera"/>
+                                        : 
+                                            <img src={cartera} className={classes.imgConfig} alt="Cartera"/>
+                                        }
+                                        <p className={classes.titleConfig}>
+                                            Cartera
+                                        </p>
+                                    </div>
+                                </Paper>                           
+                            </Grid>
+                            {/* Comercial */}
+                            <Grid item xs={12} md={2} lg={2}>
+                                <Paper className={fixedHeightPaper} onMouseEnter={() => setisHover('comercial')} onMouseLeave={() => setisHover('')}>
+                                    <div className={classes.containerConfig}>
+                                        {isHover === 'comercial' ?
+                                            <img src={comercialWhite} className={classes.imgConfig} alt="Comercial"/>
+                                        : 
+                                            <img src={comercial} className={classes.imgConfig} alt="Comercial"/>
+                                        }
+                                        <p className={classes.titleConfig}>
+                                            Comercial
+                                        </p>
+                                    </div>
+                                </Paper>                           
+                            </Grid>
 
-                    </Grid>
-                </Container>
-            </main>
-        </div>
+                        </Grid>
+                    </Container>
+                </main>
+            </div>
     )
 }

@@ -14,6 +14,7 @@ import Close from '@material-ui/icons/Close';
 import Pagination from '@material-ui/lab/Pagination';
 import axios from 'axios';
 import services from '../../services';
+import {Redirect} from 'react-router-dom';
 
 // Estilos boostrap para combinar select material con bootstrap.
 const BootstrapInput = withStyles((theme) => ({
@@ -740,305 +741,308 @@ export default function Usuarios() {
     }
 
     return (
-        <div className={classes.root}>
-            <Header itemsHeader={() => ItemsHeader(toggleDrawer, editUser, deleteUser)} />
+        (!services.sesionActive) ?
+            <Redirect to="/" />
+         :
+            <div className={classes.root}>
+                <Header itemsHeader={() => ItemsHeader(toggleDrawer, editUser, deleteUser)} />
 
-            {/* Mensajes */}
-            <Snackbar open={openMessage.open} autoHideDuration={6000}>
-                <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage({ open: false, message: '', type: '' })} severity={openMessage.type}>
-                    {openMessage.message}
-                </MuiAlert>
-            </Snackbar>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <CssBaseline />
-                    <Grid container spacing={3}>
-                        {/* Chart */}
-                        <Grid item xs={12} md={12} lg={12}>
-                            {/* <Paper className={fixedHeightPaper}>
-                                
-                            </Paper> */}
-                            <Paper className={classes.paper}>
-                                <Drawer anchor={'right'} open={openDrawer} onClose={toggleDrawer(false)}>
-                                    <div className="title-drawer">
-                                        <p>Usuarios</p>
-                                        <IconButton aria-label="delete" onClick={toggleDrawer(false)}>
-                                            <Close />
-                                        </IconButton>
-                                    </div>
-                                    <form className={classes.containerTabs} onSubmit={(!edit) ? submitCreateUser : submitUpdateUser}>
-                                        <Tabs
-                                            orientation="vertical"
-                                            variant="scrollable"
-                                            indicatorColor="primary"
-                                            textColor="primary"
-                                            value={value}
-                                            onChange={handleChange}
-                                            aria-label="Vertical tabs example"
-                                            className={classes.tabs}
+                {/* Mensajes */}
+                <Snackbar open={openMessage.open} autoHideDuration={6000}>
+                    <MuiAlert elevation={6} variant="filled" onClose={() => setOpenMessage({ open: false, message: '', type: '' })} severity={openMessage.type}>
+                        {openMessage.message}
+                    </MuiAlert>
+                </Snackbar>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
+                    <Container maxWidth="lg" className={classes.container}>
+                        <CssBaseline />
+                        <Grid container spacing={3}>
+                            {/* Chart */}
+                            <Grid item xs={12} md={12} lg={12}>
+                                {/* <Paper className={fixedHeightPaper}>
+                                    
+                                </Paper> */}
+                                <Paper className={classes.paper}>
+                                    <Drawer anchor={'right'} open={openDrawer} onClose={toggleDrawer(false)}>
+                                        <div className="title-drawer">
+                                            <p>Usuarios</p>
+                                            <IconButton aria-label="delete" onClick={toggleDrawer(false)}>
+                                                <Close />
+                                            </IconButton>
+                                        </div>
+                                        <form className={classes.containerTabs} onSubmit={(!edit) ? submitCreateUser : submitUpdateUser}>
+                                            <Tabs
+                                                orientation="vertical"
+                                                variant="scrollable"
+                                                indicatorColor="primary"
+                                                textColor="primary"
+                                                value={value}
+                                                onChange={handleChange}
+                                                aria-label="Vertical tabs example"
+                                                className={classes.tabs}
+                                            >
+                                                <Tab label="Datos generales" {...a11yProps(0)} />
+                                                <Tab label="Usuario y contraseña" {...a11yProps(1)} />
+                                            </Tabs>
+                                            {/* Contenedor 1 - Datos generales. */}
+                                            <div role="tabpanel"
+                                                hidden={value !== 0}
+                                                id={`vertical-tabpanel-${0}`}
+                                                aria-labelledby={`vertical-tab-${0}`}
+                                                value={value}
+                                                className={classes.tabPanel}
+                                                index={0}>
+                                                <div style={{ padding: '24px' }}>
+
+                                                    <div className="form-group">
+                                                        <label htmlFor="nombres">Nombres*</label>
+                                                        <input type="text" name="nombres" value={nombres} onChange={(element) => setNombres(element.target.value)} className="form-control" id="nombres" required />
+                                                        {(validate.nombre !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.nombre}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="apellidos">Apellidos*</label>
+                                                        <input type="text" name="apellidos" value={apellidos} onChange={(element) => setApellidos(element.target.value)} className="form-control" id="apellidos" required />
+                                                        {(validate.apellidos !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.apellidos}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="dni">Cédula de ciudadania*</label>
+                                                        <input type="text" name="cedula" value={cedula} onChange={(element) => setCedula(element.target.value)} className="form-control" id="dni" required />
+                                                        {(validate.cedula !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.cedula}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="celular">Celular*</label>
+                                                        <input type="text" name="celular" value={celular} onChange={(element) => setCelular(element.target.value)} className="form-control" id="celular" required />
+                                                        {(validate.celular !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.celular}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="email">Correo electrónico*</label>
+                                                        <input type="text" name="correo" className="form-control" id="email" value={correo} onChange={(element) => setCorreo(element.target.value)} required />
+                                                        {(validate.email !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.email}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group" style={{ marginBottom: '0px' }}>
+                                                        <label htmlFor="tipo">Tipo de usuario*</label>
+                                                    </div>
+                                                    {/* <input type="text" className="form-control" id="tipo" /> */}
+                                                    <FormControl className={classes.widthFull}>
+                                                        <Select
+                                                            labelId="demo-customized-select-label"
+                                                            id="demo-customized-select"
+                                                            value={tipo}
+                                                            onChange={(element) => setTipo(element.target.value)}
+                                                            input={<BootstrapInput />}
+                                                        >
+                                                            {roles.map((rol, index) =>
+                                                                <MenuItem key={index} value={rol.id_rol}>{rol.nombre_rol}</MenuItem>
+                                                            )}
+
+                                                        </Select>
+                                                        {(validate.rol !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.rol}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </FormControl>
+                                                </div>
+                                            </div>
+
+                                            {/* Contenedor 2 - Usuario y contraseña. */}
+                                            <div role="tabpanel"
+                                                hidden={value !== 1}
+                                                id={`vertical-tabpanel-${1}`}
+                                                aria-labelledby={`vertical-tab-${1}`}
+                                                value={value}
+                                                className={classes.tabPanel}
+                                                index={1}>
+                                                <div style={{ padding: '24px' }}>
+                                                    <div className="form-group">
+                                                        <label htmlFor="nombres">Usuario*</label>
+                                                        <input type="text" name="usuario" value={correo} onChange={(element) => setCorreo(element.target.value)} className="form-control" id="usuario" required />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="password">Contraseña*</label>
+                                                        {(!edit) ?
+                                                            <input type="password" name="contrasena" value={password} onChange={(element) => setPassword(element.target.value)} className="form-control" id="password" required />
+                                                            :
+                                                            <input type="password" name="contrasena" value={password} onChange={(element) => setPassword(element.target.value)} className="form-control" id="password" />
+                                                        }
+                                                        {(validate.password !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validate.password}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="confirm_password">Confirmar contraseña*</label>
+                                                        {(!edit) ?
+                                                            <input type="password" name="confirm_contrasena" value={confirm_password} onChange={validateConfirmPassword} className="form-control" id="confirm_password" required />
+                                                            :
+                                                            <input type="password" name="confirm_contrasena" value={confirm_password} onChange={validateConfirmPassword} className="form-control" id="confirm_password" />
+                                                        }
+                                                        {(validatePss !== '' &&
+                                                            <div className="invalid-feedback">
+                                                                {validatePss}
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* Botones Drawer. */}
+                                            <div className="footer-drawer">
+                                                {(value === 0) &&
+                                                    <Button variant="contained" type="button" size="small" color="primary" onClick={validationsForm} className={btnSend} disableElevation>
+                                                        continuar
+                                                    </Button>
+                                                }
+                                                {(value !== 0) &&
+                                                    <Button variant="contained" type="submit" size="small" color="primary" onClick={validationsForm} className={btnSend} disableElevation>
+                                                        {(!edit) ? 'Crear usuario' : 'Actualizar usuario'}
+                                                    </Button>
+                                                }
+                                                <Button variant="outlined" size="small" color="primary" className={btnCancel} onClick={() => setOpenDrawer(false)}>
+                                                    Cancelar
+                                                </Button>
+                                            </div>
+                                        </form>
+                                    </Drawer>
+                                    {/*  {numSelected} variable con la cantidad de seleccionados. */}
+                                    <TableContainer>
+                                        <Table
+                                            className={classes.table}
+                                            aria-labelledby="tableTitle"
+                                            size={'medium'}
+                                            aria-label="enhanced table"
                                         >
-                                            <Tab label="Datos generales" {...a11yProps(0)} />
-                                            <Tab label="Usuario y contraseña" {...a11yProps(1)} />
-                                        </Tabs>
-                                        {/* Contenedor 1 - Datos generales. */}
-                                        <div role="tabpanel"
-                                            hidden={value !== 0}
-                                            id={`vertical-tabpanel-${0}`}
-                                            aria-labelledby={`vertical-tab-${0}`}
-                                            value={value}
-                                            className={classes.tabPanel}
-                                            index={0}>
-                                            <div style={{ padding: '24px' }}>
+                                            <EnhancedTableHead
+                                                classes={classes}
+                                                numSelected={selected.length}
+                                                order={order}
+                                                orderBy={orderBy}
+                                                onSelectAllClick={handleSelectAllClick}
+                                                onRequestSort={handleRequestSort}
+                                                rowCount={users.length}
+                                            />
+                                            <TableBody>
+                                                {(users.length === 0) ?
+                                                    <TableRow>
+                                                        <TableCell style={{ textAlign: 'center' }} colSpan={5}>No existen registros hasta el momento</TableCell>
+                                                    </TableRow>
+                                                    :
+                                                    stableSort(users, getComparator(order, orderBy))
+                                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        .map((row, index) => {
+                                                            const isItemSelected = isSelected(row);
+                                                            const labelId = `enhanced-table-checkbox-${index}`;
 
-                                                <div className="form-group">
-                                                    <label htmlFor="nombres">Nombres*</label>
-                                                    <input type="text" name="nombres" value={nombres} onChange={(element) => setNombres(element.target.value)} className="form-control" id="nombres" required />
-                                                    {(validate.nombre !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.nombre}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="apellidos">Apellidos*</label>
-                                                    <input type="text" name="apellidos" value={apellidos} onChange={(element) => setApellidos(element.target.value)} className="form-control" id="apellidos" required />
-                                                    {(validate.apellidos !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.apellidos}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="dni">Cédula de ciudadania*</label>
-                                                    <input type="text" name="cedula" value={cedula} onChange={(element) => setCedula(element.target.value)} className="form-control" id="dni" required />
-                                                    {(validate.cedula !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.cedula}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="celular">Celular*</label>
-                                                    <input type="text" name="celular" value={celular} onChange={(element) => setCelular(element.target.value)} className="form-control" id="celular" required />
-                                                    {(validate.celular !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.celular}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="email">Correo electrónico*</label>
-                                                    <input type="text" name="correo" className="form-control" id="email" value={correo} onChange={(element) => setCorreo(element.target.value)} required />
-                                                    {(validate.email !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.email}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group" style={{ marginBottom: '0px' }}>
-                                                    <label htmlFor="tipo">Tipo de usuario*</label>
-                                                </div>
-                                                {/* <input type="text" className="form-control" id="tipo" /> */}
-                                                <FormControl className={classes.widthFull}>
-                                                    <Select
-                                                        labelId="demo-customized-select-label"
-                                                        id="demo-customized-select"
-                                                        value={tipo}
-                                                        onChange={(element) => setTipo(element.target.value)}
-                                                        input={<BootstrapInput />}
-                                                    >
-                                                        {roles.map((rol, index) =>
-                                                            <MenuItem key={index} value={rol.id_rol}>{rol.nombre_rol}</MenuItem>
-                                                        )}
+                                                            return (
+                                                                <TableRow
+                                                                    hover
+                                                                    // onClick={(event) => handleClick(event, row.nombres)}
+                                                                    role="checkbox"
+                                                                    aria-checked={isItemSelected}
+                                                                    tabIndex={-1}
+                                                                    key={index}
+                                                                    selected={isItemSelected}
+                                                                >
+                                                                    <TableCell padding="checkbox" className={classes.paddingRowCheck}>
+                                                                        <Checkbox
+                                                                            checked={isItemSelected}
+                                                                            inputProps={{ 'aria-labelledby': labelId }}
+                                                                            className={classes.checkBoxSelect}
+                                                                            onChange={(event) => handleClick(event, row)}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell component="th" id={labelId} scope="row" className={classes.paddingRow}>
+                                                                        {row.nombres + ' ' + row.apellidos}
+                                                                    </TableCell>
+                                                                    <TableCell align="left" className={classes.paddingRow}>{row.nombre_rol}</TableCell>
+                                                                    <TableCell align="left" className={classes.paddingRow}>{row.email}</TableCell>
+                                                                    <TableCell align="left" className={classes.paddingRow}>{row.ultimo_acceso}</TableCell>
+                                                                </TableRow>
+                                                            );
+                                                        })
+                                                }
 
-                                                    </Select>
-                                                    {(validate.rol !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.rol}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </FormControl>
-                                            </div>
-                                        </div>
-
-                                        {/* Contenedor 2 - Usuario y contraseña. */}
-                                        <div role="tabpanel"
-                                            hidden={value !== 1}
-                                            id={`vertical-tabpanel-${1}`}
-                                            aria-labelledby={`vertical-tab-${1}`}
-                                            value={value}
-                                            className={classes.tabPanel}
-                                            index={1}>
-                                            <div style={{ padding: '24px' }}>
-                                                <div className="form-group">
-                                                    <label htmlFor="nombres">Usuario*</label>
-                                                    <input type="text" name="usuario" value={correo} onChange={(element) => setCorreo(element.target.value)} className="form-control" id="usuario" required />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="password">Contraseña*</label>
-                                                    {(!edit) ?
-                                                        <input type="password" name="contrasena" value={password} onChange={(element) => setPassword(element.target.value)} className="form-control" id="password" required />
-                                                        :
-                                                        <input type="password" name="contrasena" value={password} onChange={(element) => setPassword(element.target.value)} className="form-control" id="password" />
-                                                    }
-                                                    {(validate.password !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validate.password}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="confirm_password">Confirmar contraseña*</label>
-                                                    {(!edit) ?
-                                                        <input type="password" name="confirm_contrasena" value={confirm_password} onChange={validateConfirmPassword} className="form-control" id="confirm_password" required />
-                                                        :
-                                                        <input type="password" name="confirm_contrasena" value={confirm_password} onChange={validateConfirmPassword} className="form-control" id="confirm_password" />
-                                                    }
-                                                    {(validatePss !== '' &&
-                                                        <div className="invalid-feedback">
-                                                            {validatePss}
-                                                        </div>
-                                                    )
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* Botones Drawer. */}
-                                        <div className="footer-drawer">
-                                            {(value === 0) &&
-                                                <Button variant="contained" type="button" size="small" color="primary" onClick={validationsForm} className={btnSend} disableElevation>
-                                                    continuar
-                                                </Button>
-                                            }
-                                            {(value !== 0) &&
-                                                <Button variant="contained" type="submit" size="small" color="primary" onClick={validationsForm} className={btnSend} disableElevation>
-                                                    {(!edit) ? 'Crear usuario' : 'Actualizar usuario'}
-                                                </Button>
-                                            }
-                                            <Button variant="outlined" size="small" color="primary" className={btnCancel} onClick={() => setOpenDrawer(false)}>
-                                                Cancelar
-                                            </Button>
-                                        </div>
-                                    </form>
-                                </Drawer>
-                                {/*  {numSelected} variable con la cantidad de seleccionados. */}
-                                <TableContainer>
-                                    <Table
-                                        className={classes.table}
-                                        aria-labelledby="tableTitle"
-                                        size={'medium'}
-                                        aria-label="enhanced table"
-                                    >
-                                        <EnhancedTableHead
-                                            classes={classes}
-                                            numSelected={selected.length}
-                                            order={order}
-                                            orderBy={orderBy}
-                                            onSelectAllClick={handleSelectAllClick}
-                                            onRequestSort={handleRequestSort}
-                                            rowCount={users.length}
-                                        />
-                                        <TableBody>
-                                            {(users.length === 0) ?
-                                                <TableRow>
-                                                    <TableCell style={{ textAlign: 'center' }} colSpan={5}>No existen registros hasta el momento</TableCell>
-                                                </TableRow>
-                                                :
-                                                stableSort(users, getComparator(order, orderBy))
-                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    .map((row, index) => {
-                                                        const isItemSelected = isSelected(row);
-                                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                                        return (
-                                                            <TableRow
-                                                                hover
-                                                                // onClick={(event) => handleClick(event, row.nombres)}
-                                                                role="checkbox"
-                                                                aria-checked={isItemSelected}
-                                                                tabIndex={-1}
-                                                                key={index}
-                                                                selected={isItemSelected}
-                                                            >
-                                                                <TableCell padding="checkbox" className={classes.paddingRowCheck}>
-                                                                    <Checkbox
-                                                                        checked={isItemSelected}
-                                                                        inputProps={{ 'aria-labelledby': labelId }}
-                                                                        className={classes.checkBoxSelect}
-                                                                        onChange={(event) => handleClick(event, row)}
-                                                                    />
-                                                                </TableCell>
-                                                                <TableCell component="th" id={labelId} scope="row" className={classes.paddingRow}>
-                                                                    {row.nombres + ' ' + row.apellidos}
-                                                                </TableCell>
-                                                                <TableCell align="left" className={classes.paddingRow}>{row.nombre_rol}</TableCell>
-                                                                <TableCell align="left" className={classes.paddingRow}>{row.email}</TableCell>
-                                                                <TableCell align="left" className={classes.paddingRow}>{row.ultimo_acceso}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                    })
-                                            }
-
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Paper>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Paper>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Dialog
-                        open={openConfirm}
-                        onClose={handleCloseConfirm}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">{"Eliminar usuario."}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                Usted va eliminar un usuario. ¿Desea continuar con esta acción?
-                            </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button  variant="contained" type="button" size="small" color="primary" onClick={submitDeleteUser} className={btnSend} disableElevation>
-                                Continuar
-                            </Button>
-                            <Button variant="outlined" size="small" color="primary" className={btnCancel} onClick={handleCloseConfirm}>
-                                Cancelar
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </Container>
-                <div className="footer-pagination">
-                    <Pagination className={classes.pagination} count={Math.ceil(users.length / rowsPerPage)} page={page + 1} onChange={handleChangePage} variant="outlined" shape="rounded" />
-                    <Select
-                        value={rowsPerPage}
-                        onChange={handleChangeRowsPerPage}
-                        displayEmpty
-                        className={classes.selectPaginate}
-                    >
-                        <MenuItem value={5}>5 Por página</MenuItem>
-                        <MenuItem value={10}>10 Por página</MenuItem>
-                        <MenuItem value={25}>25 Por página</MenuItem>
-                        <MenuItem value={30}>30 Por página</MenuItem>
-                    </Select>
-                    {/* <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    /> */}
-                </div>
-            </main>
-        </div>
+                        <Dialog
+                            open={openConfirm}
+                            onClose={handleCloseConfirm}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Eliminar usuario."}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Usted va eliminar un usuario. ¿Desea continuar con esta acción?
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button  variant="contained" type="button" size="small" color="primary" onClick={submitDeleteUser} className={btnSend} disableElevation>
+                                    Continuar
+                                </Button>
+                                <Button variant="outlined" size="small" color="primary" className={btnCancel} onClick={handleCloseConfirm}>
+                                    Cancelar
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </Container>
+                    <div className="footer-pagination">
+                        <Pagination className={classes.pagination} count={Math.ceil(users.length / rowsPerPage)} page={page + 1} onChange={handleChangePage} variant="outlined" shape="rounded" />
+                        <Select
+                            value={rowsPerPage}
+                            onChange={handleChangeRowsPerPage}
+                            displayEmpty
+                            className={classes.selectPaginate}
+                        >
+                            <MenuItem value={5}>5 Por página</MenuItem>
+                            <MenuItem value={10}>10 Por página</MenuItem>
+                            <MenuItem value={25}>25 Por página</MenuItem>
+                            <MenuItem value={30}>30 Por página</MenuItem>
+                        </Select>
+                        {/* <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        /> */}
+                    </div>
+                </main>
+            </div>
     )
 }
