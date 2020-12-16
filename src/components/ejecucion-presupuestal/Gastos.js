@@ -5,8 +5,8 @@ import { Link, Redirect } from 'react-router-dom';
 import Header from '../menu/Header';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
-import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas, optionsGastosDoughnut} from '../../services/ejecucionPresupuesta'
-import { HorizontalBar, Bar, Doughnut  } from 'react-chartjs-2';
+import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas, optionsGastosDoughnut, optionsStacked} from '../../services/ejecucionPresupuesta'
+import { HorizontalBar, Bar, Doughnut, Pie } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
@@ -72,6 +72,12 @@ export default function Gastos() {
     const [Gastos_causados, setGastos_causados] = useState([]);
 
     const [gastosComprocaucom, setGastosComprocaucom] = useState({valueOne : 0, valueTwo : 0});
+
+    const [invComprocaucom, setInvComprocaucom] = useState({valueOne : 0, valueTwo : 0});
+
+    const [gastosCausados_corpo_ant, setGastosCausados_corpo_anioAnt] = useState({valueOne : 0, valueTwo: 0, valueThree: 0, valueFour: 0});
+    const [gastosCausados_corpo_act, setGastosCausados_corpo_anioAct] = useState({valueOne : 0, valueTwo: 0, valueThree: 0, valueFour: 0});
+    const [NombreGrupo_totalAct, setNombreGrupo_totalAct] = useState({valueOne : 0, valueTwo: 0, valueThree: 0, valueFour: 0});
 
     const [inversionAnterior, setGastos_inversion_anterior] = useState([]);
     const [inversionAct, setGastos_inversion_act] = useState([]);
@@ -148,14 +154,64 @@ export default function Gastos() {
         });
 
         // Grafica # 1_1
-
-        var gastos_comPro = Math.round((gastos_comprometidos / gastos_causados) * 100, -1);
+        var gastos_comPro = Math.round((gastos_comprometidos / gastos_proyectados) * 100, -1);
         var gastos_Caucom = Math.round((gastos_causados / gastos_comprometidos) * 100, -1);
 
         setGastosComprocaucom({valueOne : gastos_comPro, valueTwo : gastos_Caucom})
-        // setGastosCaucom({valueOne : inversionComproVsProy, valueTwo : inversionCausVsComp})
+
+        // Grafica # 1_2
+        var inv_causados = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, true);
+        var inv_comprometidos = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses, true);
+        var inv_proyectados = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
+
+        var inv_comPro = Math.round((inv_comprometidos / inv_proyectados) * 100, -1);
+        var inv_Caucom = Math.round((inv_causados / inv_comprometidos) * 100, -1);
+
+        setInvComprocaucom({valueOne : inv_comPro, valueTwo : inv_Caucom})
 
         // Grafica # 2
+        var gasto_causados_total_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'all', meses);
+        var gastos_causados_corpo_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'corporativo', meses);
+        var gastos_causados_uenaa_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'uenaa', meses);
+        var gastos_causados_telco_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'telco', meses);
+        var gastos_causados_uene_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'uene', meses);
+
+        var gastos_causados_corpo_anio_anteriorMath = Math.round((gastos_causados_corpo_anio_anterior / gasto_causados_total_anio_anterior) * 100, -1);
+        var gastos_causados_uenaa_anio_anteriorMath = Math.round((gastos_causados_uenaa_anio_anterior / gasto_causados_total_anio_anterior) * 100, -1);
+        var gastos_causados_telco_anio_anteriorMath = Math.round((gastos_causados_telco_anio_anterior / gasto_causados_total_anio_anterior) * 100, -1);
+        var gastos_causados_uene_anio_anteriorMath = Math.round((gastos_causados_uene_anio_anterior / gasto_causados_total_anio_anterior) * 100, -1);
+
+        setGastosCausados_corpo_anioAnt({valueOne : gastos_causados_corpo_anio_anteriorMath, valueTwo : gastos_causados_uenaa_anio_anteriorMath, valueThree : gastos_causados_telco_anio_anteriorMath, valueFour : gastos_causados_uene_anio_anteriorMath})
+
+        // Grafica # 3
+        var gasto_causados_total_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'all', meses);
+        var gastos_causados_corpo_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'corporativo', meses);
+        var gastos_causados_uenaa_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'uenaa', meses);
+        var gastos_causados_telco_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'telco', meses);
+        var gastos_causados_uene_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'uene', meses);
+
+        var gastos_causados_corpo_anio_actMath = Math.round((gastos_causados_corpo_anio_act / gasto_causados_total_anio_act) * 100, -1);
+        var gastos_causados_uenaa_anio_actMath = Math.round((gastos_causados_uenaa_anio_act / gasto_causados_total_anio_act) * 100, -1);
+        var gastos_causados_telco_anio_actMath = Math.round((gastos_causados_telco_anio_act / gasto_causados_total_anio_act) * 100, -1);
+        var gastos_causados_uene_anio_actMath = Math.round((gastos_causados_uene_anio_act / gasto_causados_total_anio_act) * 100, -1);
+
+        setGastosCausados_corpo_anioAct({valueOne : gastos_causados_corpo_anio_actMath, valueTwo : gastos_causados_uenaa_anio_actMath, valueThree : gastos_causados_telco_anio_actMath, valueFour : gastos_causados_uene_anio_actMath})
+
+        // Grafica # 4
+        var nombreGrupo_total_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses);
+        var inversion_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, true, false, false, false);
+        var servicio_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, false, true, false, false);
+        var funcionamiento_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, false, false, true, false);
+        var operacion_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, false, false, false, true);
+
+        var inversion_anio_act_data = Math.round((inversion_anio_act / nombreGrupo_total_anio_act) * 100, -1);
+        var servicio_anio_act_data = Math.round((servicio_anio_act / nombreGrupo_total_anio_act) * 100, -1);
+        var funcionamiento_anio_act_data = Math.round((funcionamiento_anio_act / nombreGrupo_total_anio_act) * 100, -1);
+        var operacion_anio_act_data = Math.round((operacion_anio_act / nombreGrupo_total_anio_act) * 100, -1);
+
+        setNombreGrupo_totalAct({valueOne : inversion_anio_act_data, valueTwo : operacion_anio_act_data, valueThree : funcionamiento_anio_act_data, valueFour : servicio_anio_act_data})
+
+        // Grafica # 4
         meses.forEach(mes => {
             var gastos_proyectados2 = filterMes(data, 2020, 'Gastos Proyectados', nombre_gerencia, mes);
             var gastos_comprometidos2 = filterMes(data, 2020, 'Gastos Comprometidos', nombre_gerencia, mes);
@@ -247,6 +303,119 @@ export default function Gastos() {
             borderWidth: 1
         }]
     };
+
+    // Grafica #1_1
+    const datagGastosComprocaucom = {
+        labels: ['', ''],
+            datasets: [
+            {
+                label: '',
+                data: [gastosComprocaucom.valueOne, gastosComprocaucom.valueTwo],
+                backgroundColor: [
+                    '#8064A2',
+                    '#FFB12E',
+                ],
+                borderColor: [
+                    '#8064A2',
+                    '#FFB12E',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    }
+
+    // Grafica #1_2
+    const datagInvComprocaucom = {
+        labels: ['', ''],
+            datasets: [
+            {
+                label: '',
+                data: [invComprocaucom.valueOne, invComprocaucom.valueTwo],
+                backgroundColor: [
+                    '#8064A2',
+                    '#FFB12E',
+                ],
+                borderColor: [
+                    '#8064A2',
+                    '#FFB12E',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    }
+    // Grafica 2
+    const dataPieAnt = {
+        labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
+        datasets: [
+          {
+            label: '',
+            data: [gastosCausados_corpo_ant.valueOne, gastosCausados_corpo_ant.valueTwo, gastosCausados_corpo_ant.valueThree, gastosCausados_corpo_ant.valueFour],
+            backgroundColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderWidth: 1,
+          },
+        ],
+    }
+
+    // Grafica 2
+    const dataPieAct = {
+        labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
+        datasets: [
+          {
+            label: '',
+            data: [gastosCausados_corpo_act.valueOne, gastosCausados_corpo_act.valueTwo, gastosCausados_corpo_act.valueThree, gastosCausados_corpo_act.valueFour],
+            backgroundColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderWidth: 1,
+          },
+        ],
+    }
+
+    const NombreGrupo_total = {
+        labels: ['1'],
+        datasets: [
+          {
+            label: 'Inversión',
+            data: [NombreGrupo_totalAct.valueOne],
+            backgroundColor: '#A02F2C',
+          },
+          {
+            label: 'Servicio de la deuda',
+            data: [NombreGrupo_totalAct.valueTwo],
+            backgroundColor: '#6C4C92',
+          },
+          {
+            label: 'Funcionamiento',
+            data: [NombreGrupo_totalAct.valueThree],
+            backgroundColor: '#FA8B28',
+          },
+          {
+            label: 'Operación',
+            data: [NombreGrupo_totalAct.valueFour],
+            backgroundColor: '#671916',
+          },
+        ],
+      }
 
     const dataGastos = {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
@@ -348,8 +517,118 @@ export default function Gastos() {
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
                             {/* Chart */}
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Grid container spacing={3}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div>
+                                                        <Skeleton variant="rect" width={'100%'} height={150} />
+                                                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                            <Skeleton variant="text" width={'25%'}/>
+                                                            <Skeleton variant="text" width={'25%'}/>
+                                                            <Skeleton variant="text" width={'25%'}/>
+
+                                                        </div>
+                                                    </div>
+                                                :
+                                                    <div>
+                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={50}/>
+                                                        <div className="containerLabelsCharts">
+                                                            <div className="itemChart">
+                                                                <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                                <p>Proyectados</p>
+                                                            </div>
+                                                            <div className="itemChart">
+                                                                <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                                <p>Comprometidos</p>
+                                                            </div>
+                                                            <div className="itemChart">
+                                                                <span className="iconList" style={{background: '#00CE80'}}></span>
+                                                                <p>Causados</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Skeleton variant="circle" width={145} height={145} />
+                                                        </div>
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut}/>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Skeleton variant="circle" width={145} height={145} />
+                                                        </div>
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut}/>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                            <Grid container spacing={3}>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Skeleton variant="circle" width={145} height={145} />
+                                                        </div>
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Pie data={dataPieAnt} options={optionsGastosDoughnut}/>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Skeleton variant="circle" width={145} height={145} />
+                                                        </div>
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <Pie data={dataPieAct} options={optionsGastosDoughnut}/>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
                                             <Paper className={fixedHeightPaper}>
@@ -365,38 +644,18 @@ export default function Gastos() {
                                                             </div>
                                                         </div>
                                                     :
-                                                        <div>
-                                                            <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum}/>
-                                                            <div className="containerLabelsCharts">
-                                                                <div className="itemChart">
-                                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                                    <p>Proyectados</p>
-                                                                </div>
-                                                                <div className="itemChart">
-                                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                                    <p>Comprometidos</p>
-                                                                </div>
-                                                                <div className="itemChart">
-                                                                    <span className="iconList" style={{background: '#00CE80'}}></span>
-                                                                    <p>Causados</p>
-                                                                </div>
-                                                            </div>
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <HorizontalBar data={NombreGrupo_total} options={optionsStacked}/>
                                                         </div>
+                                                    </div>
                                                 }
                                             </Paper>
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
-                                        </Paper>
-                                    </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} md={8} lg={8}>
+                            <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={classes.heightFull}>
                                     {(loading) ? 
                                         <div>
@@ -423,8 +682,7 @@ export default function Gastos() {
                                     }
                                 </Paper>
                             </Grid>
-                            {/* Charts */}
-                            
+                            {/* Charts */}                       
                             <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
                                 {

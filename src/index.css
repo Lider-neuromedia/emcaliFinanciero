@@ -213,3 +213,8 @@ a{
     min-height: auto !important;
   }
 }
+@media (min-width: 1280px){
+  .MuiContainer-maxWidthLg {
+    max-width: 100% !important;
+  }
+}

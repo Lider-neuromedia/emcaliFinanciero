@@ -6,7 +6,7 @@ import Header from '../menu/Header';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
 import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas, optionsGastosDoughnut} from '../../services/ejecucionPresupuesta'
-import { HorizontalBar, Bar, Doughnut  } from 'react-chartjs-2';
+import { HorizontalBar, Bar, Doughnut, Pie  } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +74,9 @@ export default function Ingresos() {
     const [disponibilidadInicial_anios_anterior, setDisponibilidadInicial_anios_anterior] = useState([]);
     const [disponibilidadInicial_anios_act, setDisponibilidadInicial_anios_act] = useState([]);
 
+    const [ingresos_ant, setingresos_anioAnt] = useState({valueOne : 0, valueTwo: 0, valueThree: 0, valueFour: 0});
+    const [ingresos_act, setingresos_anioAct] = useState({valueOne : 0, valueTwo: 0, valueThree: 0, valueFour: 0});
+
     const [ingresos_corrientes_anios_anterior, setIngresosCorrientes_anios_anterior] = useState([]);
     const [ingresos_corrientes_anios_act, setIngresosCorrientes_anios_act] = useState([]);
 
@@ -137,17 +140,33 @@ export default function Ingresos() {
         setProyectados2020(ingresos_proyectados_anio_act_data);
         setRecaudados2020(ingresos_recaudados_anio_act_data);
 
-        // Grafica 3
-        // var ing_uene = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses, true);
-        // var ing_corporativo = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
-        // var ing_uenaa = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
-        // var ing_telco = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
+        // Grafica # 3
+        var ingreso_recaudados_total_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', 'all', meses);
+        var ingresos_recaudados_corpo_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', 'corporativo', meses);
+        var ingresos_recaudados_uenaa_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', 'uenaa', meses);
+        var ingresos_recaudados_telco_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', 'telco', meses);
+        var ingresos_recaudados_uene_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', 'uene', meses);
 
-        // var ingresosUene = Math.round((inv_comprometidos / inv_proyectados) * 100, -1);
-        // var ingresosCorporativo = Math.round((inv_causados / inv_comprometidos) * 100, -1);
-        // var ingresosUenaa = Math.round((inv_causados / inv_comprometidos) * 100, -1);
-        // var ingresosTelco = Math.round((inv_causados / inv_comprometidos) * 100, -1);
+        var ingresos_recaudados_corpo_anio_anteriorMath = Math.round((ingresos_recaudados_corpo_anio_anterior / ingreso_recaudados_total_anio_anterior) * 100, -1);
+        var ingresos_recaudados_uenaa_anio_anteriorMath = Math.round((ingresos_recaudados_uenaa_anio_anterior / ingreso_recaudados_total_anio_anterior) * 100, -1);
+        var ingresos_recaudados_telco_anio_anteriorMath = Math.round((ingresos_recaudados_telco_anio_anterior / ingreso_recaudados_total_anio_anterior) * 100, -1);
+        var ingresos_recaudados_uene_anio_anteriorMath = Math.round((ingresos_recaudados_uene_anio_anterior / ingreso_recaudados_total_anio_anterior) * 100, -1);
 
+        setingresos_anioAnt({valueOne : ingresos_recaudados_corpo_anio_anteriorMath, valueTwo : ingresos_recaudados_uenaa_anio_anteriorMath, valueThree : ingresos_recaudados_telco_anio_anteriorMath, valueFour : ingresos_recaudados_uene_anio_anteriorMath})
+
+        // Grafica # 3_1
+        var ingreso_recaudados_total_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'all', meses);
+        var ingresos_recaudados_corpo_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'corporativo', meses);
+        var ingresos_recaudados_uenaa_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'uenaa', meses);
+        var ingresos_recaudados_telco_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'telco', meses);
+        var ingresos_recaudados_uene_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'uene', meses);
+
+        var ingresos_recaudados_corpo_anio_anteriorMath = Math.round((ingresos_recaudados_corpo_anio_act/ ingreso_recaudados_total_anio_act) * 100, -1);
+        var ingresos_recaudados_uenaa_anio_anteriorMath = Math.round((ingresos_recaudados_uenaa_anio_act/ ingreso_recaudados_total_anio_act) * 100, -1);
+        var ingresos_recaudados_telco_anio_anteriorMath = Math.round((ingresos_recaudados_telco_anio_act/ ingreso_recaudados_total_anio_act) * 100, -1);
+        var ingresos_recaudados_uene_anio_anteriorMath = Math.round((ingresos_recaudados_uene_anio_act/ ingreso_recaudados_total_anio_act) * 100, -1);
+
+        setingresos_anioAct({valueOne : ingresos_recaudados_corpo_anio_anteriorMath, valueTwo : ingresos_recaudados_uenaa_anio_anteriorMath, valueThree : ingresos_recaudados_telco_anio_anteriorMath, valueFour : ingresos_recaudados_uene_anio_anteriorMath})
 
         // Grafica #4
         meses.forEach(mes => {
@@ -169,7 +188,6 @@ export default function Ingresos() {
             ingresos_corrientes_anio_anterior_data.push(ingresos_corrientes_anio_anterior);
             ingresos_corrientes_anio_act_data.push(ingresos_corrientes_anio_act);
         });
-
         setIngresosCorrientes_anios_anterior(ingresos_corrientes_anio_anterior_data);
         setIngresosCorrientes_anios_act(ingresos_corrientes_anio_act_data);
 
@@ -237,28 +255,53 @@ export default function Ingresos() {
         ],
     }
 
-    // const dataIngresosDoughnut = {
-    //     labels: ['', '', '', ''],
-    //     datasets: [
-    //       {
-    //         label: '',
-    //         data: [ingresosDoughnut.valueOne, ingresosDoughnut.valueTwo, ingresosDoughnut.valueThree, ingresosDoughnut.valueFour],
-    //         backgroundColor: [
-    //             '#8064A2',
-    //             '#FFB12E',
-    //             '#FFB12E',
-    //             '#FFB12E',
-    //         ],
-    //         borderColor: [
-    //             '#8064A2',
-    //             '#FFB12E',
-    //             '#FFB12E',
-    //             '#FFB12E',
-    //         ],
-    //         borderWidth: 1,
-    //       },
-    //     ],
-    // }
+    // Grafica 3
+    const dataPieAnt = {
+        labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
+        datasets: [
+          {
+            label: '',
+            data: [ingresos_ant.valueOne, ingresos_ant.valueTwo, ingresos_ant.valueThree, ingresos_ant.valueFour],
+            backgroundColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderWidth: 1,
+          },
+        ],
+    }
+
+    // Grafica 3_1
+    const dataPieAct = {
+        labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
+        datasets: [
+          {
+            label: '',
+            data: [ingresos_act.valueOne, ingresos_act.valueTwo, ingresos_act.valueThree, ingresos_act.valueFour],
+            backgroundColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderColor: [
+              '#4F81BD',
+              '#C0504D',
+              '#9BBB59',
+              '#8064A2',
+            ],
+            borderWidth: 1,
+          },
+        ],
+    }
 
     const dataDisponibilidadInicial = {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
@@ -280,12 +323,12 @@ export default function Ingresos() {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
         datasets: [
           {
-            label: '',
+            label: '2019',
             data: ingresos_corrientes_anios_anterior,
             backgroundColor: '#507FF2',
           },
           {
-            label: '',
+            label: '2020',
             data: ingresos_corrientes_anios_act,
             backgroundColor: '#FFB12E',
           }
@@ -296,12 +339,12 @@ export default function Ingresos() {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
         datasets: [
           {
-            label: '',
+            label: '2019',
             data: ingresos_capital_anios_anterior,
             backgroundColor: '#507FF2',
           },
           {
-            label: '',
+            label: '2020',
             data: ingresos_capital_anios_act,
             backgroundColor: '#FFB12E',
           }
@@ -347,7 +390,7 @@ export default function Ingresos() {
                                     }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={5} lg={5}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
                                 {
                                     loading ? 
@@ -380,16 +423,42 @@ export default function Ingresos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={3} lg={3}>
                                 <Paper className={fixedHeightPaper}>
-                                    {/* <div style={{display: 'flex'}}>
-                                        <div style={{width: '50%'}}>
-                                            <Doughnut data={dataInversionDoughnut} options={optionsGastosDoughnut}/>
-                                        </div>
-                                    </div> */}
+                                    {
+                                        loading ? 
+                                            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                <div style={{width: '100%'}}>
+                                                    <Skeleton variant="circle" width={145} height={145} />
+                                                </div>
+                                            </div>
+                                        :
+                                            <div style={{display: 'flex'}}>
+                                                <div style={{width: '100%'}}>
+                                                    <Pie data={dataPieAnt} options={optionsGastosDoughnut}/>
+                                                </div>
+                                            </div>
+                                    }
                                 </Paper>
                             </Grid>
-
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaper}>
+                                    {
+                                        loading ? 
+                                            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                <div style={{width: '100%'}}>
+                                                    <Skeleton variant="circle" width={145} height={145} />
+                                                </div>
+                                            </div>
+                                        :
+                                            <div style={{display: 'flex'}}>
+                                                <div style={{width: '100%'}}>
+                                                    <Pie data={dataPieAct} options={optionsGastosDoughnut}/>
+                                                </div>
+                                            </div>
+                                    }
+                                </Paper>
+                            </Grid>
                             {/* Charts */}
                             <Grid item xs={12} md={4} lg={4}>
                                 <Paper className={fixedHeightPaper}>
@@ -419,7 +488,6 @@ export default function Ingresos() {
                                     }
                                 </Paper>
                             </Grid>
-
                             <Grid item xs={12} md={4} lg={4}>
                                 <Paper className={fixedHeightPaper}>
                                     {
@@ -448,7 +516,6 @@ export default function Ingresos() {
                                         }
                                 </Paper>
                             </Grid>
-
                             <Grid item xs={12} md={4} lg={4}>
                                 <Paper className={fixedHeightPaper}>
                                 {

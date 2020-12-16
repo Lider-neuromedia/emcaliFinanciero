@@ -276,3 +276,47 @@ export const optionsGastosDoughnut = {
         }
     }
 }
+
+export const optionsStacked = {
+    scales: {
+      yAxes: [
+        {
+          stacked: true,
+          
+          gridLines: {
+            display:false
+          },
+          display: false,
+        },
+      ],
+      xAxes: [
+        {
+          stacked: true,
+          gridLines: {
+            display:false
+          },
+         
+          display: false,
+
+        },
+      ],
+    },
+    plugins: {
+        datalabels: {
+            color: '#365068',
+            align: 'center',
+            padding: 0,
+            labels: {
+                title: {
+                    horizontalAlign: 'center', 
+                },
+                value: {
+                    color: '#365068',
+                }
+            },
+            formatter: function(value, context) {
+                return value + '%';
+            }
+        }
+    }
+  }

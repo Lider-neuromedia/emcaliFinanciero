@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Header from '../menu/Header';
 import { Link, Redirect } from 'react-router-dom';
 import services from '../../services';
+import { Bar  } from 'react-chartjs-2';
 
 const useStyles = makeStyles((theme) => ({
     root: {
