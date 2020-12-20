@@ -89,13 +89,18 @@ export default function CostosOperacionales() {
     const [telcoAnt, setTelcoAnt] = useState([]);
     const [telcoAct, setTelcoAct] = useState([]);
 
-    // Grafica #8
-    const [mensualizadosRestAnt, setIngresosOpeRestAnt] = useState([]);
-    const [mensualizadosRestAct, setIngresosOpeRestAct] = useState([]);
-
     // Grafica #9
-    const [ingOpeAcumAnt, setingeOpeAcumAnt] = useState([]);
-    const [ingOpeAcumAct, setingeOpeAcumAct] = useState([]);
+    const [ingreOperAnt, setingreOperAnt] = useState([]);
+    const [costosVentAnt, setcostosVentaAnt] = useState([]);
+    const [ingreOperAct, setingreOperAct] = useState([]);
+    const [costosVentaAct, setcostosVentaAct] = useState([]);
+
+    // Grafica #10
+    const [ingreOperAcumAnt, setingreOperAcumAnt] = useState([]);
+    const [costosVentAcumAnt, setcostosVentaAcumAnt] = useState([]);
+    const [ingreOperAcumAct, setingreOperAcumAct] = useState([]);
+    const [costosVentaAcumAct, setcostosVentAcumaAct] = useState([]);
+
 
     // Hook de React.
     useEffect(() => {
@@ -110,13 +115,24 @@ export default function CostosOperacionales() {
         });
     }
 
+    const restaElementoAnt = (data) => {
+        var newElements = [];
+        data.forEach( (element, index) => {
+            if (index === 0) {
+                newElements.push(element);
+            }else{
+                var operation = element - data[index - 1];
+                newElements.push(operation);
+            }
+        });
+        return newElements;
+    }
+
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
         var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
         var CostosVenta = ['Compra de Energía', 'Uso de Redes', 'Costos de Personal',  'Honorarios','Depreciación y amortización' ,'Mantenimiento y Reparaciones', 'Otros Costos Generales', 'Costo de venta de bienes', 'Impuestos', 'Materiales'];
         var CostosTelco = ['Costos de Personal', 'Depreciación y amortización telecomunicaciones', 'Otros Generales',  'Honorarios','Seguros' ,'Vigilancia', 'Energía', 'Costo por Conexión', 'Servicios Públicos', 'Mantenimientos y Reparaciones', 'Impuestos', 'Materiales'];
         var CostosUenaa = ['Depreciaciones', 'Costos de Personal', 'Energía', 'Mantenimiento', 'Otros Costos Generales', 'Honorarios', 'Vigilancia y Seguridad', 'Seguros', 'Productos Quimicos', 'Costo de venta de bienes', 'Impuestos', 'Materiales'];
-
-        var costosVentas = ['Costo de venta de bienes', 'Ingresos operacionales']
 
         var uene_anio_anterior_data = [];
         var uene_anio_act_data = [];
@@ -140,12 +156,10 @@ export default function CostosOperacionales() {
         var telco_anio_act_data = [];
         
         // Grafica #9
-        var ingeOpeAcum_anio_ant_data = [];
-        var ingeOpeAcum_anio_act_data = [];
-
-        var ingresos_operacionales_acumuladosRest_anio_ant_data = [];
-        var ingresos_operacionales_acumuladosRest_anio_act_data = [];
-
+        var ingreOper_anio_ant_data = [];
+        var costosVenta_anio_ant_data = [];
+        var ingreOper_anio_act_data = [];
+        var costosVenta_anio_act_data = [];
 
         // Grafica #1
         var proyectados_anio_anterior = filterColumnMesTipo2(data, 2019, nombre_gerencia, 'Septiembre', 'costos reales');
@@ -213,41 +227,34 @@ export default function CostosOperacionales() {
         setUeneAnt(uene_anio_ant_data);
         setUeneAct(uene_anio_act_data);
 
-        // // Grafica #8
-        // meses.forEach(mes => {
-        //     var ingresos_operacionales_acumuladosRest_anio_ant = filterMesAcum(data, '2019', 'Ingresos Reales', nombre_gerencia, mes);
-        //     var ingresos_operacionales_acumuladosRest_anio_act = filterMesAcum(data, '2020', 'Ingresos Reales', nombre_gerencia, mes);
-        //     ingresos_operacionales_acumuladosRest_anio_ant_data.push(ingresos_operacionales_acumuladosRest_anio_ant);
-        //     ingresos_operacionales_acumuladosRest_anio_act_data.push(ingresos_operacionales_acumuladosRest_anio_act);
-        // }); 
-        // var mensualizados_res_ant = Math.round((ingresos_operacionales_acumuladosRest_anio_ant_data - ingresos_operacionales_acumuladosRest_anio_ant_data), -1);
-        // var mensualizados_res_act = Math.round((ingresos_operacionales_acumuladosRest_anio_act_data - ingresos_operacionales_acumuladosRest_anio_act_data), -1);
-        // setIngresosOpeRestAnt(mensualizados_res_ant);
-        // setIngresosOpeRestAct(mensualizados_res_act);
-
-        // // Grafica #8
-        // meses.forEach(mes => {
-        //     var cosVsIngOpeAcum_anio_ant = filterColumnMesTipo2(data, 2019, nombre_gerencia, mes, 'Costos reales');
-        //     var cosVsIngOpeAcum_anio_act = filterColumnMesTipo2(data, 2020, nombre_gerencia, mes, 'Costos reales');
-        //     console.log(cosVsIngOpeAcum_anio_ant, cosVsIngOpeAcum_anio_act);
-        //     cosVsIngOpeAcum_anio_ant_data.push(cosVsIngOpeAcum_anio_ant);
-        //     cosVsIngOpeAcum_anio_act_data.push(cosVsIngOpeAcum_anio_act);
-        // });
-        // setcosVsIngOpeAcumAnt(cosVsIngOpeAcum_anio_ant_data);
-        // setcosVsIngOpeAcumAct(cosVsIngOpeAcum_anio_act_data);
-
         // Grafica #9
         meses.forEach(mes => {
-            costosVentas.forEach(costoVenta => {
-                var ingeOpeAcum_anio_ant = filterColumnMesTipo4(data, 2019, nombre_gerencia, mes, costoVenta);
-                var ingeOpeAcum_anio_act = filterColumnMesTipo4(data, 2020, nombre_gerencia, mes, costoVenta);
-                console.log(ingeOpeAcum_anio_ant, ingeOpeAcum_anio_act);
-                ingeOpeAcum_anio_ant_data.push(ingeOpeAcum_anio_ant);
-                ingeOpeAcum_anio_act_data.push(ingeOpeAcum_anio_act);
-            })
+            var ingreOper_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, mes, 'ingresos_operacionales');
+            var costosVenta_anio_ant = filterColumnMes(data, 2019, nombre_gerencia, mes, 'costos_venta');
+            var ingreOper_anio_act = filterColumnMes(data, 2020, nombre_gerencia, mes, 'ingresos_operacionales');
+            var costosVenta_anio_act = filterColumnMes(data, 2020, nombre_gerencia, mes, 'costos_venta');
+            ingreOper_anio_ant_data.push(ingreOper_anio_ant);
+            costosVenta_anio_ant_data.push(costosVenta_anio_ant);
+            ingreOper_anio_act_data.push(ingreOper_anio_act);
+            costosVenta_anio_act_data.push(costosVenta_anio_act);
         });
-        setingeOpeAcumAnt(ingeOpeAcum_anio_ant_data);
-        setingeOpeAcumAct(ingeOpeAcum_anio_act_data);
+        setingreOperAnt(ingreOper_anio_ant_data);
+        setcostosVentaAnt(costosVenta_anio_ant_data);
+        setingreOperAct(ingreOper_anio_act_data);
+        setcostosVentaAct(costosVenta_anio_act_data);
+
+        // Grafica #10
+        var substractionIngreOper_anio_ant = restaElementoAnt(ingreOper_anio_ant_data);
+        var substractionCostosVenta_anio_ant = restaElementoAnt(costosVenta_anio_ant_data);
+        var substractionIngreOper_anio_act = restaElementoAnt(ingreOper_anio_act_data);
+        var substractionCostosVenta_anio_act = restaElementoAnt(costosVenta_anio_act_data);
+        setingreOperAcumAnt(substractionIngreOper_anio_ant);
+        setcostosVentaAcumAnt(substractionCostosVenta_anio_ant);
+        setingreOperAcumAct(substractionIngreOper_anio_act);
+        setcostosVentAcumaAct(substractionCostosVenta_anio_act);
+
+        console.log(substractionIngreOper_anio_ant, substractionCostosVenta_anio_ant, substractionIngreOper_anio_act, substractionCostosVenta_anio_act);
+
 
         setLoading(false);
     }
@@ -384,12 +391,12 @@ export default function CostosOperacionales() {
     }
 
     // Grafica #8
-    const data = {
+    const dataIngreOper = {
         labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         datasets: [
           {
             label: '2019 - costo de ventas',
-            data: ingOpeAcumAnt,
+            data: ingreOperAnt,
             fill: false,
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgba(255, 99, 132, 0.2)',
@@ -397,7 +404,76 @@ export default function CostosOperacionales() {
           },
           {
             label: '2019 - Ingresos Operacionales',
-            data: ingOpeAcumAct,
+            data: costosVentAnt,
+            fill: false,
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgba(54, 162, 235, 0.2)',
+            yAxisID: 'y-axis-2',
+          },
+        ],
+    }
+
+    // Grafica #9
+    const dataCostosVentas = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+          {
+            label: '2020 - costo de ventas',
+            data: ingreOperAct,
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+            yAxisID: 'y-axis-1',
+          },
+          {
+            label: '2020 - Ingresos Operacionales',
+            data: costosVentaAct,
+            fill: false,
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgba(54, 162, 235, 0.2)',
+            yAxisID: 'y-axis-2',
+          },
+        ],
+    }
+
+    // Grafica #10
+    const dataIngreOperAcum = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+          {
+            label: '2019 - costo de ventas',
+            data: ingreOperAcumAnt,
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+            yAxisID: 'y-axis-1',
+          },
+          {
+            label: '2019 - Ingresos Operacionales',
+            data: costosVentAcumAnt,
+            fill: false,
+            backgroundColor: 'rgb(54, 162, 235)',
+            borderColor: 'rgba(54, 162, 235, 0.2)',
+            yAxisID: 'y-axis-2',
+          },
+        ],
+    }
+
+    // Grafica #11
+    const dataCostosVentasAcum = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+          {
+            label: '2020 - costo de ventas',
+            data: ingreOperAcumAct,
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+            yAxisID: 'y-axis-1',
+          },
+          {
+            label: '2020 - Ingresos Operacionales',
+            data: costosVentaAcumAct,
             fill: false,
             backgroundColor: 'rgb(54, 162, 235)',
             borderColor: 'rgba(54, 162, 235, 0.2)',
@@ -629,7 +705,22 @@ export default function CostosOperacionales() {
 
                             <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaper}>
-                                <Line data={data} options={optionsLines} />
+                                <Line data={dataIngreOper} options={optionsLines} />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                <Line data={dataCostosVentas} options={optionsLines} />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                <Line data={dataIngreOperAcum} options={optionsLines} />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaper}>
+                                <Line data={dataCostosVentasAcum} options={optionsLines} />
                                 </Paper>
                             </Grid>
                         </Grid>
