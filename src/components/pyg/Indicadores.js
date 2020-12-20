@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import clsx from 'clsx';
 import {
     Breadcrumbs,
@@ -8,7 +8,8 @@ import {
 import { Link, Redirect } from 'react-router-dom';
 import Header from '../menu/Header';
 import services from '../../services';
-
+import {loadServerExcel} from '../../services';
+import {optionsStacked, filterIndicadores} from '../../services/pyg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,16 +56,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs) {
-    return { name, calories, fat, carbs };
+function createData(name, anioAnt, anioAct, col) {
+    return { name, anioAnt, anioAct, col };
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24),
-    createData('Ice cream sandwich', 237, 9.0, 37),
-    createData('Eclair', 262, 16.0, 24),
-    createData('Cupcake', 305, 3.7, 67),
-    createData('Gingerbread', 356, 16.0, 49),
+
+
+const rowsIndiEst = [
+    createData('Razón Corriente', 159, 6.0, 24),
+    createData('Nivel en Endeudamiento', 237, 9.0, 37),
+    createData('Concentración Deuda Corto Plazo', 262, 16.0, 24),
 ];
 
 // Items que iran en el header.
@@ -77,11 +78,6 @@ export const itemsHeader = () => {
                 </Link>
                 <Typography color="textPrimary" className="txt-breadcrumb">Indicadores</Typography>
             </Breadcrumbs>
-            <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }}>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }}>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }}>UENE</Button>
-            </ButtonGroup>
         </div>
     );
 }
@@ -89,7 +85,44 @@ export const itemsHeader = () => {
 export default function Indicadores() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const [dataExcel, setDataExcel] = useState([]);
+    const [loading, setLoading] = useState(true);
 
+    const [indicadoresEstructura, setIndicadoresEstructura] = useState([]);
+    const [indicadoresEficiencia, setIndicadoresEficiencia] = useState([]);
+    const [indicadoresRentabilidad, setIndicadoresRentabilidad] = useState([]);
+    const [indicadoresOperacion, setIndicadoresOperacion] = useState([]);
+
+
+    useEffect(() => {
+        loadDataExcel();
+    }, []);
+    
+    const loadDataExcel = () => {
+        // Carga del excel.
+        loadServerExcel('http://127.0.0.1:8000/api/download-template/indicadores', function (data, err) {
+            setDataExcel(data.data);
+            loadTable(data.data);
+        });
+    }
+
+    const loadTable = (data) => {
+
+        var indiEstr = filterIndicadores(data, 'indicadoresEstructura');
+        setIndicadoresEstructura(indiEstr);
+
+        var indiEstr = filterIndicadores(data, 'indicadoresEficiencia');
+        setIndicadoresEficiencia(indiEstr);
+
+        var indiRenta = filterIndicadores(data, 'indicadoresRentabilidad');
+        setIndicadoresRentabilidad(indiRenta);
+
+        var indiOper = filterIndicadores(data, 'indicadoresOperacion');
+        setIndicadoresOperacion(indiOper);
+
+        setLoading(false);
+    }
+    
     return (
         (!services.sesionActive) ?
             <Redirect to="/" />
@@ -126,14 +159,14 @@ export default function Indicadores() {
                                                         Indicadores de Estructura
                                                         </TableCell>
                                                 </TableRow>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
+                                                {indicadoresEstructura.map((row, index) => (
+                                                    <TableRow key={index}>
                                                         <TableCell component="th" scope="row" className={classes.textTable}>
-                                                            {row.name}
+                                                            {row.nombre}
                                                         </TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.calories}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.fat}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.carbs}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_ant}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_act}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.col}</TableCell>
                                                     </TableRow>
                                                 ))}
                                                 {/* Subtitulo table. */}
@@ -142,14 +175,14 @@ export default function Indicadores() {
                                                         Indicadores de Eficiencia
                                                         </TableCell>
                                                 </TableRow>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
+                                                {indicadoresEficiencia.map((row, index) => (
+                                                    <TableRow key={index}>
                                                         <TableCell component="th" scope="row" className={classes.textTable}>
-                                                            {row.name}
+                                                            {row.nombre}
                                                         </TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.calories}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.fat}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.carbs}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_ant}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_act}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.col}</TableCell>
                                                     </TableRow>
                                                 ))}
                                                 {/* Subtitulo table. */}
@@ -158,14 +191,14 @@ export default function Indicadores() {
                                                         Indicadores de Rentabilidad
                                                         </TableCell>
                                                 </TableRow>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
+                                                {indicadoresRentabilidad.map((row, index) => (
+                                                    <TableRow key={index}>
                                                         <TableCell component="th" scope="row" className={classes.textTable}>
-                                                            {row.name}
+                                                            {row.nombre}
                                                         </TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.calories}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.fat}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.carbs}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_ant}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_act}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.col}</TableCell>
                                                     </TableRow>
                                                 ))}
                                                 {/* Subtitulo table. */}
@@ -174,14 +207,14 @@ export default function Indicadores() {
                                                         Indicadores de Operación
                                                         </TableCell>
                                                 </TableRow>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
+                                                {indicadoresOperacion.map((row, index) => (
+                                                    <TableRow key={index}>
                                                         <TableCell component="th" scope="row" className={classes.textTable}>
-                                                            {row.name}
+                                                            {row.nombre}
                                                         </TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.calories}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.fat}</TableCell>
-                                                        <TableCell align="left" className={classes.textTable}>{row.carbs}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_ant}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.anios_act}</TableCell>
+                                                        <TableCell align="left" className={classes.textTable}>{row.col}</TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>

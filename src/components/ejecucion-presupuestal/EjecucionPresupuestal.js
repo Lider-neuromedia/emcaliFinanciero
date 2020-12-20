@@ -114,6 +114,7 @@ export default function EjecucionPresupuestal() {
         var dataGastosProyectados = [];
         var dataGastosComprom = [];
 
+        // console.log(data, nombre_gerencia);
         // Grafica # 1 - Ejecucion acumulada.
         var gastos_causados = filterBasic(data, 2020, 'Gastos Causados', nombre_gerencia);
         var ingresos_recaudados = filterBasic(data, 2020, 'Ingresos Recaudados', nombre_gerencia);

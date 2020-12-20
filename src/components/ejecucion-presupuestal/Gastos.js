@@ -49,7 +49,7 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Gastos</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>Todos</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>EMCALI</Button>
                 <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}>Corporativo</Button>
                 <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
                 <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
@@ -565,6 +565,11 @@ export default function Gastos() {
                                                 :
                                                     <div style={{display: 'flex'}}>
                                                         <div style={{width: '100%'}}>
+                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                            <div className="itemChart" >
+                                                                <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>2019</p>
+                                                            </div>
+                                                        </div>
                                                             <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut}/>
                                                         </div>
                                                     </div>
@@ -582,6 +587,11 @@ export default function Gastos() {
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
+                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                            <div className="itemChart" >
+                                                                <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>2020</p>
+                                                            </div>
+                                                        </div>
                                                         <div style={{width: '100%'}}>
                                                             <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut}/>
                                                         </div>

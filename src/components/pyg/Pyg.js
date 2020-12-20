@@ -8,6 +8,7 @@ import services from '../../services';
 import {loadServerExcel} from '../../services';
 import {filterColumnMes, optionsIngresosOper, optionsGroupBar} from '../../services/pyg';
 import { Bar  } from 'react-chartjs-2';
+import "chartjs-plugin-datalabels";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -163,12 +164,11 @@ export default function Pyg() {
         });
         meses.forEach( mes => {
             var utilidad = filterColumnMes(data, 2020, nombre_gerencia, mes, 'utilidad_neta');
-            utilidad_mes_anio_act.push(utilidad)
+            utilidad_mes_anio_act.push(utilidad);
         });
         var substraction_utilidad_anio_ant = restaElementoAnt(utilidad_mes_anio_ant);
         var substraction_utilidad_anio_act = restaElementoAnt(utilidad_mes_anio_act);
-        
-
+       
         // Cambiar estados. 
         // Grafica #1
         setIngresosOpera({
