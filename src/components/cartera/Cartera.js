@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
+import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper, Tabs, Tab } from '@material-ui/core';
 import clsx from 'clsx';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
@@ -8,6 +8,11 @@ import {filterColumnMes, optionsInforGeneral} from '../../services/cartera';
 import Header from '../menu/Header';
 import { Line }  from 'react-chartjs-2';
 import { Redirect } from 'react-router-dom';
+import UENE from '../../assets/images/icons/comercial/uene.png'
+import acueducto from '../../assets/images/icons/comercial/acueducto.png'
+import alcantarillado from '../../assets/images/icons/comercial/alcantarillado.png'
+import logo from '../../assets/images/logosidebar_reducido.png'
+import telecomunicaciones from '../../assets/images/icons/comercial/telecomunicaciones.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,16 +52,71 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '1px',
         color: '#5c6166',
         marginBottom: '15px'
+    },
+    tabs: {
+        "& .MuiTab-wrapper": {
+            textTransform: 'initial',
+            textAlign: 'left',
+            letterSpacing: '1px',
+            lineHeight: '17px',
+            flexDirection: 'row',
+            fontSize: '13px'
+        },
+        "& .MuiTab-textColorPrimary.Mui-selected": {
+            color: '#ffffff',
+            background: '#365068', 
+        },
+        "& 	.MuiTabs-indicator": {
+            backgroundColor: '#365068'
+        },
+        "& 	.MuiTab-root": {
+            borderRight: `1px solid ${theme.palette.divider}`,
+            color: '#4a6276'
+        },
+        "& 	.MuiTab-labelIcon": {
+            minHeight: '48px',
+        },
     }
 }));
 
 // Items que iran en el header.
-export const itemsHeader = () => {
+export const ItemsHeader = (changeFilter) => {
+
+    const [tabActive, setTabActive] = useState('UENE');
+    const [value, setValue] = useState(0);
+    const classes = useStyles();
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const changeTab = (tab) => {
+        setTabActive(tab);
+        changeFilter('acueducto');
+    }
+
     return (
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            
             <Breadcrumbs aria-label="breadcrumb">
                 <Typography color="textPrimary" className="txt-breadcrumb">Cartera</Typography>
             </Breadcrumbs>
+            <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="Tabs"
+                variant="fullWidth"
+                className={classes.tabs}
+            >
+                {/* <Tab label="Energia" onClick={() => changeTab('UENE')} icon={<img src={UENE} style={{marginRight: '5px', marginBottom: 0}} alt="energia" />}/> */}
+                <Tab label="EMCALI" onClick={changeFilter('all')} icon={<img src={logo} style={{marginRight: '5px', marginBottom: 0, width: '35px'}} alt="energia" />}/>
+                <Tab label="Energia" onClick={changeFilter('energia')} icon={<img src={UENE} style={{marginRight: '5px', marginBottom: 0}} alt="energia" />}/>
+                <Tab label="Acueducto" onClick={changeFilter('acueducto')}  icon={<img src={acueducto} style={{marginRight: '5px', marginBottom: 0}} alt="acueducto" />}/>
+                <Tab label="Alcantarillado" onClick={changeFilter('alcantarillado')}  icon={<img src={alcantarillado} style={{marginRight: '5px', marginBottom: 0}} alt="alcantarillado" />}/>
+                <Tab label="Telecomunicaciones" onClick={changeFilter('telecomunicaciones')} icon={<img src={telecomunicaciones} style={{marginRight: '5px', marginBottom: 0}} alt="telecomunicaciones" />} />
+            </Tabs>
         </div>
     );
 }
@@ -117,6 +177,14 @@ export default function Cartera() {
         setLoading(false);
     }
 
+    // Cambiar los filtros en base a nombre gerencia.
+    const changeFilterNomGerencia = (value)  => (event) => {
+        setFilters({nombre_gerencia : value});
+        // Inicializacion del loading.
+        setLoading(true);
+        loadCharts(dataExcel, value);
+    }
+
     /* 
         DATA - GRAFICOS.
     */
@@ -155,7 +223,7 @@ export default function Cartera() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'cartera'} itemsHeader={itemsHeader}/>
+                <Header active={'cartera'} itemsHeader={() => ItemsHeader(changeFilterNomGerencia)} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>
@@ -165,7 +233,7 @@ export default function Cartera() {
                                 <Paper className={fixedHeightPaper}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={300} />
+                                            <Skeleton variant="rect" width={'100%'} height={280} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -173,7 +241,7 @@ export default function Cartera() {
                                         </div>
                                     :
                                         <div>
-                                            <Line data={data} height={100} options={optionsInforGeneral} />
+                                            <Line data={data} height={100} options={optionsInforGeneral} height={80}/>
                                             <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#507FF2'}}></span>

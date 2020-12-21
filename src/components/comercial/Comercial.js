@@ -108,7 +108,7 @@ export default function Comercial() {
                                         indicatorColor="primary"
                                         textColor="primary"
                                         onChange={handleChange}
-                                        aria-label="disabled tabs example"
+                                        aria-label="Tabs"
                                         variant="fullWidth"
                                         className={classes.tabs}
                                     >

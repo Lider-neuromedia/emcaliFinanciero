@@ -9,8 +9,9 @@ export const filterColumnMes = (data, nombreGerencia, mes, column) => {
         var validateNomGerencia = false;
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
         if(nombreGerencia !== 'all'){
-            if(e.gerencia){
-                validateNomGerencia = e.gerencia_info_general.toLowerCase() === nombreGerencia.toLowerCase();
+            if(e.gerencia_info_general){
+                var gerencia_info_general = e.gerencia_info_general.toLowerCase();
+                validateNomGerencia = gerencia_info_general.trim() === nombreGerencia.toLowerCase();
             }
         }else{
             validateNomGerencia = true;
