@@ -11,10 +11,6 @@ import CostosOperacionales from './components/pyg/CostosOperacionales';
 import Indicadores from './components/pyg/Indicadores';
 import Gestion from './components/gestion/Gestion';
 import Cartera from './components/cartera/Cartera';
-import Acueducto from './components/cartera/Acueducto';
-import Alcantarillado from './components/cartera/Alcantarillado';
-import Energia from './components/cartera/Energia';
-import Telecomunicaciones from './components/cartera/Telecomunicaciones';
 import Comercial from './components/comercial/Comercial';
 import Configuracion from './components/configuracion/Configuracion';
 import Usuarios from './components/configuracion/Usuarios';
@@ -82,18 +78,6 @@ export default function Router() {
                 <Route path="/cartera">
                     <Cartera />
                 </Route>
-                    <Route path="/acueducto">
-                        <Acueducto />
-                    </Route>
-                    <Route path="/alcantarillado">
-                        <Alcantarillado />
-                    </Route>
-                    <Route path="/energia">
-                        <Energia />
-                    </Route>
-                    <Route path="/telecomunicaciones">
-                        <Telecomunicaciones />
-                    </Route>
                 {/*  */}
                 
                 {/* Comercial */}
