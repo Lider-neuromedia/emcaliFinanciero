@@ -253,9 +253,6 @@ export default function CostosOperacionales() {
         setingreOperAcumAct(substractionIngreOper_anio_act);
         setcostosVentAcumaAct(substractionCostosVenta_anio_act);
 
-        console.log(substractionIngreOper_anio_ant, substractionCostosVenta_anio_ant, substractionIngreOper_anio_act, substractionCostosVenta_anio_act);
-
-
         setLoading(false);
     }
 

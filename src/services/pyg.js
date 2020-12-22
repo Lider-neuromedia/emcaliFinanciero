@@ -20,7 +20,7 @@ export const filterColumnMes = (data, anio, nombreGerencia, mes, column) => {
     });
     // Suma de todos los elementos en la columna valor que vengan en dataFilter.
     const sumData = dataFilter.reduce((a, b) => {
-        return a + (b[column] || 0); 
+        return a + (b[column] || 0);
     }, 0);
 
     return sumData;
