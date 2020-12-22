@@ -4,9 +4,9 @@ import clsx from 'clsx';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {filterColumnMes, optionsInforGeneral} from '../../services/cartera';
+import {filterColumnMes, optionsInforGeneral, filterEstrato, optionsGroupBar, optionsGroupBarHorizontal, filterSegmento, filterEdadCartera} from '../../services/cartera';
 import Header from '../menu/Header';
-import { Line }  from 'react-chartjs-2';
+import { Line, HorizontalBar, Bar }  from 'react-chartjs-2';
 import { Redirect } from 'react-router-dom';
 import UENE from '../../assets/images/icons/comercial/uene.png'
 import acueducto from '../../assets/images/icons/comercial/acueducto.png'
@@ -133,6 +133,17 @@ export default function Cartera() {
     const [facturacionInfoGen, setFacturacionInfoGen] = useState([]);
     const [saldoCarteraInfoGen, setSaldoCarteraInfoGen] = useState([]);
     const [recaudoInfoGen, setRecaudoInfoGen] = useState([]);
+    const [estratoMesAnt, setEstratoMesAnt] = useState([]);
+    const [estratoMesAct, setEstratoMesAct] = useState([]);
+    const [estratoMesAct2, setEstratoMesAct2] = useState([]);
+    const [segmentoAcueducto, setSegmentoAcueducto] = useState([]);
+    const [segmentoAlcantarillado, setSegmentoAlcantarillado] = useState([]);
+    const [segmentoEnergia, setSegmentoEnergia] = useState([]);
+    const [segmentoTelco, setSegmentoTelco] = useState([]);
+    const [carteraAcueducto, setCarteraAcueducto] = useState([]);
+    const [carteraAlcantarillado, setCarteraAlcantarillado] = useState([]);
+    const [carteraEnergia, setCarteraEnergia] = useState([]);
+    const [carteraTelco, setCarteraTelco] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // Hook de React.
@@ -153,6 +164,9 @@ export default function Cartera() {
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
 
         var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var estadosResidenciales = ['ESTRATO 1', 'ESTRATO 2', 'ESTRATO 3', 'ESTRATO 4', 'ESTRATO 5', 'ESTRATO 6', 'SUBNORMAL'];
+        var estadosSegmento = ['PROVISIONAL', 'ALUMBRADO PUBLICO', 'ESPECIAL', 'INDUSTRIAL', 'PUBLICO', 'COMERCIAL', 'RESIDENCIAL'];
+        var edadCartera = ['30 dias', '60-120 dias', '121-360 dias', '361-1800', 'mayores A 1800'];
         
         // Grafica #1
         var facturacion_mes = [];
@@ -167,12 +181,71 @@ export default function Cartera() {
             recaudo.push(data_recaudo_general);
         });
 
+        // Grafica #2 - Estratos.
+        var sep_anio_ant = [];
+        var ago_anio_act = [];
+        var sep_anio_act = [];
+
+        estadosResidenciales.forEach( estado => {
+            sep_anio_ant.push(filterEstrato(data, nombre_gerencia, estado, 2019, 'Septiembre 2019', 'valor_estrato'));
+            ago_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, 'Agosto 2020', 'valor_estrato'));
+            sep_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, 'Septiembre 2020', 'valor_estrato'));
+        });
+
+        // Grafica #3 - Segmentos
+        var acueducto = [];
+        var alcantarillado = [];
+        var energia = [];
+        var telecomunicaciones = [];
+        
+        estadosSegmento.forEach(segmento => {
+            acueducto.push(filterSegmento(data, 'ACUEDUCTO', segmento, 'Septiembre', 'valor_segmento'));
+            alcantarillado.push(filterSegmento(data, 'ALCANTARILLADO', segmento, 'Septiembre', 'valor_segmento'));
+            energia.push(filterSegmento(data, 'ENERGIA', segmento, 'Septiembre', 'valor_segmento'));
+            telecomunicaciones.push(filterSegmento(data, 'TELECOMUNICACIONES', segmento, 'Septiembre', 'valor_segmento'));
+        })
+
+        // Grafica #4 - Cartera
+        var acueductoCart = [];
+        var alcantarilladoCart = [];
+        var energiaCart = [];
+        var telecomunicacionesCart = [];
+        
+        edadCartera.forEach(cartera => {
+            acueductoCart.push(filterEdadCartera(data, 'ACUEDUCTO', cartera, 'Septiembre', 'valor_cartera'));
+            alcantarilladoCart.push(filterEdadCartera(data, 'ALCANTARILLADO', cartera, 'Septiembre', 'valor_cartera'));
+            energiaCart.push(filterEdadCartera(data, 'ENERGIA', cartera, 'Septiembre', 'valor_cartera'));
+            telecomunicacionesCart.push(filterEdadCartera(data, 'TELECOMUNICACIONES', cartera, 'Septiembre', 'valor_cartera'));
+        })
+
         // Cambiar estados. 
         // Grafica #1
         setFacturacionInfoGen(facturacion_mes);
         setSaldoCarteraInfoGen(saldo_cartera);
         setRecaudoInfoGen(recaudo);
+
+        // Grafica #2
+        setEstratoMesAnt(sep_anio_ant);
+        setEstratoMesAct(ago_anio_act);
+        setEstratoMesAct2(sep_anio_act);
+
+        // Grafica #2
+        setEstratoMesAnt(sep_anio_ant);
+        setEstratoMesAct(ago_anio_act);
+        setEstratoMesAct2(sep_anio_act);
+
+        // Grafica #3
+        setSegmentoAcueducto(acueducto);
+        setSegmentoAlcantarillado(alcantarillado);
+        setSegmentoEnergia(energia);
+        setSegmentoTelco(telecomunicaciones);
         
+        // Grafica #4
+        setCarteraAcueducto(acueductoCart);
+        setCarteraAlcantarillado(alcantarilladoCart);
+        setCarteraEnergia(energiaCart);
+        setCarteraTelco(telecomunicacionesCart);
+
         // Al final desactivamos loading.
         setLoading(false);
     }
@@ -217,7 +290,83 @@ export default function Cartera() {
       },
     ],
     }
-  
+       
+    // Grafica #2 - Estratos
+    const dataEstratos = {
+        labels: ['ESTRATO 1', 'ESTRATO 2', 'ESTRATO 3', 'ESTRATO 4', 'ESTRATO 5', 'ESTRATO 6', 'SUBNORMAL'],
+        datasets: [
+          {
+            label: 'Septiembre 2019',
+            data: estratoMesAnt,
+            backgroundColor: '#507FF2',
+          },
+          {
+            label: 'Agosto 2020',
+            data: estratoMesAct,
+            backgroundColor: '#FFB12E',
+          },
+          {
+            label: 'Septiembre 2020',
+            data: estratoMesAct2,
+            backgroundColor: '#F66666',
+          },
+        ],
+    }
+       
+    // Grafica #3 - Segmentos
+    const dataSegmentos = {
+        labels: ['PROVISIONAL', 'ALUMBRADO PUBLICO', 'ESPECIAL', 'INDUSTRIAL', 'PUBLICO', 'COMERCIAL', 'RESIDENCIAL'],
+        datasets: [
+          {
+            label: 'Acueducto',
+            data: segmentoAcueducto,
+            backgroundColor: '#2843a3',
+          },
+          {
+            label: 'Alcantarillado',
+            data: segmentoAlcantarillado,
+            backgroundColor: '#912222',
+          },
+          {
+            label: 'Energia',
+            data: segmentoEnergia,
+            backgroundColor: '#429550',
+          },
+          {
+            label: 'Telco',
+            data: segmentoTelco,
+            backgroundColor: '#6d4295',
+          },
+        ],
+    }
+       
+    // Grafica #4 - cartera
+    const dataCartera = {
+        labels: ['30 dias', '60-120 dias', '121-360 dias', '361-1800', 'mayores A 1800'],
+        datasets: [
+          {
+            label: 'Acueducto',
+            data: carteraAcueducto,
+            backgroundColor: '#2843a3',
+          },
+          {
+            label: 'Alcantarillado',
+            data: carteraAlcantarillado,
+            backgroundColor: '#912222',
+          },
+          {
+            label: 'Energia',
+            data: carteraEnergia,
+            backgroundColor: '#429550',
+          },
+          {
+            label: 'Telco',
+            data: carteraTelco,
+            backgroundColor: '#6d4295',
+          },
+        ],
+    }
+
     return (
         (!services.sesionActive) ?
             <Redirect to="/" />
@@ -266,19 +415,101 @@ export default function Cartera() {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={280} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <Bar data={dataSegmentos} height={105} options={optionsGroupBar} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#2843a3'}}></span>
+                                                            <p>Acueducto</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#912222'}}></span>
+                                                            <p>Alcantarillado</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#429550'}}></span>
+                                                            <p>Energia</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#6d4295'}}></span>
+                                                            <p>Telco</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={280} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <Bar data={dataCartera} height={105} options={optionsGroupBar} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                            <p>Acueducto</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                            <p>Alcantarillado</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: 'red'}}></span>
+                                                            <p>Energia</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: 'green'}}></span>
+                                                            <p>Telco</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         </Paper>
                                     </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={3} lg={3}>
                                 <Paper className={classes.heightFull}>
+                                    {(loading) ? 
+                                        <div style={{padding: '10px'}}>
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                            </div>
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                            <Skeleton variant="rect" width={'100%'} height={100} style={{marginBottom: '10px'}} />
+                                        </div>
+                                        :
+                                        <div>
+                                            <HorizontalBar data={dataEstratos} height={900} options={optionsGroupBarHorizontal} />
+                                            <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                            </div>
+                                        </div>
+                                    }
                                 </Paper>
                             </Grid>
-
                         </Grid>
                     </Container>
                 </main>

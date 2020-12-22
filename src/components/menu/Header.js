@@ -178,7 +178,6 @@ export default function Header(props) {
     const [open, setOpen] = React.useState(true); //Open drawe o menu izquierdo.
     const [openEjecPresupuestal, setOpenEjecPresupuestal] = React.useState((props.active === 'ejecucion_pres') ? true : false); //Open list Ejecucion presupuestal.
     const [openPyG, setOpenPyG] = React.useState((props.active === 'pyg') ? true : false); //Open list PyG.
-    const [openCartera, setOpenCartera] = React.useState((props.active === 'cartera') ? true : false); //Open list Cartera.
     const [itemActive, setItemActive] = React.useState((props.active) ? props.active : 'ejecucion_pres');
     const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : ''});
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -222,26 +221,16 @@ export default function Header(props) {
         setItemActive('ejecucion_pres');
         setOpenEjecPresupuestal(!openEjecPresupuestal);
         setOpenPyG(false);
-        setOpenCartera(false);
     };
 
     const handleSetPyG = () => {
         setItemActive('pyg');
         setOpenPyG(!openPyG);
         setOpenEjecPresupuestal(false);
-        setOpenCartera(false);
-    };
-
-    const handleSetCartera = () => {
-        setItemActive('cartera');
-        setOpenCartera(!openCartera);
-        setOpenEjecPresupuestal(false);
-        setOpenPyG(false);
     };
 
     const handleSetItemActive = (item) =>{
         setItemActive(item);
-        setOpenCartera(false);
         setOpenEjecPresupuestal(false);
         setOpenPyG(false);
     }
@@ -406,7 +395,7 @@ export default function Header(props) {
                     </Link>
                     <Link to="/cartera">
                         {/* Cartera */}
-                        <ListItem button className={itemActive === 'cartera' ? classes.menuItemActive : ''} onClick={handleSetCartera}>
+                        <ListItem button className={itemActive === 'cartera' ? classes.menuItemActive : ''} onClick={() => {handleSetItemActive('cartera')}}>
                             <ListItemIcon>
                                 {
                                     itemActive === 'cartera' ? 
@@ -419,31 +408,6 @@ export default function Header(props) {
                             <ListItemText primary="Cartera" className={clsx(classes.menuButtonList, itemActive === 'cartera' && classes.menuTextActive, !open && classes.menuButtonHidden)} />
                         </ListItem>
                     </Link>
-                    {/* Ejecucion presupuestal - Sub-menu */}
-                    <Collapse in={openCartera} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <Link to="/acueducto">
-                                <ListItem button className={classes.subMenuActive}>
-                                    <ListItemText primary="Acueducto" />
-                                </ListItem>
-                            </Link>
-                            <Link to="/alcantarillado">
-                                <ListItem button className={classes.subMenuActive}>
-                                    <ListItemText primary="Alcantarillado" />
-                                </ListItem>
-                            </Link>
-                            <Link to="/energia">
-                                <ListItem button className={classes.subMenuActive}>
-                                    <ListItemText primary="Energia" />
-                                </ListItem>
-                            </Link>
-                            <Link to="/telecomunicaciones">
-                                <ListItem button className={classes.subMenuActive}>
-                                    <ListItemText primary="Telecomuncaciones" />
-                                </ListItem>
-                            </Link>
-                        </List>
-                    </Collapse>
                     {/* Comercial */}
                     <Link to="/comercial">
                         <ListItem button className={itemActive === 'comercial' ? classes.menuItemActive : ''} onClick={() => {handleSetItemActive('comercial')}}>
