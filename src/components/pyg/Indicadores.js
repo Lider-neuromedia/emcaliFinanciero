@@ -138,7 +138,7 @@ export default function Indicadores() {
                                 <Paper className={fixedHeightPaper}>
                                     <Typography variant="h5" className={classes.title} gutterBottom>
                                         Indicadores financieros Consolidado EMCALI
-                                </Typography>
+                                    </Typography>
 
                                     {/* Table */}
                                     <TableContainer>

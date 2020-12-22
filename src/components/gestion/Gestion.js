@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
-import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper } from '@material-ui/core';
+import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper, 
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
 import { Link, Redirect } from 'react-router-dom';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
-import { filterGestion } from '../../services/gestion';
+import { filterGestion, filterGestionesRealizadas, filterSaldo, filterFiduciarias, filterPorcentaje } from '../../services/gestion';
 import { HorizontalBar, Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 import "chartjs-plugin-datalabels";
@@ -71,8 +72,18 @@ export default function Gestion(){
     const [loading, setLoading] = useState(true);
     const [rendimiendo_anioAnt, setRendimiento_anio_ant] = useState([]);
     const [rendimiendo_anioAct, setRendimiento_anio_act] = useState([]);
+
     const [EA_Ant, setEA_anio_ant] = useState([]);
     const [EA_Act, setEA_anio_act] = useState([]);
+
+    const [saldoAnt, setSaldoAnt] = useState([]);
+    const [saldoAct, setSaldoAct] = useState([]);
+
+    // const [fiduciarias_data, serFiduciarias_data] = useState([]);
+    // serFiduciarias_data({valueOne : fiduciarias1, valueTwo : fiduciarias2, valueThree : fiduciarias3, valueFour : fiduciarias4, valueFive : fiduciarias5, valueFix : fiduciarias6});
+    const [fiduciarias_data, serFiduciarias_data] = useState({valueOne : 0, valueTwo : 0, valueThree : 0, valueFour : 0, valueFive : 0, valueSix : 0});
+
+    const [gestiones_realizadas, setGestiones_realizadas] = useState([]);
 
     // Hook de React.
     useEffect(() => {
@@ -91,43 +102,71 @@ export default function Gestion(){
         var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var infoRendimientoAnt_data = [];
         var infoRendimientoAct_data = [];
-        var infoEAAnt_data = [];
-        var infoEAAct_data = [];
+        var porcentaje_anio_Ant_data = [];
+        var porcentaje_anio_Act_data = [];
 
+        // Grafica #1
         meses.forEach(mes => {
-            var dataRendimientoAnt = filterGestion(data, 2019, mes, 'rendimiento');
-            var dataRendimientoAct = filterGestion(data, 2020, mes, 'rendimiento');
+
+            var dataRendimientoAnt = filterGestion(data, 2019, mes);
+            var dataRendimientoAct = filterGestion(data, 2020, mes);
+
             dataRendimientoAnt.forEach(dataRendimientoAnt_info => {
                 var infoRendimientoAnt = dataRendimientoAnt_info.rendimiento;
                 var infoEAAnt = dataRendimientoAnt_info.ea;
-
-                console.log(infoEAAnt);
-                var infoEAAnt_float = Math.round((infoEAAnt) * 100);
                 infoRendimientoAnt_data.push(infoRendimientoAnt);
-                infoEAAnt_data.push(infoEAAnt);
+                // infoEAAnt_data.push(infoEAAnt);
+                // infoEAAnt_data2 = (infoEAAnt * 100).toFixed(2);
             });
+            
             dataRendimientoAct.forEach(dataRendimientoAct_info => {
                 var infoRendimientoAct = dataRendimientoAct_info.rendimiento;
                 var infoEAAnt = dataRendimientoAct_info.ea;
                 infoRendimientoAct_data.push(infoRendimientoAct);
-                infoEAAct_data.push(infoEAAnt);
+                // infoEAAct_data.push(infoEAAnt);
             });
         });
-        
         setRendimiento_anio_ant(infoRendimientoAnt_data);
         setRendimiento_anio_act(infoRendimientoAct_data);
-        setEA_anio_ant(infoEAAnt_data);
-        setEA_anio_act(infoEAAct_data);
+
+        meses.forEach(mes => {
+            var porcentaje_anio_Ant = filterPorcentaje(data, 2019, mes);
+            porcentaje_anio_Ant.forEach(porceAnt => {
+                var porceeaAnt = porceAnt.ea;
+                porcentaje_anio_Ant_data.push((porceeaAnt * 100).toFixed(1));
+            });
+            var porcentaje_anio_Act = filterPorcentaje(data, 2020, mes);
+            porcentaje_anio_Act.forEach(porceAct => {
+                var porceeaAct = porceAct.ea;
+                porcentaje_anio_Act_data.push((porceeaAct * 100).toFixed(1));
+            });
+        }); 
+        setEA_anio_ant(porcentaje_anio_Ant_data);
+        setEA_anio_act(porcentaje_anio_Act_data);
+        
+        // Grafica #2
+        var saldoAnt = filterSaldo(data, 2019);
+        var saldoAct = filterSaldo(data, 2020);
+        var saldoAnt = saldoAnt[0].saldo;
+        var saldoAct = saldoAct[0].saldo;
+        setSaldoAnt(saldoAnt);
+        setSaldoAct(saldoAct);
+
+        // Grafica #3
+        var fiduciarias = filterFiduciarias(data);
+        var fiduciarias1 = (fiduciarias[0].porcentajes * 100).toFixed(1);
+        var fiduciarias2 = (fiduciarias[1].porcentajes * 100).toFixed(1);;
+        var fiduciarias3 = (fiduciarias[2].porcentajes * 100).toFixed(1);;
+        var fiduciarias4 = (fiduciarias[3].porcentajes * 100).toFixed(1);;
+        var fiduciarias5 = (fiduciarias[4].porcentajes * 100).toFixed(1);;
+        var fiduciarias6 = (fiduciarias[5].porcentajes * 100).toFixed(1);;
+        serFiduciarias_data({valueOne : fiduciarias1, valueTwo : fiduciarias2, valueThree : fiduciarias3, valueFour : fiduciarias4, valueFive : fiduciarias5, valueSix : fiduciarias6});
+
+        // Tabla
+        var gestiones_realizadas = filterGestionesRealizadas(data);
+        setGestiones_realizadas(gestiones_realizadas);
 
         setLoading(false);
-        // var indiEstr = filterIndicadores(data, 'indicadoresEficiencia');
-        // setIndicadoresEficiencia(indiEstr);
-
-        // var indiRenta = filterIndicadores(data, 'indicadoresRentabilidad');
-        // setIndicadoresRentabilidad(indiRenta);
-
-        // var indiOper = filterIndicadores(data, 'indicadoresOperacion');
-        // setIndicadoresOperacion(indiOper);
     }
 
     const genData = () => ({
@@ -135,23 +174,26 @@ export default function Gestion(){
         datasets: [
           {
             type: 'line',
-            label: 'Dataset 1',
-            borderColor: '#0000ff',
+            label: '% EA 2019',
+            yAxisID: 'B',
+            borderColor: '#9BBB59',
             borderWidth: 2,
             fill: false,
             data: EA_Ant,
           },
           {
             type: 'line',
-            label: 'Dataset 2',
-            borderColor: '#0000ff',
+            label: '% EA 2020',
+            yAxisID: 'B',
+            borderColor: '#866BA6',
             borderWidth: 2,
             fill: false,
             data: EA_Act,
           },
           {
             type: 'bar',
-            label: 'Dataset 2',
+            label: 'Rendimiento 2019',
+            yAxisID: 'A',
             backgroundColor: '#3771B7',
             data: rendimiendo_anioAnt,
             borderColor: 'white',
@@ -159,7 +201,8 @@ export default function Gestion(){
           },
           {
             type: 'bar',
-            label: 'Dataset 3',
+            label: 'Rendimiento 2020',
+            yAxisID: 'A',
             backgroundColor: '#AE3330',
             data: rendimiendo_anioAct,
           },
@@ -168,14 +211,134 @@ export default function Gestion(){
 
     const options = {
         scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
+            yAxes: [
+                { 
+                    id: 'A', 
+                    type: 'linear', 
+                    position: 'left', 
+                }, 
+                { 
+                    id: 'B', 
+                    type: 'linear', 
+                    position: 'right', 
+                    ticks: { 
+                        max: 9, 
+                        min: 0 
+                    } 
+            }] 
         },
+    }
+
+    const dataSaldo = {
+        labels: ['', ''],
+        datasets: [
+            {
+            label: 'Saldo',
+            data: [saldoAnt, saldoAct],
+            backgroundColor: [
+                '#CD3C38',
+                '#CD3C38',
+            ],
+            borderColor: [
+                '#CD3C38',
+                '#CD3C38',
+            ],
+            borderWidth: 1,
+            },
+        ],
+        
+    }
+
+    const optionsSaldo = {
+        scales: { 
+            xAxes: [{
+                display: false,
+                ticks: {
+                    beginAtZero: true,
+                },
+                gridLines: {
+                    display:false
+                }
+            }],
+            yAxes: [{
+                display: false,
+                ticks: {
+                    beginAtZero: true,
+                },
+                gridLines: {
+                    display:false
+                }
+            }],
+        },
+        title: {
+            display: false
+        },
+        tooltips: {enabled: false},
+        plugins: {
+            datalabels: {
+                align: 'top',
+                padding: 0,
+                // rotation: -90,
+                labels: {
+                    value: {
+                        color: '#fff',
+                    }
+                },
+                formatter: function(value, context) {
+                    var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                    return currencyFormat;
+                }
+            }
+        }
+    }
+
+    const dataFiduciarias = {
+        labels: ['FIDUOCCIDENTE', 'FIDUAGRARIA', 'FIDUPREVISORA', 'FIDUACIARIA BBVA', 'FIDUBOGOTA', 'FIDUCOLOMBIA'],
+        datasets: [
+        {
+            label: '',
+            data: [fiduciarias_data.valueOne, fiduciarias_data.valueTwo, fiduciarias_data.valueThree, fiduciarias_data.valueFour, fiduciarias_data.valueFive, fiduciarias_data.valueSix],
+            backgroundColor: [
+            '#4F81BD',
+            '#C0504D',
+            '#9BBB59',
+            '#8064A2',
+            '#4BACC6',
+            '#F79646',
+            ],
+            borderColor: [
+            '#4F81BD',
+            '#C0504D',
+            '#9BBB59',
+            '#8064A2',
+            '#4BACC6',
+            '#F79646',
+            ],
+            borderWidth: 1,
+        },
+        ],
+    }
+
+    const optionsFiduciarias = {
+        tooltips: {enabled: false},
+        plugins: {
+            datalabels: {
+                color: '#365068',
+                align: 'center',
+                padding: 0,
+                labels: {
+                    title: {
+                        horizontalAlign: 'center', 
+                    },
+                    value: {
+                        color: '#365068',
+                    }
+                },
+                formatter: function(value, context) {
+                    return value + '%';
+                }
+            }
+        }
     }
 
     return (
@@ -197,11 +360,48 @@ export default function Gestion(){
                             <Grid item xs={12} md={4} lg={4}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaper}>
+                                    <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                        {(loading) ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={200} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                         :
+                                         <div>
+                                            <Bar data={dataSaldo} height={350} options={optionsSaldo} />
+                                            <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#CD3C38'}}></span>
+                                                    <p>2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#CD3C38'}}></span>
+                                                    <p>2020</p>
+                                                </div>
+                                            </div>
+                                         </div>
+                                        }
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
+                                        {
+                                            loading ? 
+                                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                    <div style={{width: '100%'}}>
+                                                        <Skeleton variant="circle" width={145} height={145} />
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div style={{display: 'flex'}}>
+                                                    <div style={{width: '100%'}}>
+                                                        <Pie data={dataFiduciarias} options={optionsFiduciarias}/>
+                                                    </div>
+                                                </div>
+                                        }
                                         </Paper>
                                     </Grid>
                                 </Grid>
@@ -213,24 +413,11 @@ export default function Gestion(){
                                     <p variant="p" className={classes.titleGestion}>
                                         Gestiones Realizadas
                                     </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Desde el 2 de marzo Emcali inicio seguimiento diario a las inversiones junto con el consorcio EMCALI
-                                    </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Los recursos solo se invertian en el % de participación de las consorciadas, aunque el contrato de fiducia no lo establece como requisito
-                                    </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Implementación de comité de inversiones en conjunto con el Consorcio EMCALI y las fiducias administradoras de los recursos
-                                    </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Acompañamiento en dicho Comité de profesionales en gestión de portafolios de las fiduciarias participantes del consorcio
-                                    </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Análisis semanal de mercados y prospectivas para toma de decisiones de inversión
-                                    </p>
-                                    <p variant="p" className={classes.textGestion}>
-                                        - Control del flujo de caja para identificar excedentes de liquidez para inversión den FIC
-                                    </p>
+                                    {gestiones_realizadas.map((row) => (
+                                        <p variant="p" className={classes.textGestion}>
+                                            - {row.gestiones_realizadas}
+                                        </p>
+                                    ))}
                                 </Paper>
                             </Grid>
                         </Grid>
