@@ -601,23 +601,37 @@ export const optionsIngresosOper = {
             }
         }],
     },
+    legend: {
+        display: false
+    },
     title: {
         display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10
+        }
     },
     tooltips: {enabled: false},
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'top',
+            // align: 'top',
             padding: 0,
             rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            font: {
+                size: 11,
+            },
+            // offset: -50,
             labels: {
                 value: {
                     color: '#365068',
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 // if (currencyFormat.length >= 7) {
                 //     return currencyFormat.substring(0, 11);
                 // }else{
@@ -650,16 +664,25 @@ export const optionsGroupBar = {
             }
         }],
     },
+    
     title: {
+        display: false
+    },
+    legend: {
         display: false
     },
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'top',
+            // align: 'top',
             padding: 0,
             rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            font: {
+                size: 11,
+            },
             labels: {
                 value: {
                     color: '#365068',
@@ -667,11 +690,6 @@ export const optionsGroupBar = {
             },
             formatter: function(value, context) {
                 var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
-                // if (currencyFormat.length >= 7) {
-                //     return currencyFormat.substring(0, 11);
-                // }else{
-                //     return currencyFormat;
-                // }
                 return currencyFormat;
             }
         }

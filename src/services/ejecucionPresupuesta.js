@@ -142,11 +142,26 @@ export const optionsEjecucionAcum = {
             }
         }],
     },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            top: 0,
+            bottom: 15
+        }
+    },
     tooltips: {enabled: false},
+    maintainAspectRatio: false,
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'left',
+            align: 'end',
+            anchor: 'end',
+            font: {
+                size: 11,
+              },
+            offset: -150,
             padding: 0,
             labels: {
                 title: {
@@ -157,7 +172,7 @@ export const optionsEjecucionAcum = {
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000000000);
                 return currencyFormat;
             }
         }
@@ -185,27 +200,36 @@ export const optionsIngreVsGas = {
         }],
     },
     title: {
+        display: false,
+    },
+    legend: {
         display: false
+    },
+    layout: {
+        padding: {
+            top: 55,
+            bottom: 10
+        }
     },
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'center',
             padding: 0,
             rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            font: {
+                size: 11,
+            },
+            offset: -50,
             labels: {
                 value: {
                     color: '#365068',
-                }
+                },
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
-                // if (currencyFormat.length >= 7) {
-                //     return currencyFormat.substring(0, 11);
-                // }else{
-                //     return currencyFormat;
-                // }
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000000000);
                 return currencyFormat;
             }
         }
@@ -233,11 +257,25 @@ export const optionsGastos = {
             }
         }],
     },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            top: 5,
+            bottom: 15
+        }
+    },
     tooltips: {enabled: false},
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'center',
+            align: 'end',
+            anchor: 'end',
+            font: {
+                size: 11,
+              },
+            offset: -50,
             padding: 0,
             labels: {
                 title: {
@@ -248,7 +286,7 @@ export const optionsGastos = {
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000000000);
                 return currencyFormat;
             }
         }
@@ -257,6 +295,15 @@ export const optionsGastos = {
 
 export const optionsGastosDoughnut = {
     tooltips: {enabled: false},
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            top: 15,
+            bottom: 15
+        }
+    },
     plugins: {
         datalabels: {
             color: '#365068',

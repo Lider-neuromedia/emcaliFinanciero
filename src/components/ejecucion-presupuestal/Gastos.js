@@ -8,6 +8,14 @@ import {loadServerExcel} from '../../services';
 import {optionsEjecucionAcum, filterMesesGroup, filterBasic, filterMes, filterNameGroup, optionsIngreVsGas, optionsGastosDoughnut, optionsStacked} from '../../services/ejecucionPresupuesta'
 import { HorizontalBar, Bar, Doughnut, Pie } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
+import UENE from '../../assets/images/icons/comercial/uene.png'
+import acueducto from '../../assets/images/icons/comercial/acueducto.png'
+import alcantarillado from '../../assets/images/icons/comercial/alcantarillado.png'
+import internet from '../../assets/images/icons/comercial/internet.png'
+import telecomunicaciones from '../../assets/images/icons/comercial/telecomunicaciones.png'
+import tv from '../../assets/images/icons/comercial/tv.png'
+import logo from '../../assets/images/logosidebar_reducido.png'
+import corporativo from '../../assets/images/icons/comercial/corporativo.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,7 +43,13 @@ const useStyles = makeStyles((theme) => ({
     },
     heightFull: {
         height: '100%'
-    }
+    },
+    fixedHeightVH: {
+        height: 384,
+    },
+    fixedHeightMedium: {
+        height: 300,
+    },
 }));
 
 // Items que iran en el header.
@@ -49,11 +63,11 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Gastos</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>EMCALI</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}>Corporativo</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}>UENE</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/>Emcali</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -62,6 +76,8 @@ export const itemsHeader = (changeFilter) => {
 export default function Gastos() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
+    const fixedHeightMedium = clsx(classes.paper, classes.fixedHeightMedium);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [loading, setLoading] = useState(true);
@@ -291,14 +307,14 @@ export default function Gastos() {
             label: '',
             data: [ejecucionAcumulada.Proyectados, ejecucionAcumulada.Comprometidos, ejecucionAcumulada.Causados],
             backgroundColor: [
-                '#507FF2',
-                '#FFB12E',
-                '#00CE80',
+                '#052569',
+                '#FFFF05',
+                '#FF0F0F',
             ],
             borderColor: [
-                '#507FF2',
-                '#FFB12E',
-                '#00CE80',
+                '#052569',
+                '#FFFF05',
+                '#FF0F0F',
             ],
             borderWidth: 1
         }]
@@ -312,12 +328,12 @@ export default function Gastos() {
                 label: '',
                 data: [gastosComprocaucom.valueOne, gastosComprocaucom.valueTwo],
                 backgroundColor: [
-                    '#8064A2',
-                    '#FFB12E',
+                    '#FFFF00',
+                    '#FF0000',
                 ],
                 borderColor: [
-                    '#8064A2',
-                    '#FFB12E',
+                    '#FFFF00',
+                    '#FF0000',
                 ],
                 borderWidth: 1,
             },
@@ -332,12 +348,12 @@ export default function Gastos() {
                 label: '',
                 data: [invComprocaucom.valueOne, invComprocaucom.valueTwo],
                 backgroundColor: [
-                    '#8064A2',
-                    '#FFB12E',
+                    '#FFFF00',
+                    '#FF0000',
                 ],
                 borderColor: [
-                    '#8064A2',
-                    '#FFB12E',
+                    '#FFFF00',
+                    '#FF0000',
                 ],
                 borderWidth: 1,
             },
@@ -421,19 +437,19 @@ export default function Gastos() {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
         datasets: [
           {
-            label: 'Recaudado - 2020',
+            label: 'proyectados - 2020',
             data: Gastos_proyectados,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#052569',
           },
           {
-            label: 'Proyectados - 2020',
+            label: 'comprometidos - 2020',
             data: Gastos_comprometidos,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#FFFF05',
           },
           {
-            label: 'Recaudados - 2020',
+            label: 'causados - 2020',
             data: Gastos_causados,
-            backgroundColor: '#2DFF2D',
+            backgroundColor: '#FF0404',
           },
         ],
     }
@@ -517,14 +533,14 @@ export default function Gastos() {
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
                             {/* Chart */}
-                            <Grid item xs={12} md={6} lg={6}>
+                            <Grid item xs={12} md={4} lg={4}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
                                                     <div>
-                                                        <Skeleton variant="rect" width={'100%'} height={150} />
+                                                        <Skeleton variant="rect" width={'100%'} height={120} />
                                                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                             <Skeleton variant="text" width={'25%'}/>
                                                             <Skeleton variant="text" width={'25%'}/>
@@ -534,18 +550,23 @@ export default function Gastos() {
                                                     </div>
                                                 :
                                                     <div>
-                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={50}/>
+                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                            <div className="itemChart" >
+                                                                <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Gastos</p>
+                                                            </div>
+                                                        </div>
+                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={30}/>
                                                         <div className="containerLabelsCharts">
                                                             <div className="itemChart">
-                                                                <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                                <span className="iconList" style={{background: '#052569'}}></span>
                                                                 <p>Proyectados</p>
                                                             </div>
                                                             <div className="itemChart">
-                                                                <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                                <span className="iconList" style={{background: '#FFFF05'}}></span>
                                                                 <p>Comprometidos</p>
                                                             </div>
                                                             <div className="itemChart">
-                                                                <span className="iconList" style={{background: '#00CE80'}}></span>
+                                                                <span className="iconList" style={{background: '#FF0F0F'}}></span>
                                                                 <p>Causados</p>
                                                             </div>
                                                         </div>
@@ -557,20 +578,18 @@ export default function Gastos() {
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
-                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Skeleton variant="circle" width={145} height={145} />
-                                                        </div>
-                                                    </div>
+                                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                    <Skeleton variant="circle" width={135} height={135} />
+                                                </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
                                                         <div style={{width: '100%'}}>
-                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
-                                                            <div className="itemChart" >
-                                                                <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>2019</p>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <div className="itemChart" >
+                                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Gastos</p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                            <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut}/>
+                                                            <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut} height={160}/>
                                                         </div>
                                                     </div>
                                             }
@@ -580,20 +599,18 @@ export default function Gastos() {
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
-                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Skeleton variant="circle" width={145} height={145} />
-                                                        </div>
-                                                    </div>
+                                                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                    <Skeleton variant="circle" width={135} height={135} />
+                                                </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
-                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
-                                                            <div className="itemChart" >
-                                                                <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>2020</p>
-                                                            </div>
-                                                        </div>
                                                         <div style={{width: '100%'}}>
-                                                            <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut}/>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <div className="itemChart" >
+                                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Inversión</p>
+                                                                </div>
+                                                            </div>
+                                                            <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut} height={160}/>
                                                         </div>
                                                     </div>
                                             }
@@ -601,75 +618,11 @@ export default function Gastos() {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={6}>
-                            <Grid container spacing={3}>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
-                                            {
-                                                loading ? 
-                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Skeleton variant="circle" width={145} height={145} />
-                                                        </div>
-                                                    </div>
-                                                :
-                                                    <div style={{display: 'flex'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Pie data={dataPieAnt} options={optionsGastosDoughnut}/>
-                                                        </div>
-                                                    </div>
-                                            }
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
-                                            {
-                                                loading ? 
-                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Skeleton variant="circle" width={145} height={145} />
-                                                        </div>
-                                                    </div>
-                                                :
-                                                    <div style={{display: 'flex'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <Pie data={dataPieAct} options={optionsGastosDoughnut}/>
-                                                        </div>
-                                                    </div>
-                                            }
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaper}>
-                                            <Paper className={fixedHeightPaper}>
-                                                {
-                                                    loading ? 
-                                                        <div>
-                                                            <Skeleton variant="rect" width={'100%'} height={150} />
-                                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                                <Skeleton variant="text" width={'25%'}/>
-                                                                <Skeleton variant="text" width={'25%'}/>
-                                                                <Skeleton variant="text" width={'25%'}/>
-
-                                                            </div>
-                                                        </div>
-                                                    :
-                                                    <div style={{display: 'flex'}}>
-                                                        <div style={{width: '100%'}}>
-                                                            <HorizontalBar data={NombreGrupo_total} options={optionsStacked}/>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            </Paper>
-                                        </Paper>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={12} md={12} lg={12}>
-                                <Paper className={classes.heightFull}>
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={330} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -677,37 +630,155 @@ export default function Gastos() {
                                         </div>
                                         :
                                         <div>
-                                            <Bar  data={dataGastos} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Gastos</p>
+                                                </div>
+                                            </div>
+                                            <Bar  data={dataGastos} options={optionsIngreVsGas} height={200}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                    <p>Ingresos recaudados</p>
+                                                    <span className="iconList" style={{background: '#052569'}}></span>
+                                                    <p>Proyectados</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                    <p>Gastos recaudados</p>
+                                                    <span className="iconList" style={{background: '#FFFF05'}}></span>
+                                                    <p>Comprometidos</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#FF0404'}}></span>
+                                                    <p>Causados</p>
                                                 </div>
                                             </div>
                                         </div>
                                     }
                                 </Paper>
                             </Grid>
+                            <Grid item xs={12} md={4} lg={4}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <Skeleton variant="circle" width={135} height={135} />
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <div className="itemChart" >
+                                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>2019</p>
+                                                                </div>
+                                                            </div>
+                                                            <Pie data={dataPieAnt} options={optionsGastosDoughnut} height={150}/>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                                    <p>Corporativo</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#C0504D'}}></span>
+                                                                    <p>UENAA</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#9BBB59'}}></span>
+                                                                    <p>TELCO</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#8064A2'}}></span>
+                                                                    <p>UENE</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                                        <Skeleton variant="circle" width={135} height={135} />
+                                                    </div>
+                                                :
+                                                    <div style={{display: 'flex'}}>
+                                                        <div style={{width: '100%'}}>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <div className="itemChart" >
+                                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>2020</p>
+                                                                </div>
+                                                            </div>
+                                                            <Pie data={dataPieAct} options={optionsGastosDoughnut} height={150}/>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#4F81BD'}}></span>
+                                                                    <p>Corporativo</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#C0504D'}}></span>
+                                                                    <p>UENAA</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#9BBB59'}}></span>
+                                                                    <p>TELCO</p>
+                                                                </div>
+                                                                <div className="itemChart">
+                                                                    <span className="iconList" style={{background: '#8064A2'}}></span>
+                                                                    <p>UENE</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <Paper className={fixedHeightPaper}>
+                                            {
+                                                loading ? 
+                                                    <div>
+                                                        <Skeleton variant="rect" width={'100%'} height={125} />
+                                                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                            <Skeleton variant="text" width={'25%'}/>
+                                                            <Skeleton variant="text" width={'25%'}/>
+                                                            <Skeleton variant="text" width={'25%'}/>
+
+                                                        </div>
+                                                    </div>
+                                                :
+                                                <div style={{display: 'flex'}}>
+                                                    <div style={{width: '100%'}}>
+                                                        <HorizontalBar data={NombreGrupo_total} options={optionsStacked} height={80}/>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            
                             {/* Charts */}                       
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={3} lg={3}>
+                                <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={245} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
                                             </div>
                                         </div>
                                 :
                                         <div>
-                                            <Bar  data={dataIngresos} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Inversión</p>
+                                                </div>
+                                            </div>
+                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={200}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -722,21 +793,25 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={3} lg={3}>
+                                <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={245} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
                                             </div>
                                         </div>
                                 :
                                         <div>
-                                            <Bar  data={dataOperacion} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Operación</p>
+                                                </div>
+                                            </div>
+                                            <Bar  data={dataOperacion} options={optionsIngreVsGas} height={200}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -751,21 +826,25 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={3} lg={3}>
+                                <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={245} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
                                             </div>
                                         </div>
                                 :
                                         <div>
-                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Funcionamiento</p>
+                                                </div>
+                                            </div>
+                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={200}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -780,21 +859,25 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={3} lg={3}>
+                                <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={245} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
-                                                <Skeleton variant="text" width={'25%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
+                                                <Skeleton variant="text" width={'40%'}/>
                                             </div>
                                         </div>
                                 :
                                         <div>
-                                            <Bar  data={dataServicio} options={optionsIngreVsGas}/>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Servicio de la Deuda</p>
+                                                </div>
+                                            </div>
+                                            <Bar  data={dataServicio} options={optionsIngreVsGas} height={200}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>

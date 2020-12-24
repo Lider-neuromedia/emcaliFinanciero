@@ -9,6 +9,14 @@ import {loadServerExcel} from '../../services';
 import {filterColumnMes, optionsIngresosOper, optionsGroupBar} from '../../services/pyg';
 import { Bar  } from 'react-chartjs-2';
 import "chartjs-plugin-datalabels";
+import UENE from '../../assets/images/icons/comercial/uene.png'
+import acueducto from '../../assets/images/icons/comercial/acueducto.png'
+import alcantarillado from '../../assets/images/icons/comercial/alcantarillado.png'
+import internet from '../../assets/images/icons/comercial/internet.png'
+import telecomunicaciones from '../../assets/images/icons/comercial/telecomunicaciones.png'
+import tv from '../../assets/images/icons/comercial/tv.png'
+import logo from '../../assets/images/logosidebar_reducido.png'
+import corporativo from '../../assets/images/icons/comercial/corporativo.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
     },
     fixedHeight: {
-        height: 290,
+        height: 333,
     },
     heightSmall: {
         height: 185
@@ -51,10 +59,10 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">PyG</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>Todos</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}>UENE</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/>EMCALI</Button>
+                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -247,12 +255,12 @@ export default function Pyg() {
         label: 'Ingresos operacionales',
         data: [ingresosOpera.anio_ant, ingresosOpera.anio_act],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#28F828',
+            '#28F828',
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#28F828',
+            '#28F828',
         ],
         borderWidth: 1,
         },
@@ -267,12 +275,12 @@ export default function Pyg() {
         label: 'Costos de venta',
         data: [costosVenta.anio_ant, costosVenta.anio_act],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#E46C0A',
+            '#E46C0A',
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#E46C0A',
+            '#E46C0A',
         ],
         borderWidth: 1,
         },
@@ -287,12 +295,12 @@ export default function Pyg() {
         label: 'Gastos operacionales',
         data: [gastosOper.anio_ant, gastosOper.anio_act],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#C00000',
+            '#C00000',
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#C00000',
+            '#C00000',
         ],
         borderWidth: 1,
         },
@@ -307,12 +315,12 @@ export default function Pyg() {
         label: 'Ebitda',
         data: [ebitda.anio_ant, ebitda.anio_act],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#3C7BC8',
+            '#99C047',
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#3C7BC8',
+            '#99C047',
         ],
         borderWidth: 1,
         },
@@ -327,12 +335,12 @@ export default function Pyg() {
         label: 'Utilidad neta',
         data: [utilidadNeta.anio_ant, utilidadNeta.anio_act],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#CA3D3A',
+            '#7A57A4',
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
+            '#CA3D3A',
+            '#7A57A4',
         ],
         borderWidth: 1,
         },
@@ -347,14 +355,14 @@ export default function Pyg() {
         label: 'Ebitda gerencia',
         data: [ebitdaGerencia.uene, ebitdaGerencia.uenaa, ebitdaGerencia.telco],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
-            '#507FF2'
+            '#002060',
+            '#FFFF00',
+            '#FF0000'
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
-            '#507FF2'
+            '#002060',
+            '#FFFF00',
+            '#FF0000'
         ],
         borderWidth: 1,
         },
@@ -369,14 +377,14 @@ export default function Pyg() {
         label: 'Utilidad gerencia',
         data: [utilidadGerencia.uene, utilidadGerencia.uenaa, utilidadGerencia.telco],
         backgroundColor: [
-            '#F8AA27',
-            '#94DEA9',
-            '#507FF2'
+            '#002060',
+            '#FFFF00',
+            '#FF0000'
         ],
         borderColor: [
-            '#F8AA27',
-            '#94DEA9',
-            '#507FF2'
+            '#002060',
+            '#FFFF00',
+            '#FF0000'
         ],
         borderWidth: 1,
         },
@@ -390,12 +398,12 @@ export default function Pyg() {
           {
             label: '2019',
             data: ebitdaMesesAnioAnt,
-            backgroundColor: '#507FF2',
+            backgroundColor: '#3670B6',
           },
           {
             label: '2020',
             data: ebitdaMesesAnioAct,
-            backgroundColor: '#FFB12E',
+            backgroundColor: '#8EB341',
           },
         ],
     }
@@ -407,12 +415,12 @@ export default function Pyg() {
           {
             label: '2019',
             data: utilidadMesesAnioAnt,
-            backgroundColor: '#507FF2',
+            backgroundColor: '#CD3C38',
           },
           {
             label: '2020',
             data: utilidadMesesAnioAct,
-            backgroundColor: '#FFB12E',
+            backgroundColor: '#7B57A7',
           },
         ],
     }
@@ -434,7 +442,7 @@ export default function Pyg() {
                                         <Paper className={classes.heightAuto} style={{padding: 10}}>
                                         {(loading) ? 
                                             <div>
-                                                <Skeleton variant="rect" width={'100%'} height={200} />
+                                                <Skeleton variant="rect" width={'100%'} height={174} />
                                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                     <Skeleton variant="text" width={'40%'}/>
                                                     <Skeleton variant="text" width={'40%'}/>
@@ -442,14 +450,19 @@ export default function Pyg() {
                                             </div>
                                          :
                                          <div>
-                                            <Bar data={dataIngresosOper} height={350} options={optionsIngresosOper} />
+                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Ingresos operacionales</p>
+                                                </div>
+                                            </div>
+                                            <Bar data={dataIngresosOper} height={200} options={optionsIngresosOper} />
                                             <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                    <span className="iconList" style={{background: '#28F828'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                    <span className="iconList" style={{background: '#28F828'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -461,7 +474,7 @@ export default function Pyg() {
                                         <Paper className={classes.heightAuto} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <Skeleton variant="rect" width={'100%'} height={174} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <Skeleton variant="text" width={'40%'}/>
                                                         <Skeleton variant="text" width={'40%'}/>
@@ -469,14 +482,19 @@ export default function Pyg() {
                                                 </div>
                                             :
                                             <div>
-                                                <Bar data={dataCostosVnta} height={350} options={optionsIngresosOper} />
+                                                <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                    <div className="itemChart" >
+                                                        <p style={{fontSize: '16px', fontWeight: 'bold'}}>Costos de Ventas</p>
+                                                    </div>
+                                                </div>
+                                                <Bar data={dataCostosVnta} height={200} options={optionsIngresosOper} />
                                                 <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                        <span className="iconList" style={{background: '#E46C0A'}}></span>
                                                         <p>2019</p>
                                                     </div>
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                        <span className="iconList" style={{background: '#E46C0A'}}></span>
                                                         <p>2020</p>
                                                     </div>
                                                 </div>
@@ -488,7 +506,7 @@ export default function Pyg() {
                                         <Paper className={classes.heightAuto} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <Skeleton variant="rect" width={'100%'} height={174} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <Skeleton variant="text" width={'40%'}/>
                                                         <Skeleton variant="text" width={'40%'}/>
@@ -496,14 +514,19 @@ export default function Pyg() {
                                                 </div>
                                             :
                                             <div>
-                                                <Bar data={dataGastosOpe} height={350} options={optionsIngresosOper} />
+                                                <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                    <div className="itemChart" >
+                                                        <p style={{fontSize: '16px', fontWeight: 'bold'}}>Gastos Operacionales</p>
+                                                    </div>
+                                                </div>
+                                                <Bar data={dataGastosOpe} height={200} options={optionsIngresosOper} />
                                                 <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                        <span className="iconList" style={{background: '#C00000'}}></span>
                                                         <p>2019</p>
                                                     </div>
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                        <span className="iconList" style={{background: '#C00000'}}></span>
                                                         <p>2020</p>
                                                     </div>
                                                 </div>
@@ -520,7 +543,7 @@ export default function Pyg() {
                                         <Paper className={fixedHeightPaper} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <Skeleton variant="text" width={'40%'}/>
                                                         <Skeleton variant="text" width={'40%'}/>
@@ -528,14 +551,19 @@ export default function Pyg() {
                                                 </div>
                                             :
                                                 <div>
-                                                    <Bar data={dataEbitda} height={600} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>EBITDA Acumulado</p>
+                                                        </div>
+                                                    </div>
+                                                    <Bar data={dataEbitda} height={400} options={optionsIngresosOper} />
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <span className="iconList" style={{background: '#3C7BC8'}}></span>
                                                             <p>2019</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                            <span className="iconList" style={{background: '#99C047'}}></span>
                                                             <p>2020</p>
                                                         </div>
                                                     </div>
@@ -547,107 +575,32 @@ export default function Pyg() {
                                         <Paper className={fixedHeightPaper} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'25%'}/>
+                                                        <Skeleton variant="text" width={'25%'}/>
+                                                        <Skeleton variant="text" width={'25%'}/>
                                                     </div>
                                                 </div>
                                             :
                                                 <div>
-                                                    <Bar data={dataEbitdaGerencia} height={600} options={optionsIngresosOper} />
-                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
-                                                            <p>2019</p>
-                                                        </div>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
-                                                            <p>2020</p>
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>EBITDA por Gerencia</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            }
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={8} lg={8}>
-                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
-                                            {(loading) ? 
-                                                <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={250} />
-                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                    </div>
-                                                </div>
-                                            :
-                                                <div>
-                                                    <Bar data={dataEbitdaMeses} height={120} options={optionsGroupBar} />
-                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                    <Bar data={dataEbitdaGerencia} height={430} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 15}}>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                            <p>2019</p>
-                                                        </div>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
-                                                            <p>2020</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={2} lg={2}>
-                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
-                                            {(loading) ? 
-                                                <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
-                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                    </div>
-                                                </div>
-                                            :
-                                                <div>
-                                                    <Bar data={dataUtilidad} height={600} options={optionsIngresosOper} />
-                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
-                                                            <p>2019</p>
-                                                        </div>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
-                                                            <p>2020</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={12} md={2} lg={2}>
-                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
-                                            {(loading) ? 
-                                                <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={200} />
-                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                        <Skeleton variant="text" width={'40%'}/>
-                                                    </div>
-                                                </div>
-                                            :
-                                                <div>
-                                                    <Bar data={dataUtilidadGerencia} height={600} options={optionsIngresosOper} />
-                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
-                                                        <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <span className="iconList" style={{background: '#002060'}}></span>
                                                             <p>UENE</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <span className="iconList" style={{background: '#FFFF00'}}></span>
                                                             <p>UENAA</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#94DEA9'}}></span>
+                                                            <span className="iconList" style={{background: '#FF0000'}}></span>
                                                             <p>TELCO</p>
                                                         </div>
                                                     </div>
@@ -659,7 +612,7 @@ export default function Pyg() {
                                         <Paper className={fixedHeightPaper} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={250} />
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <Skeleton variant="text" width={'40%'}/>
                                                         <Skeleton variant="text" width={'40%'}/>
@@ -667,14 +620,119 @@ export default function Pyg() {
                                                 </div>
                                             :
                                                 <div>
-                                                    <Bar data={dataUtilidadMeses} height={120} options={optionsGroupBar} />
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>EBITDA</p>
+                                                        </div>
+                                                    </div>
+                                                    <Bar data={dataEbitdaMeses} height={90} options={optionsGroupBar} />
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                            <span className="iconList" style={{background: '#3670B6'}}></span>
                                                             <p>2019</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#F8AA27'}}></span>
+                                                            <span className="iconList" style={{background: '#8EB341'}}></span>
+                                                            <p>2020</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={2} lg={2}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Utilidad neta Acumulada</p>
+                                                        </div>
+                                                    </div>
+                                                    <Bar data={dataUtilidad} height={400} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#CA3D3A'}}></span>
+                                                            <p>2019</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#7A57A4'}}></span>
+                                                            <p>2020</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={2} lg={2}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Utilidad Neta por Gerencia</p>
+                                                        </div>
+                                                    </div>
+                                                    <Bar data={dataUtilidadGerencia} height={400} options={optionsIngresosOper} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                    <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#002060'}}></span>
+                                                            <p>UENE</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#FFFF00'}}></span>
+                                                            <p>UENAA</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#FF0000'}}></span>
+                                                            <p>TELCO</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={12} md={8} lg={8}>
+                                        <Paper className={fixedHeightPaper} style={{padding: 10}}>
+                                            {(loading) ? 
+                                                <div>
+                                                    <Skeleton variant="rect" width={'100%'} height={290} />
+                                                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                        <Skeleton variant="text" width={'40%'}/>
+                                                    </div>
+                                                </div>
+                                            :
+                                                <div>
+                                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                        <div className="itemChart" >
+                                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Utilidad Neta</p>
+                                                        </div>
+                                                    </div>
+                                                    <Bar data={dataUtilidadMeses} height={90} options={optionsGroupBar} />
+                                                    <div className="containerLabelsCharts" style={{marginTop: 10}}>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#CD3C38'}}></span>
+                                                            <p>2019</p>
+                                                        </div>
+                                                        <div className="itemChart">
+                                                            <span className="iconList" style={{background: '#7B57A7'}}></span>
                                                             <p>2020</p>
                                                         </div>
                                                     </div>
