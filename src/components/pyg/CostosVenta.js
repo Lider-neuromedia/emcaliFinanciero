@@ -484,7 +484,7 @@ export default function CostosOperacionales() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'ejecucion_pres'} itemsHeader={() => itemsHeader(changeFilterNomGerencia)} />
+                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia)} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>

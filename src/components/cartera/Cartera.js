@@ -90,11 +90,6 @@ export const ItemsHeader = (changeFilter) => {
         setValue(newValue);
     };
 
-    const changeTab = (tab) => {
-        setTabActive(tab);
-        changeFilter('acueducto');
-    }
-
     return (
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             
