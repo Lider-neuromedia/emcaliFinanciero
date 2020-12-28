@@ -9,6 +9,14 @@ import {filterColumnMes, optionsIngresosOper, optionsGastosDoughnut, optionsGrou
 import { HorizontalBar, Bar, Doughnut, Pie, Line } from 'react-chartjs-2';
 import Skeleton from '@material-ui/lab/Skeleton';
 import "chartjs-plugin-datalabels";
+import UENE from '../../assets/images/icons/comercial/uene.png'
+import acueducto from '../../assets/images/icons/comercial/acueducto.png'
+import alcantarillado from '../../assets/images/icons/comercial/alcantarillado.png'
+import internet from '../../assets/images/icons/comercial/internet.png'
+import telecomunicaciones from '../../assets/images/icons/comercial/telecomunicaciones.png'
+import tv from '../../assets/images/icons/comercial/tv.png'
+import logo from '../../assets/images/logosidebar_reducido.png'
+import corporativo from '../../assets/images/icons/comercial/corporativo.png'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,9 +38,13 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 240,
+    },
+    fixedHeightVH: {
+        height: 340,
     },
 }));
 
@@ -47,10 +59,10 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Costos de venta</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-            <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}>Todos</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('telco')}>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}>UENE</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="emcali" style={{paddingRight: '10px', width: 40}}/>EMCALI</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="telco" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uenaa" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -59,6 +71,7 @@ export const itemsHeader = (changeFilter) => {
 export default function CostosOperacionales() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [loading, setLoading] = useState(true);
@@ -271,14 +284,14 @@ export default function CostosOperacionales() {
             label: [''],
             data: [ingresosAnioAnt.proyectadosAnt_data, ingresosAnioAnt.realesAnt_data, ingresosAnioAnt.realesAct_data],
             backgroundColor: [
-                '#507FF2',
                 '#FFB12E',
                 '#507FF2',
+                '#FFB12E',
             ],
             borderColor: [
-                '#507FF2',
                 '#FFB12E',
                 '#507FF2',
+                '#FFB12E',
             ],
             borderWidth: 1
         }]
@@ -291,7 +304,7 @@ export default function CostosOperacionales() {
         {
             label: '2020',
             data: ingresosOpeAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#FFB12E',
         },
         ],
     }
@@ -324,14 +337,14 @@ export default function CostosOperacionales() {
         labels: ['1'],
         datasets: [
           {
-            label: 'Inversión',
+            label: 'gasto de personal',
             data: [grafico4_act.valueOne],
-            backgroundColor: '#A02F2C',
+            backgroundColor: '#FF9630',
           },
           {
-            label: 'Servicio de la deuda',
+            label: 'costos de personal',
             data: [grafico4_act.valueTwo],
-            backgroundColor: '#6C4C92',
+            backgroundColor: '#3CBADC',
           },
         ],
       }
@@ -343,12 +356,12 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: ueneAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#31859C',
           },
           {
             label: '2020',
             data: ueneAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#F79646',
           },
         ],
     }
@@ -360,12 +373,12 @@ export default function CostosOperacionales() {
         {
             label: '2019',
             data: uenaaAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#31859C',
         },
         {
             label: '2020',
             data: uenaaAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#F79646',
         },
         ],
     }
@@ -377,34 +390,34 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: telcoAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#31859C',
           },
           {
             label: '2020',
             data: telcoAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#F79646',
           },
         ],
     }
 
     // Grafica #8
     const dataIngreOper = {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
           {
             label: '2019 - costo de ventas',
             data: ingreOperAnt,
             fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            backgroundColor: '#4BACC6',
+            borderColor: '#4BACC6',
             yAxisID: 'y-axis-1',
           },
           {
             label: '2019 - Ingresos Operacionales',
             data: costosVentAnt,
             fill: false,
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgba(54, 162, 235, 0.2)',
+            backgroundColor: '#F79646',
+            borderColor: '#F79646',
             yAxisID: 'y-axis-2',
           },
         ],
@@ -412,22 +425,22 @@ export default function CostosOperacionales() {
 
     // Grafica #9
     const dataCostosVentas = {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
           {
             label: '2020 - costo de ventas',
             data: ingreOperAct,
             fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            backgroundColor: '#4BACC6',
+            borderColor: '#4BACC6',
             yAxisID: 'y-axis-1',
           },
           {
             label: '2020 - Ingresos Operacionales',
             data: costosVentaAct,
             fill: false,
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgba(54, 162, 235, 0.2)',
+            backgroundColor: '#F79646',
+            borderColor: '#F79646',
             yAxisID: 'y-axis-2',
           },
         ],
@@ -435,22 +448,22 @@ export default function CostosOperacionales() {
 
     // Grafica #10
     const dataIngreOperAcum = {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
           {
             label: '2019 - costo de ventas',
             data: ingreOperAcumAnt,
             fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            backgroundColor: '#4BACC6',
+            borderColor: '#4BACC6',
             yAxisID: 'y-axis-1',
           },
           {
             label: '2019 - Ingresos Operacionales',
             data: costosVentAcumAnt,
             fill: false,
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgba(54, 162, 235, 0.2)',
+            backgroundColor: '#F79646',
+            borderColor: '#F79646',
             yAxisID: 'y-axis-2',
           },
         ],
@@ -458,22 +471,22 @@ export default function CostosOperacionales() {
 
     // Grafica #11
     const dataCostosVentasAcum = {
-        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
           {
             label: '2020 - costo de ventas',
             data: ingreOperAcumAct,
             fill: false,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            backgroundColor: '#4BACC6',
+            borderColor: '#4BACC6',
             yAxisID: 'y-axis-1',
           },
           {
             label: '2020 - Ingresos Operacionales',
             data: costosVentaAcumAct,
             fill: false,
-            backgroundColor: 'rgb(54, 162, 235)',
-            borderColor: 'rgba(54, 162, 235, 0.2)',
+            backgroundColor: '#F79646',
+            borderColor: '#F79646',
             yAxisID: 'y-axis-2',
           },
         ],
@@ -496,7 +509,7 @@ export default function CostosOperacionales() {
                                     {
                                         loading ? 
                                             <div>
-                                                <Skeleton variant="rect" width={'100%'} height={150} />
+                                                <Skeleton variant="rect" width={'100%'} height={180} />
                                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                     <Skeleton variant="text" width={'40%'}/>
                                                     <Skeleton variant="text" width={'40%'}/>
@@ -504,15 +517,20 @@ export default function CostosOperacionales() {
                                             </div>
                                         :
                                             <div>
+                                                <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                    <div className="itemChart" >
+                                                        <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Costos de Ventas</p>
+                                                    </div>
+                                                </div>
                                                 <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum}/>
                                                 <div className="containerLabelsCharts">
                                                     <div className="itemChart">
                                                         <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                        <p>Ingresos Proyectados</p>
+                                                        <p>Costos Proyectados</p>
                                                     </div>
                                                     <div className="itemChart">
                                                         <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                        <p>Ingresos Reales</p>
+                                                        <p>Costos Reales</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -524,7 +542,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={180} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'25%'}/>
                                                 <Skeleton variant="text" width={'25%'}/>
@@ -535,10 +553,6 @@ export default function CostosOperacionales() {
                                         <div>
                                             <Bar  data={dataIngreVsGas} options={optionsMeses}/>
                                             <div className="containerLabelsCharts">
-                                                <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                    <p>2019</p>
-                                                </div>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#FFB12E'}}></span>
                                                     <p>2020</p>
@@ -553,36 +567,41 @@ export default function CostosOperacionales() {
                                     {
                                         loading ? 
                                             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                <div style={{width: '100%'}}>
-                                                    <Skeleton variant="circle" width={145} height={145} />
-                                                </div>
+                                                <Skeleton variant="circle" width={145} height={145} />
                                             </div>
                                         :
                                             <div style={{display: 'flex'}}>
-                                                <div style={{width: '100%'}}>
-                                                    <Pie data={dataIngresosReales} options={optionsGastosDoughnut}/>
-                                                </div>
+                                                <Doughnut  data={dataIngresosReales} options={optionsGastosDoughnut} height={250}/>
                                             </div>
                                     }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaperVH}>
                                     {
                                         loading ? 
                                             <div>
-                                                <Skeleton variant="rect" width={'100%'} height={150} />
+                                                <Skeleton variant="rect" width={'100%'} height={250} />
                                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                                    <Skeleton variant="text" width={'25%'}/>
-                                                    <Skeleton variant="text" width={'25%'}/>
-                                                    <Skeleton variant="text" width={'25%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
 
                                                 </div>
                                             </div>
                                         :
                                         <div style={{display: 'flex'}}>
                                             <div style={{width: '100%'}}>
-                                                <HorizontalBar data={dataGrafico4} options={optionsStacked}/>
+                                                <Bar data={dataGrafico4} options={optionsStacked} height={120}/>
+                                                <div className="containerLabelsCharts">
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#FF9630'}}></span>
+                                                        <p>Gasto de Personal</p>
+                                                    </div>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#3CBADC'}}></span>
+                                                        <p>Costos de Personal</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     }
@@ -590,12 +609,12 @@ export default function CostosOperacionales() {
                             </Grid>
 
                             {/* Charts */}
-                            <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaperVH}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={250} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -608,14 +627,14 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>UENE</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaUENE} options={optionsBarHorizontal}/>
+                                            <HorizontalBar  data={dataCostoVentaUENE} options={optionsBarHorizontal} height={145}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#31859C'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -623,13 +642,12 @@ export default function CostosOperacionales() {
                                  }
                                 </Paper>
                             </Grid>
-
-                            <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaperVH}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={250} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -642,14 +660,14 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>UENAA</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaUENAA} options={optionsBarHorizontal}/>
+                                            <HorizontalBar  data={dataCostoVentaUENAA} options={optionsBarHorizontal} height={145}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#31859C'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -657,13 +675,12 @@ export default function CostosOperacionales() {
                                  }
                                 </Paper>
                             </Grid>
-
-                            <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaper}>
+                            <Grid item xs={12} md={6} lg={6}>
+                                <Paper className={fixedHeightPaperVH}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={150} />
+                                            <Skeleton variant="rect" width={'100%'} height={250} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -676,19 +693,14 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>TELCO</p>
                                                 </div>
                                             </div>
-                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
-                                                <div className="itemChart" >
-                                                    <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>UENAA</p>
-                                                </div>
-                                            </div>
-                                            <HorizontalBar  data={dataCostoVentaTELCO} options={optionsBarHorizontal}/>
+                                            <HorizontalBar  data={dataCostoVentaTELCO} options={optionsBarHorizontal} height={145}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#31859C'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -696,28 +708,139 @@ export default function CostosOperacionales() {
                                  }
                                 </Paper>
                             </Grid>
-
                             {/* Charts */}
                             
 
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                <Line data={dataIngreOper} options={optionsLines} />
+                                <Paper className={fixedHeightPaperVH}>
+                                    {
+                                        loading ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={250} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                        :
+                                        <div>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Acumulados</p>
+                                                </div>
+                                            </div>
+                                            <Line data={dataIngreOper} options={optionsLines} />
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4BACC6'}}></span>
+                                                    <p>Costos de ventas 2019</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
+                                                    <p>Ingresos Operacionales 2019</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                <Line data={dataCostosVentas} options={optionsLines} />
+                                <Paper className={fixedHeightPaperVH}>
+                                    {
+                                        loading ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={250} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                        :
+                                        <div>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Acumulados</p>
+                                                </div>
+                                            </div>
+                                            <Line data={dataCostosVentas} options={optionsLines} />
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4BACC6'}}></span>
+                                                    <p>Costos de ventas 2020</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
+                                                    <p>Ingresos Operacionales 2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                <Line data={dataIngreOperAcum} options={optionsLines} />
+                                <Paper className={fixedHeightPaperVH}>
+                                    {
+                                        loading ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={250} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                        :
+                                        <div>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Mensualizados</p>
+                                                </div>
+                                            </div>
+                                            <Line data={dataIngreOperAcum} options={optionsLines} />
+                                            <div className="containerLabelsCharts">
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#4BACC6'}}></span>
+                                                    <p>Costos de ventas 2020</p>
+                                                </div>
+                                                <div className="itemChart">
+                                                    <span className="iconList" style={{background: '#F79646'}}></span>
+                                                    <p>Ingresos Operacionales 2020</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightPaper}>
-                                <Line data={dataCostosVentasAcum} options={optionsLines} />
+                                <Paper className={fixedHeightPaperVH}>
+                                    {
+                                        loading ? 
+                                            <div>
+                                                <Skeleton variant="rect" width={'100%'} height={250} />
+                                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                    <Skeleton variant="text" width={'40%'}/>
+                                                </div>
+                                            </div>
+                                    :
+                                            <div>
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                    <div className="itemChart" >
+                                                        <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Mensualizados</p>
+                                                    </div>
+                                                </div>
+                                                <Line data={dataCostosVentasAcum} options={optionsLines} />
+                                                <div className="containerLabelsCharts">
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#4BACC6'}}></span>
+                                                        <p>Costos de ventas 2020</p>
+                                                    </div>
+                                                    <div className="itemChart">
+                                                        <span className="iconList" style={{background: '#F79646'}}></span>
+                                                        <p>Ingresos Operacionales 2020</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
                                 </Paper>
                             </Grid>
                         </Grid>

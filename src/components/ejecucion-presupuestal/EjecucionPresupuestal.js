@@ -42,16 +42,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 240,
     },
     fixedHeightVH: {
-        height: 474,
+        height: 385,
     },
     fixedHeightAjust: {
-        height: 225,
+        height: 180,
     },
     textBreadCrumbs: {
         color: '#365068'
@@ -67,11 +67,11 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Ejecución Presupuestal</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -424,7 +424,7 @@ export default function EjecucionPresupuestal() {
                                         <Paper className={fixedHeightPaperAjust}>
                                             {(loading) ? 
                                                 <div>
-                                                    <Skeleton variant="rect" width={'100%'} height={170} />
+                                                    <Skeleton variant="rect" width={'100%'} height={120} />
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <Skeleton variant="text" width={'40%'}/>
                                                         <Skeleton variant="text" width={'40%'}/>
@@ -437,7 +437,7 @@ export default function EjecucionPresupuestal() {
                                                             <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ejecución acumulada</p>
                                                         </div>
                                                     </div>
-                                                    <HorizontalBar  data={dataEjecucionAcumulada} options={optionsEjecucionAcum} height={60}/>
+                                                    <HorizontalBar  data={dataEjecucionAcumulada} options={optionsEjecucionAcum} height={10}/>
                                                     <div className="containerLabelsCharts">
                                                         <div className="itemChart">
                                                             <span className="iconList" style={{background: '#2DFF2D'}}></span>
@@ -457,7 +457,7 @@ export default function EjecucionPresupuestal() {
                                             {
                                                 loading ? 
                                                     <div>
-                                                        <Skeleton variant="rect" width={'100%'} height={170} />
+                                                        <Skeleton variant="rect" width={'100%'} height={120} />
                                                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                             <Skeleton variant="text" width={'40%'}/>
                                                             <Skeleton variant="text" width={'40%'}/>
@@ -470,7 +470,7 @@ export default function EjecucionPresupuestal() {
                                                                 <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ingresos</p>
                                                             </div>
                                                         </div>
-                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={60}/>
+                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={10}/>
                                                         <div className="containerLabelsCharts">
                                                             <div className="itemChart">
                                                                 <span className="iconList" style={{background: '#36FF36'}}></span>
@@ -491,7 +491,7 @@ export default function EjecucionPresupuestal() {
                                 <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={420} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -523,7 +523,7 @@ export default function EjecucionPresupuestal() {
                                 <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={420} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -561,14 +561,14 @@ export default function EjecucionPresupuestal() {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <div style={{width: '50%'}}>        
-                                                            <Skeleton variant="rect" width={'100%'} height={170} />
+                                                            <Skeleton variant="rect" width={'100%'} height={120} />
                                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                                 <Skeleton variant="text" width={'40%'}/>
                                                                 <Skeleton variant="text" width={'40%'}/>
                                                             </div>
                                                         </div>
                                                         <div style={{width: '40%'}}>
-                                                            <Skeleton variant="circle" width={170} height={170} />
+                                                            <Skeleton variant="circle" width={150} height={150} />
                                                         </div>
                                                     </div>
                                                 :
@@ -596,7 +596,7 @@ export default function EjecucionPresupuestal() {
                                                             </div>
                                                         </div>
                                                         <div style={{width: '50%'}}>
-                                                            <Doughnut data={dataGastosDoughnut} options={optionsGastosDoughnut} height={180}/>
+                                                            <Doughnut data={dataGastosDoughnut} options={optionsGastosDoughnut} height={220}/>
                                                         </div>
                                                     </div>
                                             }
@@ -608,24 +608,24 @@ export default function EjecucionPresupuestal() {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                         <div style={{width: '50%'}}>        
-                                                            <Skeleton variant="rect" width={'100%'} height={170} />
+                                                            <Skeleton variant="rect" width={'100%'} height={140} />
                                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                                 <Skeleton variant="text" width={'40%'}/>
                                                                 <Skeleton variant="text" width={'40%'}/>
                                                             </div>
                                                         </div>
                                                         <div style={{width: '40%'}}>
-                                                            <Skeleton variant="circle" width={170} height={170} />
+                                                            <Skeleton variant="circle" width={150} height={150} />
                                                         </div>
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
                                                         <div style={{width: '50%'}}>
-                                                        <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
-                                                            <div className="itemChart" >
-                                                                <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Inversión</p>
+                                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                                <div className="itemChart" >
+                                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Inversión</p>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                             <HorizontalBar  data={dataInversion} options={optionsGastos} height={140}/>
                                                             <div className="containerLabelsCharts">
                                                                 <div className="itemChart">
@@ -643,7 +643,7 @@ export default function EjecucionPresupuestal() {
                                                             </div>
                                                         </div>
                                                         <div style={{width: '50%'}}>
-                                                            <Doughnut data={dataInversionDoughnut} options={optionsGastosDoughnut} height={180}/>
+                                                            <Doughnut data={dataInversionDoughnut} options={optionsGastosDoughnut} height={220}/>
                                                         </div>
                                                     </div>
                                             }
@@ -655,7 +655,7 @@ export default function EjecucionPresupuestal() {
                                 <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={450} />
+                                            <Skeleton variant="rect" width={'100%'} height={300} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>

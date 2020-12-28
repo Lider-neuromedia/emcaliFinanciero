@@ -50,7 +50,10 @@ const useStyles = makeStyles((theme) => ({
             textAlign: 'left',
             letterSpacing: '1px',
             lineHeight: '17px',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            fontSize: '11.5px',
+            paddingRight: 0,
+            paddingLeft: 0
         },
         "& .MuiTab-textColorPrimary.Mui-selected": {
             color: '#ffffff',

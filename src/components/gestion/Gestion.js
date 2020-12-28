@@ -31,12 +31,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 280,
     },
     heightFull: {
         height: '100%'
+    },
+    fixedHeightVH: {
+        height: 522,
     },
     titleGestion: {
         fontSize: '15px',
@@ -49,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '1px',
         color: '#5c6166',
         marginBottom: '13px'
-    }
+    },
 }));
 
 // Items que iran en el header.
@@ -67,6 +71,7 @@ export const itemsHeader = () => {
 export default function Gestion(){
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [loading, setLoading] = useState(true);
@@ -115,8 +120,6 @@ export default function Gestion(){
                 var infoRendimientoAnt = dataRendimientoAnt_info.rendimiento;
                 var infoEAAnt = dataRendimientoAnt_info.ea;
                 infoRendimientoAnt_data.push(infoRendimientoAnt);
-                // infoEAAnt_data.push(infoEAAnt);
-                // infoEAAnt_data2 = (infoEAAnt * 100).toFixed(2);
             });
             
             dataRendimientoAct.forEach(dataRendimientoAct_info => {
@@ -212,21 +215,38 @@ export default function Gestion(){
     const options = {
         scales: {
             yAxes: [
-                { 
-                    id: 'A', 
-                    type: 'linear', 
-                    position: 'left', 
-                }, 
-                { 
-                    id: 'B', 
-                    type: 'linear', 
-                    position: 'right', 
-                    ticks: { 
-                        max: 9, 
-                        min: 0 
-                    } 
-            }] 
+            { 
+                id: 'A', 
+                type: 'linear', 
+                position: 'left', 
+            }, 
+            { 
+                id: 'B', 
+                type: 'linear', 
+                position: 'right', 
+                ticks: { 
+                    max: 9, 
+                    min: 0 
+                } 
+            }]
         },
+        plugins: {
+            datalabels: {
+                align: 'start',
+                anchor: 'end',
+                offset: -16,
+                font: {
+                    size: 10,
+                },
+                labels: {
+                    id: 'A',
+                    value: {
+                        display: false,
+                        color: '#365068',
+                    }
+                },
+            }
+        }
     }
 
     const dataSaldo = {
@@ -273,15 +293,17 @@ export default function Gestion(){
         title: {
             display: false
         },
+        legend: {
+            display: false
+        },
         tooltips: {enabled: false},
         plugins: {
             datalabels: {
                 align: 'top',
                 padding: 0,
-                // rotation: -90,
                 labels: {
                     value: {
-                        color: '#fff',
+                        color: '#333',
                     }
                 },
                 formatter: function(value, context) {
@@ -321,6 +343,18 @@ export default function Gestion(){
 
     const optionsFiduciarias = {
         tooltips: {enabled: false},
+        legend: {
+            display: true,
+            labels: {
+                fontSize: 10,
+            }
+        },
+        layout: {
+            padding: {
+                top: 0,
+                bottom: 0
+            }
+        },
         plugins: {
             datalabels: {
                 color: '#365068',
@@ -353,7 +387,12 @@ export default function Gestion(){
                     <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={8} lg={8}>
-                                <Paper className={classes.heightFull}>
+                                <Paper className={fixedHeightPaperVH}>
+                                    <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                        <div className="itemChart" >
+                                            <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Rendimientos FIC</p>
+                                        </div>
+                                    </div>
                                     <Bar data={genData} options={options} />
                                 </Paper>
                             </Grid>
@@ -371,7 +410,12 @@ export default function Gestion(){
                                             </div>
                                          :
                                          <div>
-                                            <Bar data={dataSaldo} height={350} options={optionsSaldo} />
+                                            <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                <div className="itemChart" >
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Saldo</p>
+                                                </div>
+                                            </div>
+                                            <Bar data={dataSaldo} height={150} options={optionsSaldo} />
                                             <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#CD3C38'}}></span>
@@ -391,14 +435,12 @@ export default function Gestion(){
                                         {
                                             loading ? 
                                                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                    <div style={{width: '100%'}}>
-                                                        <Skeleton variant="circle" width={145} height={145} />
-                                                    </div>
+                                                    <Skeleton variant="circle" width={145} height={145} />
                                                 </div>
                                             :
-                                                <div style={{display: 'flex'}}>
+                                                <div style={{display: 'flex', justifyContent: 'center'}}>
                                                     <div style={{width: '100%'}}>
-                                                        <Pie data={dataFiduciarias} options={optionsFiduciarias}/>
+                                                        <Pie data={dataFiduciarias} options={optionsFiduciarias} hegith={250} width={250}/>
                                                     </div>
                                                 </div>
                                         }

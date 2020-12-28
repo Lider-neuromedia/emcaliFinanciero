@@ -107,6 +107,16 @@ export const optionsInforGeneral = {
         },
         ],
     },
+    plugins: {
+        datalabels: {
+            labels: {
+                value: {
+                    display: false
+                }
+            },
+            
+        }
+    }
 }
 
 export const optionsGroupBar = {

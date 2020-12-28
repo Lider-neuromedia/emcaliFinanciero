@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 180,
@@ -63,11 +64,11 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Gastos</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/>Emcali</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/>Emcali</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -579,7 +580,7 @@ export default function Gastos() {
                                             {
                                                 loading ? 
                                                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                    <Skeleton variant="circle" width={135} height={135} />
+                                                    <Skeleton variant="circle" width={100} height={100} />
                                                 </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -589,7 +590,7 @@ export default function Gastos() {
                                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Gastos</p>
                                                                 </div>
                                                             </div>
-                                                            <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut} height={160}/>
+                                                            <Doughnut data={datagGastosComprocaucom} options={optionsGastosDoughnut} height={180}/>
                                                         </div>
                                                     </div>
                                             }
@@ -600,7 +601,7 @@ export default function Gastos() {
                                             {
                                                 loading ? 
                                                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                    <Skeleton variant="circle" width={135} height={135} />
+                                                    <Skeleton variant="circle" width={100} height={100} />
                                                 </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -610,7 +611,7 @@ export default function Gastos() {
                                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Inversión</p>
                                                                 </div>
                                                             </div>
-                                                            <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut} height={160}/>
+                                                            <Doughnut data={datagInvComprocaucom} options={optionsGastosDoughnut} height={180}/>
                                                         </div>
                                                     </div>
                                             }
@@ -661,7 +662,7 @@ export default function Gastos() {
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <Skeleton variant="circle" width={135} height={135} />
+                                                        <Skeleton variant="circle" width={100} height={100} />
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -700,7 +701,7 @@ export default function Gastos() {
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <Skeleton variant="circle" width={135} height={135} />
+                                                        <Skeleton variant="circle" width={100} height={100} />
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -775,7 +776,7 @@ export default function Gastos() {
                                         <div>
                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                 <div className="itemChart" >
-                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Inversión</p>
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Inversión</p>
                                                 </div>
                                             </div>
                                             <Bar  data={dataIngresos} options={optionsIngreVsGas} height={200}/>
@@ -808,7 +809,7 @@ export default function Gastos() {
                                         <div>
                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                 <div className="itemChart" >
-                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Operación</p>
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Operación</p>
                                                 </div>
                                             </div>
                                             <Bar  data={dataOperacion} options={optionsIngreVsGas} height={200}/>
@@ -841,7 +842,7 @@ export default function Gastos() {
                                         <div>
                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                 <div className="itemChart" >
-                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Funcionamiento</p>
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Funcionamiento</p>
                                                 </div>
                                             </div>
                                             <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={200}/>
@@ -874,7 +875,7 @@ export default function Gastos() {
                                         <div>
                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                 <div className="itemChart" >
-                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Servicio de la Deuda</p>
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Servicio de la Deuda</p>
                                                 </div>
                                             </div>
                                             <Bar  data={dataServicio} options={optionsIngreVsGas} height={200}/>

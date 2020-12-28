@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 350,
@@ -60,7 +61,9 @@ const useStyles = makeStyles((theme) => ({
             letterSpacing: '1px',
             lineHeight: '17px',
             flexDirection: 'row',
-            fontSize: '13px'
+            fontSize: '11.5px',
+            paddingRight: 0,
+            paddingLeft: 0
         },
         "& .MuiTab-textColorPrimary.Mui-selected": {
             color: '#ffffff',
@@ -105,7 +108,6 @@ export const ItemsHeader = (changeFilter) => {
                 variant="fullWidth"
                 className={classes.tabs}
             >
-                {/* <Tab label="Energia" onClick={() => changeTab('UENE')} icon={<img src={UENE} style={{marginRight: '5px', marginBottom: 0}} alt="energia" />}/> */}
                 <Tab label="EMCALI" onClick={changeFilter('all')} icon={<img src={logo} style={{marginRight: '5px', marginBottom: 0, width: '35px'}} alt="energia" />}/>
                 <Tab label="Energia" onClick={changeFilter('energia')} icon={<img src={UENE} style={{marginRight: '5px', marginBottom: 0}} alt="energia" />}/>
                 <Tab label="Acueducto" onClick={changeFilter('acueducto')}  icon={<img src={acueducto} style={{marginRight: '5px', marginBottom: 0}} alt="acueducto" />}/>
@@ -293,17 +295,17 @@ export default function Cartera() {
           {
             label: 'Septiembre 2019',
             data: estratoMesAnt,
-            backgroundColor: '#507FF2',
+            backgroundColor: '#FF0000',
           },
           {
             label: 'Agosto 2020',
             data: estratoMesAct,
-            backgroundColor: '#FFB12E',
+            backgroundColor: '#002060',
           },
           {
             label: 'Septiembre 2020',
             data: estratoMesAct2,
-            backgroundColor: '#F66666',
+            backgroundColor: '#FFFF00',
           },
         ],
     }
@@ -315,22 +317,22 @@ export default function Cartera() {
           {
             label: 'Acueducto',
             data: segmentoAcueducto,
-            backgroundColor: '#2843a3',
+            backgroundColor: '#3B7CCA',
           },
           {
             label: 'Alcantarillado',
             data: segmentoAlcantarillado,
-            backgroundColor: '#912222',
+            backgroundColor: '#CD3B38',
           },
           {
             label: 'Energia',
             data: segmentoEnergia,
-            backgroundColor: '#429550',
+            backgroundColor: '#9CC646',
           },
           {
             label: 'Telco',
             data: segmentoTelco,
-            backgroundColor: '#6d4295',
+            backgroundColor: '#7B57A8',
           },
         ],
     }
@@ -342,22 +344,22 @@ export default function Cartera() {
           {
             label: 'Acueducto',
             data: carteraAcueducto,
-            backgroundColor: '#2843a3',
+            backgroundColor: '#3B7CCA',
           },
           {
             label: 'Alcantarillado',
             data: carteraAlcantarillado,
-            backgroundColor: '#912222',
+            backgroundColor: '#CD3B38',
           },
           {
             label: 'Energia',
             data: carteraEnergia,
-            backgroundColor: '#429550',
+            backgroundColor: '#9CC646',
           },
           {
             label: 'Telco',
             data: carteraTelco,
-            backgroundColor: '#6d4295',
+            backgroundColor: '#7B57A8',
           },
         ],
     }
@@ -423,19 +425,19 @@ export default function Cartera() {
                                                     <Bar data={dataSegmentos} height={105} options={optionsGroupBar} />
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#2843a3'}}></span>
+                                                            <span className="iconList" style={{background: '#3B7CCA'}}></span>
                                                             <p>Acueducto</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#912222'}}></span>
+                                                            <span className="iconList" style={{background: '#CD3B38'}}></span>
                                                             <p>Alcantarillado</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#429550'}}></span>
+                                                            <span className="iconList" style={{background: '#9CC646'}}></span>
                                                             <p>Energia</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#6d4295'}}></span>
+                                                            <span className="iconList" style={{background: '#7B57A8'}}></span>
                                                             <p>Telco</p>
                                                         </div>
                                                     </div>
@@ -458,19 +460,19 @@ export default function Cartera() {
                                                     <Bar data={dataCartera} height={105} options={optionsGroupBar} />
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                            <span className="iconList" style={{background: '#3B7CCA'}}></span>
                                                             <p>Acueducto</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                            <span className="iconList" style={{background: '#CD3B38'}}></span>
                                                             <p>Alcantarillado</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: 'red'}}></span>
+                                                            <span className="iconList" style={{background: '#9CC646'}}></span>
                                                             <p>Energia</p>
                                                         </div>
                                                         <div className="itemChart">
-                                                            <span className="iconList" style={{background: 'green'}}></span>
+                                                            <span className="iconList" style={{background: '#7B57A8'}}></span>
                                                             <p>Telco</p>
                                                         </div>
                                                     </div>

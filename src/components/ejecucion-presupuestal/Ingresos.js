@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 240,
@@ -58,11 +59,11 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Ingresos</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-            <Button style={{ padding: '0 2em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
-                <Button style={{ padding: '0 2em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
-                <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
+            <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
     );
@@ -391,7 +392,7 @@ export default function Ingresos() {
                                                         <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ejecución acumulada</p>
                                                     </div>
                                                 </div>
-                                                <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={70}/>
+                                                <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={40}/>
                                                 <div className="containerLabelsCharts">
                                                     <div className="itemChart">
                                                         <span className="iconList" style={{background: '#2DFF2D'}}></span>
@@ -449,7 +450,7 @@ export default function Ingresos() {
                                     {
                                         loading ? 
                                             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                <Skeleton variant="circle" width={200} height={200} />
+                                                <Skeleton variant="circle" width={120} height={120} />
                                             </div>
                                         :
                                             <div>
@@ -488,7 +489,7 @@ export default function Ingresos() {
                                     {
                                         loading ? 
                                             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                <Skeleton variant="circle" width={200} height={200} />
+                                                <Skeleton variant="circle" width={120} height={120} />
                                             </div>
                                         :
                                             <div>
@@ -538,7 +539,7 @@ export default function Ingresos() {
                                             <div>
                                                 <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                     <div className="itemChart" >
-                                                        <p style={{fontSize: '16px', fontWeight: 'bold'}}>Disponibilidad Inicial</p>
+                                                        <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Disponibilidad Inicial</p>
                                                     </div>
                                                 </div>
                                                 <Bar  data={dataDisponibilidadInicial} options={optionsIngreVsGas}/>
@@ -571,7 +572,7 @@ export default function Ingresos() {
                                             <div>
                                                 <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                     <div className="itemChart" >
-                                                        <p style={{fontSize: '16px', fontWeight: 'bold'}}>Ingresos Corrientes</p>
+                                                        <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Ingresos Corrientes</p>
                                                     </div>
                                                 </div>
                                                 <Bar  data={dataIngresosCorrientes} options={optionsIngreVsGas}/>
@@ -604,7 +605,7 @@ export default function Ingresos() {
                                         <div>
                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
                                                 <div className="itemChart" >
-                                                    <p style={{fontSize: '16px', fontWeight: 'bold'}}>Ingresos de Capital</p>
+                                                    <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Ingresos de Capital</p>
                                                 </div>
                                             </div>
                                             <Bar  data={dataIngresosCapital} options={optionsIngreVsGas}/>

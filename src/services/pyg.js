@@ -221,7 +221,6 @@ export const filterColumnMesTipoIngreso = (data, anio, nombreGerencia, mes, tipo
         // Retorna data con validaciones.
         return (e.anio_ingreso == anio && validateNomGerencia && e.mes_ingreso === mes && validateTipo && validatetipoIngreso);
     });
-    console.log(dataFilter);
     const sumData = dataFilter.reduce((a, b) => {
         return a + (b.valor_ingreso || 0);
     }, 0);
@@ -290,11 +289,12 @@ export const filterColumnMesTipoGastosOper = (data, anio, nombreGerencia, mes, t
 export const filterMes = (data, anio, tipo, nombreGerencia, mes) => {
     const dataFilter = data.filter((e) => {
 
-        // var validateTipo = e.tipo_ingreso.toLowerCase() === tipo.toLowerCase();
-
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres.
+        var validateNomGerencia = false;
         if(nombreGerencia !== 'all'){
-            var validateNomGerencia = e.gerencia_ingreso.toLowerCase() === nombreGerencia.toLowerCase();
+            if(e.gerencia_ingreso){
+                var validateNomGerencia = e.gerencia_ingreso.toLowerCase() === nombreGerencia.toLowerCase();
+            }
         }else{
             var validateNomGerencia = true;
         }
@@ -372,22 +372,23 @@ export const filterMesCostos = (data, anio, tipo, nombreGerencia, mes) => {
 
 export const filterMesAcum = (data, anio, tipo, nombreGerencia, mes) => {
     const dataFilter = data.filter((e) => {
-
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres.
+
+        var validateNomGerencia = false;
         if(nombreGerencia !== 'all'){
-            var validateNomGerencia = e.gerencia_ingreso.toLowerCase() === nombreGerencia.toLowerCase();
+            if(e.gerencia_ingreso){
+                var validateNomGerencia = e.gerencia_ingreso.toLowerCase() === nombreGerencia.toLowerCase();
+            }
         }else{
             var validateNomGerencia = true;
         }
-        
         var validateTipo = false;
         if(e.tipo_ingreso !== undefined){
             validateTipo = e.tipo_ingreso.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
         }
 
-        return (e.anio_ingreso === anio && validateNomGerencia && validateTipo && e.mes_ingreso === mes);
-    });
-
+        return (e.anio_ingreso === anio && validateTipo && validateNomGerencia && e.mes_ingreso === mes);
+    }); 
     // Suma de todos los elementos en la columna valor que vengan en dataFilter.
     const sumData = dataFilter.reduce((a, b) => {
         return a + (b.valor_ingreso || 0);
@@ -671,6 +672,11 @@ export const optionsGroupBar = {
     legend: {
         display: false
     },
+    layout: {
+        padding: {
+            bottom: 10
+        }
+    },
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
@@ -708,7 +714,7 @@ export const optionsEjecucionAcum = {
             }
         }],
         yAxes: [{
-            display: false,
+            display: true,
             ticks: {
                 beginAtZero: true,
             },
@@ -716,10 +722,25 @@ export const optionsEjecucionAcum = {
                 display:false
             }
         }],
+        
+    },
+    title: {
+        display: false
+    },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10
+        }
     },
     tooltips: {enabled: false},
     plugins: {
         datalabels: {
+            font: {
+                size: 11,
+            },
             color: '#365068',
             align: 'left',
             padding: 0,
@@ -730,6 +751,7 @@ export const optionsEjecucionAcum = {
                 value: {
                     color: '#365068',
                 }
+                
             },
             formatter: function(value, context) {
                 var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
@@ -742,6 +764,11 @@ export const optionsEjecucionAcum = {
 
 export const optionsGastosDoughnut = {
     tooltips: {enabled: false},
+    layout: {
+        padding: {
+            top: 10
+        }
+    },
     plugins: {
         datalabels: {
             color: '#365068',
@@ -785,20 +812,34 @@ export const optionsMeses = {
     title: {
         display: false
     },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10,
+            top: 50
+        }
+    },
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'center',
-            padding: 0,
+            // align: 'center',
             rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            offset: -50,
+            font: {
+                size: 11,
+            },
             labels: {
                 value: {
                     color: '#365068',
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 // if (currencyFormat.length >= 7) {
                 //     return currencyFormat.substring(0, 11);
                 // }else{
@@ -834,6 +875,15 @@ export const optionsStacked = {
         },
       ],
     },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10,
+            top: 10
+        }
+    },
     plugins: {
         datalabels: {
             color: '#365068',
@@ -847,9 +897,10 @@ export const optionsStacked = {
                     color: '#365068',
                 }
             },
-            // formatter: function(value, context) {
-            //     return value + '%';
-            // }
+            formatter: function(value, context) {
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
+                return currencyFormat;
+            }
         }
     }
   }
@@ -906,35 +957,55 @@ export const optionsStacked = {
                 beginAtZero: true,
             },
             gridLines: {
-                display:false
+                display:false,
             }
         }],
         yAxes: [{
             display: true,
             ticks: {
                 beginAtZero: true,
+                paddingTop: 5,
+                paddingBottom: 5,
             },
             gridLines: {
-                display:false
-            }
+                display:false,
+                tickMarkLength: 10,
+            },
         }],
     },
     tooltips: {enabled: false},
+    title: {
+        display: false
+    },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10,
+            right: 50,
+            left: 50
+        }
+    },
     plugins: {
         datalabels: {
             color: '#365068',
-            align: 'left',
             padding: 0,
+            // rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            offset: -50,
             labels: {
                 title: {
                     horizontalAlign: 'left', 
+                    lineHeight: 1
                 },
                 value: {
                     color: '#365068',
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 return currencyFormat;
             }
         }
@@ -946,19 +1017,67 @@ export const optionsLines = {
       yAxes: [
         {
           type: 'linear',
-          display: false,
+          display: true,
           position: 'left',
           id: 'y-axis-1',
+          lineTension: 0
         },
         {
           type: 'linear',
-          display: false,
+          display: true,
           position: 'right',
           id: 'y-axis-2',
-          gridLines: {
-            drawOnArea: false,
-          },
+          lineTension: 0
+        //   gridLines: {
+        //     drawOnArea: true,
+        //   },
         },
       ],
     },
+    legend: {
+        display: false
+    },
+    layout: {
+        padding: {
+            bottom: 10,
+            top: 25,
+            left: 0,
+            right: 0
+        }
+    },
+    elements: {
+        line: {
+            tension: 0 // disables bezier curves
+        }
+    },
+    plugins: {
+        datalabels: {
+            // display: false,
+            // id: 'y-axis-1',
+            color: '#365068',
+            padding: 0,
+            lineTension: 0,
+            // rotation: -90,
+            align: 'end',
+            anchor: 'end',
+            // offset: -10,
+            labels: {
+                title: {
+                    // horizontalAlign: 'left', 
+                },
+                value: {
+                    color: '#365068',
+                }
+            },
+            formatter: function(value, context) {
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
+                return currencyFormat;
+            }
+        },
+        // datalabels: {
+        //     id: 'y-axis-2',
+        //     align: 'start',
+        //     anchor: 'start',
+        // }
+    }
 }

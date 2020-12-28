@@ -152,6 +152,20 @@ export const optionsInforGeneral = {
         },
         ],
     },
+    plugins: {
+        datalabels: {
+            labels: {
+                value: {
+                    display: false,
+                    color: '#365068',
+                }
+            },
+            formatter: function(value, context) {
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
+                return currencyFormat;
+            }
+        }
+    }
 }
 
 
@@ -192,12 +206,7 @@ export const optionsGroupBarHorizontal = {
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
-                // if (currencyFormat.length >= 7) {
-                //     return currencyFormat.substring(0, 11);
-                // }else{
-                //     return currencyFormat;
-                // }
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 return currencyFormat;
             }
         }
@@ -242,12 +251,7 @@ export const optionsGroupBar = {
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
-                // if (currencyFormat.length >= 7) {
-                //     return currencyFormat.substring(0, 11);
-                // }else{
-                //     return currencyFormat;
-                // }
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 return currencyFormat;
             }
         }

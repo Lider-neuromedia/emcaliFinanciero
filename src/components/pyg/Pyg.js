@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 333,
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         height: 185
     },
     heightAuto : {
-        height: 'auto'
+        height: 214
     }
 }));
 
@@ -72,6 +73,7 @@ export default function Pyg() {
 
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaperVH = clsx(classes.paper, classes.heightAuto);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [ingresosOpera, setIngresosOpera] = useState({ anio_ant : 0, anio_act : 0});
@@ -439,7 +441,7 @@ export default function Pyg() {
                             <Grid item xs={12} md={2} lg={2}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                        <Paper className={fixedHeightPaperVH} style={{padding: 10}}>
                                         {(loading) ? 
                                             <div>
                                                 <Skeleton variant="rect" width={'100%'} height={174} />
@@ -471,7 +473,7 @@ export default function Pyg() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                        <Paper className={fixedHeightPaperVH} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
                                                     <Skeleton variant="rect" width={'100%'} height={174} />
@@ -503,7 +505,7 @@ export default function Pyg() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={classes.heightAuto} style={{padding: 10}}>
+                                        <Paper className={fixedHeightPaperVH} style={{padding: 10}}>
                                             {(loading) ? 
                                                 <div>
                                                     <Skeleton variant="rect" width={'100%'} height={174} />

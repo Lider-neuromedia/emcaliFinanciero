@@ -31,9 +31,13 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+        justifyContent: 'space-around',
     },
     fixedHeight: {
         height: 240,
+    },
+    fixedHeightVH: {
+        height: 300,
     },
 }));
 
@@ -195,7 +199,8 @@ export default function CostosOperacionales() {
         // Grafica #5
         var grafico4_anio_act1 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, 'Septiembre', 'Costos Reales', 'Costos de Personal');
         var grafico4_anio_act2 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, 'Septiembre', 'Gastos Reales', 'Gasto de Personal');
-        setgrafico4_anioAct({valueOne : grafico4_anio_act1, valueTwo : grafico4_anio_act2});
+        var total = Math.round(grafico4_anio_act1 + grafico4_anio_act2);
+        setgrafico4_anioAct({valueOne :  Math.round((grafico4_anio_act1 * 100) / total, -1), valueTwo : Math.round((grafico4_anio_act2 * 100) / total, -1)});
 
         // Grafica #6
         GastosOperUENE.forEach(gastoOperUENE => {
@@ -241,19 +246,19 @@ export default function CostosOperacionales() {
 
     // Grafica #1
     const dataIngresosAnios = {
-        labels: ['2019', '2019', '2020'],
+        labels: ['2019', '2020', '2020'],
         datasets: [{
             label: [''],
             data: [ingresosAnioAnt.proyectadosAnt_data, ingresosAnioAnt.realesAnt_data, ingresosAnioAnt.realesAct_data],
             backgroundColor: [
-                '#507FF2',
-                '#FFB12E',
-                '#507FF2',
+                '#CC0505',
+                '#052569',
+                '#CC0505',
             ],
             borderColor: [
-                '#507FF2',
-                '#FFB12E',
-                '#507FF2',
+                '#CC0505',
+                '#052569',
+                '#CC0505',
             ],
             borderWidth: 1
         }]
@@ -266,12 +271,12 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: ingresosOpeAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#3C77BE',
           },
           {
             label: '2020',
             data: ingresosOpeAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#CB0505',
           },
         ],
     }
@@ -283,19 +288,19 @@ export default function CostosOperacionales() {
         {
             label: '2019',
             data: mensualizadosRestAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#3C77BE',
         },
         {
             label: '2020',
             data: mensualizadosRestAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#CB0505',
         },
         ],
     }
 
     // Grafica #4
     const dataIngresosReales = {
-        labels: ['Telco', 'UENAA', 'UENE'],
+        labels: ['TELCO', 'UENAA', 'UENE'],
         datasets: [
         {
             label: '',
@@ -322,12 +327,12 @@ export default function CostosOperacionales() {
           {
             label: 'Gasto de Personal',
             data: [grafico4_act.valueOne],
-            backgroundColor: '#A02F2C',
+            backgroundColor: '#4283D2',
           },
           {
             label: 'Costos de Personal',
             data: [grafico4_act.valueTwo],
-            backgroundColor: '#6C4C92',
+            backgroundColor: '#C33D3A',
           },
         ],
       }
@@ -339,12 +344,12 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: uenecoAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#558ED5',
           },
           {
             label: '2020',
             data: uenecoAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#C00000',
           },
         ],
     }
@@ -356,12 +361,12 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: uenaacoAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#558ED5',
           },
           {
             label: '2020',
             data: uenaacoAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#C00000',
           },
         ],
     }
@@ -373,12 +378,12 @@ export default function CostosOperacionales() {
           {
             label: '2019',
             data: telcocoAnt,
-            backgroundColor: '#FFC503',
+            backgroundColor: '#558ED5',
           },
           {
             label: '2020',
             data: telcocoAct,
-            backgroundColor: '#2119C8',
+            backgroundColor: '#C00000',
           },
         ],
     }
@@ -407,15 +412,20 @@ export default function CostosOperacionales() {
                                             </div>
                                         :
                                             <div>
+                                                <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'center'}}>
+                                                    <div className="itemChart" >
+                                                        <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Gastos Operacionales</p>
+                                                    </div>
+                                                </div>
                                                 <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum}/>
                                                 <div className="containerLabelsCharts">
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#507FF2'}}></span>
-                                                        <p>Ingresos Proyectados</p>
+                                                        <span className="iconList" style={{background: '#CC0505'}}></span>
+                                                        <p>Gastos Proyectados</p>
                                                     </div>
                                                     <div className="itemChart">
-                                                        <span className="iconList" style={{background: '#FFB12E'}}></span>
-                                                        <p>Ingresos Reales</p>
+                                                        <span className="iconList" style={{background: '#052569'}}></span>
+                                                        <p>Gastos Reales</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -444,11 +454,11 @@ export default function CostosOperacionales() {
                                             <Bar  data={dataIngreVsGas} options={optionsMeses}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#3C77BE'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#CB0505'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -478,11 +488,11 @@ export default function CostosOperacionales() {
                                             <Bar  data={dataMensualizados} options={optionsMeses}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#3C77BE'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#CB0505'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -502,7 +512,7 @@ export default function CostosOperacionales() {
                                         :
                                             <div style={{display: 'flex'}}>
                                                 <div style={{width: '100%'}}>
-                                                    <Pie data={dataIngresosReales} options={optionsGastosDoughnut}/>
+                                                    <Doughnut data={dataIngresosReales} options={optionsGastosDoughnut}/>
                                                 </div>
                                             </div>
                                     }
@@ -530,7 +540,6 @@ export default function CostosOperacionales() {
                                     }
                                 </Paper>
                             </Grid>
-
                             <Grid item xs={12} md={4} lg={4}>
                                 <Paper className={fixedHeightPaper}>
                                 {
@@ -552,11 +561,11 @@ export default function CostosOperacionales() {
                                             <HorizontalBar  data={dataCostoVentaUENE} options={optionsBarHorizontal}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#558ED5'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#C00000'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -586,11 +595,11 @@ export default function CostosOperacionales() {
                                             <HorizontalBar  data={dataCostoVentaUENAA} options={optionsBarHorizontal}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#558ED5'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#C00000'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
@@ -619,11 +628,11 @@ export default function CostosOperacionales() {
                                             <HorizontalBar  data={dataCostoVentaTelco} options={optionsBarHorizontal}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#FFB12E'}}></span>
+                                                    <span className="iconList" style={{background: '#558ED5'}}></span>
                                                     <p>2019</p>
                                                 </div>
                                                 <div className="itemChart">
-                                                    <span className="iconList" style={{background: '#507FF2'}}></span>
+                                                    <span className="iconList" style={{background: '#C00000'}}></span>
                                                     <p>2020</p>
                                                 </div>
                                             </div>
