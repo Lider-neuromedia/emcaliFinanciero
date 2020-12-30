@@ -116,7 +116,7 @@ export default function Gastos() {
 
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('http://127.0.0.1:8000/api/download-template/ejecucion_presupuestal', function (data, err) {
+        loadServerExcel('https://pruebasneuro.co/N-1006/api/download-template/ejecucion_presupuestal', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
         });
@@ -534,7 +534,7 @@ export default function Gastos() {
                     <Container maxWidth="lg" className={classes.container}>
                         <Grid container spacing={3}>
                             {/* Chart */}
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
                                         <Paper className={fixedHeightPaper}>
@@ -619,7 +619,8 @@ export default function Gastos() {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
+
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
@@ -655,9 +656,9 @@ export default function Gastos() {
                                     }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4}>
+                            <Grid item xs={12} md={12} lg={12}>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={12} md={6} lg={6}>
+                                    <Grid item xs={12} md={4} lg={4}>
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
@@ -672,7 +673,7 @@ export default function Gastos() {
                                                                     <p style={{fontSize: '16px', fontWeight: 'bold'}}>2019</p>
                                                                 </div>
                                                             </div>
-                                                            <Pie data={dataPieAnt} options={optionsGastosDoughnut} height={150}/>
+                                                            <Pie data={dataPieAnt} options={optionsGastosDoughnut} height={120}/>
                                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                                                 <div className="itemChart">
                                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -696,7 +697,7 @@ export default function Gastos() {
                                             }
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs={12} md={6} lg={6}>
+                                    <Grid item xs={12} md={4} lg={4}>
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
@@ -711,7 +712,7 @@ export default function Gastos() {
                                                                     <p style={{fontSize: '16px', fontWeight: 'bold'}}>2020</p>
                                                                 </div>
                                                             </div>
-                                                            <Pie data={dataPieAct} options={optionsGastosDoughnut} height={150}/>
+                                                            <Pie data={dataPieAct} options={optionsGastosDoughnut} height={120}/>
                                                             <div className="containerLabelsCharts" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                                                 <div className="itemChart">
                                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -735,7 +736,7 @@ export default function Gastos() {
                                             }
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs={12} md={12} lg={12}>
+                                    <Grid item xs={12} md={4} lg={4}>
                                         <Paper className={fixedHeightPaper}>
                                             {
                                                 loading ? 
@@ -761,7 +762,7 @@ export default function Gastos() {
                             </Grid>
                             
                             {/* Charts */}                       
-                            <Grid item xs={12} md={3} lg={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
@@ -779,7 +780,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Inversión</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={150}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -794,7 +795,7 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={3} lg={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
@@ -812,7 +813,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Operación</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataOperacion} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataOperacion} options={optionsIngreVsGas} height={150}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -827,7 +828,7 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={3} lg={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
@@ -845,7 +846,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Funcionamiento</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={150}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -860,7 +861,7 @@ export default function Gastos() {
                                  }
                                 </Paper>
                             </Grid>
-                            <Grid item xs={12} md={3} lg={3}>
+                            <Grid item xs={12} md={6} lg={6}>
                                 <Paper className={fixedHeightMedium}>
                                 {
                                     loading ? 
@@ -878,7 +879,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Servicio de la Deuda</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataServicio} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataServicio} options={optionsIngreVsGas} height={150}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>

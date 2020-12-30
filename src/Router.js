@@ -20,7 +20,7 @@ import Actualizar from './components/configuracion/Actualizar';
 export default function Router() {
 
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/N-1005">
             <Switch>
                 {/* Inicio */}
                 <Route exact path="/"> 

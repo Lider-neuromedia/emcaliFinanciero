@@ -1,8 +1,8 @@
 import * as XLSX from 'xlsx';
 
 const services = {
-    baseUrl : 'http://127.0.0.1:8000/api/',
-    webUrl : 'http://127.0.0.1:8000/',
+    baseUrl : 'https://pruebasneuro.co/N-1006/api/',
+    webUrl : 'https://pruebasneuro.co/N-1006/',
     configAutorization : {
         headers : {
             Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -4,7 +4,7 @@ import * as XLSX from 'xlsx';
 export default function Upload(){
 
     const loadServerExcel = () => {
-        let url = 'http://127.0.0.1:8000/api/download-template';
+        let url = 'https://pruebasneuro.co/N-1006/api/download-template';
         let req = new XMLHttpRequest();
         req.open("GET", url, true);
         req.responseType = "arraybuffer";

@@ -113,7 +113,7 @@ export default function EjecucionPresupuestal() {
     // Hace la petición de carga que trae la informacion del excel desde el backend.
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('http://127.0.0.1:8000/api/download-template/ejecucion_presupuestal', function (data, err) {
+        loadServerExcel('https://pruebasneuro.co/N-1006/api/download-template/ejecucion_presupuestal', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
         });

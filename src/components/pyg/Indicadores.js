@@ -100,7 +100,7 @@ export default function Indicadores() {
     
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('http://127.0.0.1:8000/api/download-template/indicadores', function (data, err) {
+        loadServerExcel('https://pruebasneuro.co/N-1006/api/download-template/indicadores', function (data, err) {
             setDataExcel(data.data);
             loadTable(data.data);
         });
