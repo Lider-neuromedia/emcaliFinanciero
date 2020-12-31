@@ -151,7 +151,7 @@ export default function Cartera() {
     // Hace la petición de carga que trae la informacion del excel desde el backend.
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('https://pruebasneuro.co/N-1006/api/download-template/cartera', function (data, err) {
+        loadServerExcel(services.baseUrl + 'download-template/cartera', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
         });

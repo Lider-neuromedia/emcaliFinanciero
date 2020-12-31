@@ -179,7 +179,7 @@ export default function Header(props) {
     const [openEjecPresupuestal, setOpenEjecPresupuestal] = React.useState((props.active === 'ejecucion_pres') ? true : false); //Open list Ejecucion presupuestal.
     const [openPyG, setOpenPyG] = React.useState((props.active === 'pyg') ? true : false); //Open list PyG.
     const [itemActive, setItemActive] = React.useState((props.active) ? props.active : 'ejecucion_pres');
-    const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : ''});
+    const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : '', rol : ''});
     const [anchorEl, setAnchorEl] = React.useState(null);
     let history = useHistory();
 
@@ -262,14 +262,17 @@ export default function Header(props) {
                         Menú
                     </Typography>
 
-                    <Link to="/configuracion">
+                    {user.rol === 1 &&
+                        <Link to="/configuracion">
                         <Button
                             className={classes.button}
                             startIcon={<img src={settings} alt="configuración" />}
                         >
                             Configuración
                         </Button>
-                    </Link>
+                    </Link>                    
+                    }
+
                     <Button
                         className={classes.button}
                         startIcon={<img src={shape} alt="usuario"/>}

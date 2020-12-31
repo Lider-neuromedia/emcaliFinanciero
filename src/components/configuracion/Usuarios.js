@@ -350,6 +350,7 @@ export default function Usuarios() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [openDrawer, setOpenDrawer] = useState(false);
     const [value, setValue] = useState(0);
+    const [userSession, setUserSession] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : '', rol : ''});
 
     // Usuarios
     const [users, setUsers] = useState([]);
@@ -744,6 +745,9 @@ export default function Usuarios() {
         (!services.sesionActive) ?
             <Redirect to="/" />
          :
+            (userSession.rol !== 1 ) ?         
+                <Redirect to="/" />
+            :
             <div className={classes.root}>
                 <Header itemsHeader={() => ItemsHeader(toggleDrawer, editUser, deleteUser)} />
 

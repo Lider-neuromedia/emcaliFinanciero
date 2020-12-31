@@ -1,8 +1,8 @@
 import * as XLSX from 'xlsx';
 
 const services = {
-    baseUrl : 'https://pruebasneuro.co/N-1006/api/',
-    webUrl : 'https://pruebasneuro.co/N-1006/',
+    baseUrl : process.env.REACT_APP_API_URL,
+    webUrl : process.env.REACT_APP_WEB_URL,
     configAutorization : {
         headers : {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -24,6 +24,7 @@ export const setSesionActive = (active) => {
 export const loadServerExcel = (url, done) => {
     let req = new XMLHttpRequest();
     req.open("GET", url, true);
+    req.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
     req.responseType = "arraybuffer";
     
     req.onload = function(e){
