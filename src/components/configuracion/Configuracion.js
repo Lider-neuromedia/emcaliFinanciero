@@ -77,11 +77,15 @@ export default function Configuracion(){
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [isHover, setisHover] = useState('');
-
+    const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : '', rol : ''});
+    
     return (
         (!services.sesionActive) ?
             <Redirect to="/" />
          :
+            (user.rol !== 1 ) ?         
+                <Redirect to="/" />
+            :
             <div className={classes.root}>
                 <Header itemsHeader={itemsHeader}/>
                 <main className={classes.content}>

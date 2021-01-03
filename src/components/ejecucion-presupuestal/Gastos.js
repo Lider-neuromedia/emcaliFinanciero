@@ -114,7 +114,7 @@ export default function Gastos() {
 
     const loadDataExcel = () => {
         // Carga del excel.
-        loadServerExcel('https://pruebasneuro.co/N-1006/api/download-template/ejecucion_presupuestal', function (data, err) {
+        loadServerExcel(services.baseUrl + 'download-template/ejecucion_presupuestal', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
         });

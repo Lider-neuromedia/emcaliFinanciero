@@ -100,6 +100,7 @@ export default function Actualizar(){
     const [moduleSelect, setModuleSelect] = useState(null);
     const [message, setMessage] = useState({type: 'default', message: ''});
     const [openMessage, setOpenMessage] = useState(false);
+    const [user, setUser] = React.useState((localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {nombres : '', apellidos : '', rol : ''});
 
     const onChangeFile = (name) => (event) => {
         var file = event.target.files[0];
@@ -139,6 +140,9 @@ export default function Actualizar(){
         (!services.sesionActive) ?
             <Redirect to="/" />
          :
+            (user.rol !== 1 ) ?         
+                <Redirect to="/" />
+            :
             <div className={classes.root}>
                 <Header itemsHeader={itemsHeader}/>
                 <main className={classes.content}>
