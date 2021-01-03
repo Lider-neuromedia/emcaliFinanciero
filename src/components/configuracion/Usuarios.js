@@ -510,6 +510,7 @@ export default function Usuarios() {
             response => {
                 var data = response.data;
                 if (data.response === 'success' && data.status === 200) {
+                    console.log(data);
                     setOpenMessage({
                         open: true,
                         message: 'Usuario creado de manera correcta.',

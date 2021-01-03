@@ -93,7 +93,7 @@ function Login() {
                             </div>  
                             <form onSubmit={submitLogin}>
                                 {/* Inputs */}
-                                <TextField className={classes.inputCustom} value={email} type="email" id="email" label="Correo electronico"required={true} onChange={(element) => setEmail(element.target.value)}/>
+                                <TextField className={classes.inputCustom} value={email} type="email" id="email" label="Correo electrónico"required={true} onChange={(element) => setEmail(element.target.value)}/>
                                 <TextField className={classes.inputCustom} value={password} type="password" id="password" label="Contraseña" required={true} onChange={(element) => setPassword(element.target.value)}/>
                                 
                                 <div style={{width: '100%', display: 'flex', justifyContent : 'center'}}>

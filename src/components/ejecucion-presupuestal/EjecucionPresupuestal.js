@@ -159,13 +159,13 @@ export default function EjecucionPresupuestal() {
         var recaudados_anio_act = filterMesesGroup(data, 2020, 'Ingresos Recaudados', nombre_gerencia, meses);
         
         // Grafica # 5 - Gastos Causados, Comprometidos, Proyectados.
-        var gastos_causados_5 = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses);
+        var gastos_causados = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses);
         var gastos_comprometidos = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses);
         var gastos_proyectados = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses);
 
         // Grafica # 6 - Vs entre comprometidos y proyectados & causados y comprometidos.
         var gastosComproVsProy = Math.round((gastos_comprometidos / gastos_proyectados) * 100, -1);
-        var gastosCausVsComp = Math.round((gastos_causados_5 / gastos_comprometidos) * 100, -1);
+        var gastosCausVsComp = Math.round((gastos_causados / gastos_comprometidos) * 100, -1);
         
         // Grafica # 7 - Inversion.
         var inv_causados = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, true);
@@ -190,7 +190,7 @@ export default function EjecucionPresupuestal() {
         setGastos({
             proyectados : gastos_proyectados, 
             comprometidos : gastos_comprometidos, 
-            causados: gastos_causados_5
+            causados: gastos_causados
         });
 
         setInversion({

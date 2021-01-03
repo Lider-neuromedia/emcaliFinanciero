@@ -107,8 +107,6 @@ export default function Gastos() {
 
     const [servicioAnterior, setGastos_servicio_anterior] = useState([]);
     const [servicioAct, setGastos_servicio_act] = useState([]);
-    // const [comprometidos2020, setComprometidos2020] = useState([]);
-    // const [causados2020, setCausados2020] = useState([]);
 
     useEffect(() => {
         loadDataExcel();
@@ -139,25 +137,6 @@ export default function Gastos() {
 
         var dataGastos_servicioAnt= [];
         var dataGastos_servicioAct = [];
-        // var disponibilidad_inicial_anio_anterior_data = [];
-        // var disponibilidad_inicial_anio_act_data = [];
-
-        // var ingresos_corrientes_anio_anterior_data = [];
-        // var ingresos_corrientes_anio_act_data = [];
-
-        // var ingresos_capital_anio_anterior_data = [];
-        // var ingresos_capital_anio_act_data = [];
-        
-        // // Grafica #1
-        // var recaudados_anio_anterior = filterMesesGroup(data, 2019, 'Ingresos Recaudados', nombre_gerencia, meses);
-        // var proyectados_anio_act = filterMesesGroup(data, 2020, 'Ingresos Proyectados', nombre_gerencia, meses);
-        // var recaudados_anio_act = filterMesesGroup(data, 2020, 'Ingresos Recaudados', nombre_gerencia, meses);
-        
-        // setIngresosAnioAnt({
-        //     recaudadosAnt : recaudados_anio_anterior, 
-        //     proyectados : proyectados_anio_act, 
-        //     recaudadosAct: recaudados_anio_act
-        // });
 
         // Grafica #1
         var gastos_proyectados = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses);
@@ -170,13 +149,13 @@ export default function Gastos() {
             Causados: gastos_causados
         });
 
-        // Grafica # 1_1
+        // Grafica # 2
         var gastos_comPro = Math.round((gastos_comprometidos / gastos_proyectados) * 100, -1);
         var gastos_Caucom = Math.round((gastos_causados / gastos_comprometidos) * 100, -1);
 
         setGastosComprocaucom({valueOne : gastos_comPro, valueTwo : gastos_Caucom})
 
-        // Grafica # 1_2
+        // Grafica # 3
         var inv_causados = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, true);
         var inv_comprometidos = filterMesesGroup(data, 2020, 'Gastos Comprometidos', nombre_gerencia, meses, true);
         var inv_proyectados = filterMesesGroup(data, 2020, 'Gastos Proyectados', nombre_gerencia, meses, true);
@@ -186,7 +165,7 @@ export default function Gastos() {
 
         setInvComprocaucom({valueOne : inv_comPro, valueTwo : inv_Caucom})
 
-        // Grafica # 2
+        // Grafica # 4
         var gasto_causados_total_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'all', meses);
         var gastos_causados_corpo_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'corporativo', meses);
         var gastos_causados_uenaa_anio_anterior = filterMesesGroup(data, 2019, 'Gastos Causados', 'uenaa', meses);
@@ -200,7 +179,7 @@ export default function Gastos() {
 
         setGastosCausados_corpo_anioAnt({valueOne : gastos_causados_corpo_anio_anteriorMath, valueTwo : gastos_causados_uenaa_anio_anteriorMath, valueThree : gastos_causados_telco_anio_anteriorMath, valueFour : gastos_causados_uene_anio_anteriorMath})
 
-        // Grafica # 3
+        // Grafica # 5
         var gasto_causados_total_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'all', meses);
         var gastos_causados_corpo_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'corporativo', meses);
         var gastos_causados_uenaa_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', 'uenaa', meses);
@@ -214,7 +193,7 @@ export default function Gastos() {
 
         setGastosCausados_corpo_anioAct({valueOne : gastos_causados_corpo_anio_actMath, valueTwo : gastos_causados_uenaa_anio_actMath, valueThree : gastos_causados_telco_anio_actMath, valueFour : gastos_causados_uene_anio_actMath})
 
-        // Grafica # 4
+        // Grafica # 6
         var nombreGrupo_total_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses);
         var inversion_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, true, false, false, false);
         var servicio_anio_act = filterMesesGroup(data, 2020, 'Gastos Causados', nombre_gerencia, meses, false, true, false, false);
@@ -228,7 +207,7 @@ export default function Gastos() {
 
         setNombreGrupo_totalAct({valueOne : inversion_anio_act_data, valueTwo : operacion_anio_act_data, valueThree : funcionamiento_anio_act_data, valueFour : servicio_anio_act_data})
 
-        // Grafica # 4
+        // Grafica # 7
         meses.forEach(mes => {
             var gastos_proyectados2 = filterMes(data, 2020, 'Gastos Proyectados', nombre_gerencia, mes);
             var gastos_comprometidos2 = filterMes(data, 2020, 'Gastos Comprometidos', nombre_gerencia, mes);
@@ -321,7 +300,7 @@ export default function Gastos() {
         }]
     };
 
-    // Grafica #1_1
+    // Grafica #2
     const datagGastosComprocaucom = {
         labels: ['', ''],
             datasets: [
@@ -341,7 +320,7 @@ export default function Gastos() {
         ],
     }
 
-    // Grafica #1_2
+    // Grafica #3
     const datagInvComprocaucom = {
         labels: ['', ''],
             datasets: [
@@ -360,7 +339,7 @@ export default function Gastos() {
             },
         ],
     }
-    // Grafica 2
+    // Grafica #4
     const dataPieAnt = {
         labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
         datasets: [
@@ -384,7 +363,7 @@ export default function Gastos() {
         ],
     }
 
-    // Grafica 2
+    // Grafica #5
     const dataPieAct = {
         labels: ['Corporativo', 'UENAA', 'TELCO', 'UENE'],
         datasets: [
@@ -408,6 +387,7 @@ export default function Gastos() {
         ],
     }
 
+    // Grafica #6
     const NombreGrupo_total = {
         labels: ['1'],
         datasets: [
@@ -434,6 +414,7 @@ export default function Gastos() {
         ],
       }
 
+    // Grafica #7
     const dataGastos = {
         labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
         datasets: [

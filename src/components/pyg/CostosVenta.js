@@ -799,11 +799,11 @@ export default function CostosOperacionales() {
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4BACC6'}}></span>
-                                                    <p>Costos de ventas 2020</p>
+                                                    <p>Costos de ventas 2019</p>
                                                 </div>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#F79646'}}></span>
-                                                    <p>Ingresos Operacionales 2020</p>
+                                                    <p>Ingresos Operacionales 2019</p>
                                                 </div>
                                             </div>
                                         </div>

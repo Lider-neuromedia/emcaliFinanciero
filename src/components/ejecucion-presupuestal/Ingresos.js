@@ -166,7 +166,7 @@ export default function Ingresos() {
 
         setingresos_anioAnt({valueOne : ingresos_recaudados_corpo_anio_anteriorMath, valueTwo : ingresos_recaudados_uenaa_anio_anteriorMath, valueThree : ingresos_recaudados_telco_anio_anteriorMath, valueFour : ingresos_recaudados_uene_anio_anteriorMath})
 
-        // Grafica # 3_1
+        // Grafica #4
         var ingreso_recaudados_total_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'all', meses);
         var ingresos_recaudados_corpo_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'corporativo', meses);
         var ingresos_recaudados_uenaa_anio_act= filterMesesGroup(data, 2020, 'Ingresos Recaudados', 'uenaa', meses);
@@ -180,7 +180,7 @@ export default function Ingresos() {
 
         setingresos_anioAct({valueOne : ingresos_recaudados_corpo_anio_anteriorMath, valueTwo : ingresos_recaudados_uenaa_anio_anteriorMath, valueThree : ingresos_recaudados_telco_anio_anteriorMath, valueFour : ingresos_recaudados_uene_anio_anteriorMath})
 
-        // Grafica #4
+        // Grafica #5
         meses.forEach(mes => {
             var disponibilidad_inicial_anio_anterior = filterNameGroup(data, 2019, 'Ingresos Recaudados', nombre_gerencia, mes, 'disponibilidad inicial');
             var disponibilidad_inicial_anio_act = filterNameGroup(data, 2020, 'Ingresos Recaudados', nombre_gerencia, mes, 'disponibilidad inicial');
@@ -192,7 +192,7 @@ export default function Ingresos() {
         setDisponibilidadInicial_anios_anterior(disponibilidad_inicial_anio_anterior_data);
         setDisponibilidadInicial_anios_act(disponibilidad_inicial_anio_act_data);
 
-        // Grafica #5
+        // Grafica #6
         meses.forEach(mes => {
             var ingresos_corrientes_anio_anterior = filterNameGroup(data, 2019, 'Ingresos Recaudados', nombre_gerencia, mes, 'ingresos corrientes');
             var ingresos_corrientes_anio_act = filterNameGroup(data, 2020, 'Ingresos Recaudados', nombre_gerencia, mes, 'ingresos corrientes');
@@ -203,7 +203,7 @@ export default function Ingresos() {
         setIngresosCorrientes_anios_anterior(ingresos_corrientes_anio_anterior_data);
         setIngresosCorrientes_anios_act(ingresos_corrientes_anio_act_data);
 
-        // Grafica #6
+        // Grafica #7
         meses.forEach(mes => {
             var ingresos_capital_anio_anterior = filterMes(data, 2019, 'Ingresos Recaudados', nombre_gerencia, mes, 'ingresos de capital');
             var ingresos_capital_anio_act = filterMes(data, 2020, 'Ingresos Recaudados', nombre_gerencia, mes, 'ingresos de capital');
