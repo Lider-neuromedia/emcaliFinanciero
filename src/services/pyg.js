@@ -321,7 +321,9 @@ export const filterMesGastosOper = (data, anio, tipo, nombreGerencia, mes) => {
 
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres.
         if(nombreGerencia !== 'all'){
-            var validateNomGerencia = e.gerencia_gastos_oper.toLowerCase() === nombreGerencia.toLowerCase();
+            if(e.gerencia_gastos_oper !== undefined){
+                var validateNomGerencia = e.gerencia_gastos_oper.toLowerCase() === nombreGerencia.toLowerCase();
+            }
         }else{
             var validateNomGerencia = true;
         }
@@ -402,7 +404,9 @@ export const filterMesAcumGastos = (data, anio, tipo, nombreGerencia, mes) => {
         // var validateTipo = e.tipo_gastos_oper.toLowerCase() === tipo.toLowerCase();
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres.
         if(nombreGerencia !== 'all'){
-            var validateNomGerencia = e.gerencia_gastos_oper.toLowerCase() === nombreGerencia.toLowerCase();
+            if(e.tipo_gastos_oper !== undefined){
+                var validateNomGerencia = e.gerencia_gastos_oper.toLowerCase() === nombreGerencia.toLowerCase();
+            }
         }else{
             var validateNomGerencia = true;
         }
@@ -500,13 +504,13 @@ export const optionsBarGroup = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             rotation: -90,
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -521,62 +525,6 @@ export const optionsBarGroup = {
         }
     }
 }
-
-
-// Calulos filtrar por mes por el tipo
-// export const filterColumnMesMes = (data, anio, nombreGerencia, mes, tipo) => {
-//     const dataFilter = data.filter((e) => {
-//         // creo validacion de nombre gerencia.
-//         var validateNomGerencia = false;
-//         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
-//         if(nombreGerencia !== 'all'){
-//             if(e.gerencia_ingreso){
-//                 validateNomGerencia = e.gerencia_ingreso.toLowerCase() === nombreGerencia.toLowerCase();
-//             }
-//         }else{
-//             validateNomGerencia = true;
-//         }
-//         var validateTipo = e.tipo_ingreso.toLowerCase().indexOf(tipo.toLowerCase()) > -1;
-//         // Retorna data con validaciones.
-//         return (e.anio_ingreso == anio && validateNomGerencia && e.mes_ingreso === mes && validateTipo);
-//     });
-//     const sumData = dataFilter.reduce((a, b) => {
-//         return a + (b.valor_ingreso || 0);
-//     }, 0);
-//     return sumData;
-// }
-
-// Calulos para obtener la grafica de gastos por año.
-// export const filterMesesGroup = (data, anio, tipo_ingreso, nombreGerencia, mes, reales = false, proyectados = false) => {
-//     const dataFilter = data.filter((e) => {
-//         console.log(e.tipo_ingreso);
-//         // Si el parametro inversion esta verdadero. El filtro nombre de grupo cambia, y trae toda la informacion de inversion.
-//         // if (reales) {
-//         //     var string = 'INGRESOS REALES';
-//         //     validateNombreGrupo = e.gerencia.toLowerCase() === nombreGerencia.toLowerCase();
-//         // }else if (proyectados) {
-//         //     var string = 'INGRESOS PROYECTADOS';
-//         //     validateNombreGrupo = e.gerencia.toLowerCase() === nombreGerencia.toLowerCase();
-//         // }
-//         // if(nombreGerencia !== 'all'){
-//         //     if(e.gerencia){
-//         //         validateNomGerencia = e.gerencia.toLowerCase() === nombreGerencia.toLowerCase();
-//         //     }
-//         // }else{
-//         //     validateNomGerencia = true;
-//         // }
-//         // var validateTipo = e.tipo_ingreso.toLowerCase().indexOf(tipo_ingreso.toLowerCase()) > -1;
-//         // // Retorna data con validaciones.
-//         // return (e.anio === anio && validateNomGerencia && e.mes === mes && validateTipo);
-//     });
-    
-//     // Suma de todos los elementos en la columna valor que vengan en dataFilter.
-//     const sumData = dataFilter.reduce((a, b) => {
-//         return a + (b.valor || 0);
-//     }, 0);
-    
-//     return sumData;
-// }
 
 /**
  * OPCIONES PARA GRAFICOS
@@ -610,13 +558,13 @@ export const optionsIngresosOper = {
     },
     layout: {
         padding: {
-            bottom: 10
+            bottom: 35
         }
     },
     tooltips: {enabled: false},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             // align: 'top',
             padding: 0,
             rotation: -90,
@@ -628,7 +576,7 @@ export const optionsIngresosOper = {
             // offset: -50,
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -680,7 +628,7 @@ export const optionsGroupBar = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             // align: 'top',
             padding: 0,
             rotation: -90,
@@ -691,7 +639,7 @@ export const optionsGroupBar = {
             },
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -741,7 +689,7 @@ export const optionsEjecucionAcum = {
             font: {
                 size: 11,
             },
-            color: '#365068',
+            color: '#000',
             align: 'left',
             padding: 0,
             labels: {
@@ -749,12 +697,12 @@ export const optionsEjecucionAcum = {
                     horizontalAlign: 'left', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
                 
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 100);
                 return currencyFormat;
             }
         }
@@ -771,7 +719,7 @@ export const optionsGastosDoughnut = {
     },
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             labels: {
@@ -779,7 +727,7 @@ export const optionsGastosDoughnut = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -824,18 +772,18 @@ export const optionsMeses = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             // align: 'center',
             rotation: -90,
             align: 'start',
             anchor: 'end',
             offset: -50,
             font: {
-                size: 11,
+                size: 9,
             },
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -886,7 +834,7 @@ export const optionsStacked = {
     },
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             labels: {
@@ -894,7 +842,7 @@ export const optionsStacked = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -931,7 +879,7 @@ export const optionsStacked = {
     },
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             labels: {
@@ -939,7 +887,7 @@ export const optionsStacked = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -989,19 +937,22 @@ export const optionsStacked = {
     },
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             padding: 0,
             // rotation: -90,
             align: 'start',
             anchor: 'end',
             offset: -50,
+            font: {
+                size: 10,
+            },
             labels: {
                 title: {
                     horizontalAlign: 'left', 
                     lineHeight: 1
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -1028,9 +979,6 @@ export const optionsLines = {
           position: 'right',
           id: 'y-axis-2',
           lineTension: 0
-        //   gridLines: {
-        //     drawOnArea: true,
-        //   },
         },
       ],
     },
@@ -1052,9 +1000,9 @@ export const optionsLines = {
     },
     plugins: {
         datalabels: {
-            // display: false,
+            display: false,
             // id: 'y-axis-1',
-            color: '#365068',
+            color: '#000',
             padding: 0,
             lineTension: 0,
             // rotation: -90,
@@ -1066,7 +1014,7 @@ export const optionsLines = {
                     // horizontalAlign: 'left', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {

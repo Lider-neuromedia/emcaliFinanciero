@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
         height: 350,
     },
+    fixedHeightVH: {
+        height: 450,
+    },
     heightFull: {
         height: '100%'
     },
@@ -123,6 +126,7 @@ export default function Cartera() {
     // Estilos.
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
     
     // Estados
     const [dataExcel, setDataExcel] = useState([]);
@@ -387,7 +391,7 @@ export default function Cartera() {
                                         </div>
                                     :
                                         <div>
-                                            <Line data={data} height={100} options={optionsInforGeneral} height={80}/>
+                                            <Line data={data} options={optionsInforGeneral} height={50}/>
                                             <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#507FF2'}}></span>
@@ -408,10 +412,10 @@ export default function Cartera() {
                             </Grid>
 
                             {/* Chart */}
-                            <Grid item xs={12} md={9} lg={9}>
+                            <Grid item xs={12} md={12} lg={12}>
                                 <Grid container spacing={3}>
-                                    <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaper}>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaperVH}>
                                             {(loading) ? 
                                                 <div>
                                                     <Skeleton variant="rect" width={'100%'} height={280} />
@@ -422,7 +426,7 @@ export default function Cartera() {
                                                 </div>
                                             :
                                                 <div>
-                                                    <Bar data={dataSegmentos} height={105} options={optionsGroupBar} />
+                                                    <Bar data={dataSegmentos} options={optionsGroupBar} height={150}/>
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
                                                             <span className="iconList" style={{background: '#3B7CCA'}}></span>
@@ -445,8 +449,8 @@ export default function Cartera() {
                                             }
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaper}>
+                                    <Grid item xs={12} md={6} lg={6}>
+                                        <Paper className={fixedHeightPaperVH}>
                                             {(loading) ? 
                                                 <div>
                                                     <Skeleton variant="rect" width={'100%'} height={280} />
@@ -457,7 +461,7 @@ export default function Cartera() {
                                                 </div>
                                             :
                                                 <div>
-                                                    <Bar data={dataCartera} height={105} options={optionsGroupBar} />
+                                                    <Bar data={dataCartera} options={optionsGroupBar} height={150}/>
                                                     <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                                         <div className="itemChart">
                                                             <span className="iconList" style={{background: '#3B7CCA'}}></span>
@@ -482,8 +486,8 @@ export default function Cartera() {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12} md={3} lg={3}>
-                                <Paper className={classes.heightFull}>
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div style={{padding: '10px'}}>
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -500,7 +504,7 @@ export default function Cartera() {
                                         </div>
                                         :
                                         <div>
-                                            <HorizontalBar data={dataEstratos} height={900} options={optionsGroupBarHorizontal} />
+                                            <Bar data={dataEstratos} options={optionsGroupBarHorizontal} height={60} />
                                             <div className="containerLabelsCharts" style={{marginTop: 10}}>
                                             </div>
                                         </div>

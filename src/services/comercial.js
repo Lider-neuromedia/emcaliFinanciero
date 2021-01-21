@@ -19,7 +19,6 @@ export const filterConsumoTarifa = (data, unidad_negocio, fecha, producto, colum
         // Validar fecha.
         var validateFecha = e.fecha === fecha;
 
-
         var validateProducto = true;
         // Validate producto.
         if (producto !== null) {
@@ -32,7 +31,7 @@ export const filterConsumoTarifa = (data, unidad_negocio, fecha, producto, colum
     const sumData = dataFilter.reduce((a, b) => {
         return a + (b[column] || 0);
     }, 0);
-
+    
     return sumData;
 }
 
@@ -76,7 +75,95 @@ export const filterConsumoAnio = (data, unidad_negocio, anio, producto, column, 
         return a + (b[column] || 0);
     }, 0);
 
-    return sumData;
+    var currencyFormat = new Intl.NumberFormat('de-DE').format(sumData / 1000);
+    return currencyFormat;
+    // return sumData;
+}
+
+export const filterConsumoAnioMedia = (data, unidad_negocio, anio, producto, column, limit) => {
+    const dataFilter = data.filter((e) => {
+        // creo validacion de la unidad de negocio.
+        var validateUnidadNegocio = false;
+        //Validar la unidad de negocio. Pasando a minusculas todos los caracteres. 
+        if(unidad_negocio !== 'all'){
+            if(e.unidad_negocio){
+                validateUnidadNegocio = e.unidad_negocio.toLowerCase() === unidad_negocio.toLowerCase();
+            }
+        }else{
+            validateUnidadNegocio = true;
+        }
+        
+        // Validar anio.
+        var anio_fecha = e.fecha.substring(6, 10);
+        var validateAnio = anio_fecha == anio;
+        
+        var validateProducto = true;
+        // Validate producto.
+        if (producto !== null) {
+            validateProducto = e.producto.toLowerCase() === producto.toLowerCase(); 
+        }
+        // Retorna data con validaciones.
+        return (validateAnio && validateUnidadNegocio && validateProducto);
+    });
+    
+    if(limit !== 12 && dataFilter.length === 12){
+        var resta_limit = 12 - limit;
+        for (let i = 0; i < resta_limit; i++) {
+            dataFilter.pop();
+        }
+    }
+    
+    // Suma de todos los elementos en la columna valor que vengan en dataFilter.
+    const sumData = dataFilter.reduce((a, b) => {
+        return a + (b[column] || 0);
+    }, 0);
+    
+    var currencyFormat = new Intl.NumberFormat('de-DE').format(sumData / 1000);
+    return currencyFormat;
+    // return sumData;
+}
+
+export const filterConsumoAnioConsumo = (data, unidad_negocio, anio, producto, column, limit) => {
+    const dataFilter = data.filter((e) => {
+        // creo validacion de la unidad de negocio.
+        var validateUnidadNegocio = false;
+        //Validar la unidad de negocio. Pasando a minusculas todos los caracteres. 
+        if(unidad_negocio !== 'all'){
+            if(e.unidad_negocio){
+                validateUnidadNegocio = e.unidad_negocio.toLowerCase() === unidad_negocio.toLowerCase();
+            }
+        }else{
+            validateUnidadNegocio = true;
+        }
+
+        // Validar anio.
+        var anio_fecha = e.fecha.substring(6, 10);
+        var validateAnio = anio_fecha == anio;
+
+        var validateProducto = true;
+        // Validate producto.
+        if (producto !== null) {
+            validateProducto = e.producto.toLowerCase() === producto.toLowerCase(); 
+        }
+        // Retorna data con validaciones.
+        return (validateAnio && validateUnidadNegocio && validateProducto);
+    });
+    
+    if(limit !== 12 && dataFilter.length === 12){
+        var resta_limit = 12 - limit;
+        for (let i = 0; i < resta_limit; i++) {
+            dataFilter.pop();
+        }
+    }
+
+    // Suma de todos los elementos en la columna valor que vengan en dataFilter.
+    const sumData = dataFilter.reduce((a, b) => {
+        return a + (b[column] || 0);
+    }, 0);
+
+    var currencyFormat = new Intl.NumberFormat('de-DE').format(sumData / 10000);
+    return currencyFormat;
+    // return sumData;
 }
 
 /**
@@ -86,11 +173,13 @@ export const optionsInforGeneral = {
     scales: {
         yAxes: [{
             type: 'linear',
-            display: false,
+            display: true,
             position: 'left',
             id: 'y-axis-1',
             ticks: {
                 beginAtZero: true,
+                // min: 4000, 
+                // max: 100
             },
         },
         {
@@ -114,7 +203,10 @@ export const optionsInforGeneral = {
                     display: false
                 }
             },
-            
+            formatter: function(value, context) {
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
+                return currencyFormat;
+            }
         }
     }
 }
@@ -130,16 +222,16 @@ export const optionsGroupBar = {
             }
         }],
         yAxes: [{
-            display: false,
+            display: true,
             ticks: {
                 beginAtZero: true,
             },
             gridLines: {
                 display:false
-            }
+            },
         }],
+        
     },
-    
     title: {
         display: false
     },
@@ -149,8 +241,7 @@ export const optionsGroupBar = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
-            // align: 'top',
+            color: '#000',
             padding: 0,
             rotation: -90,
             align: 'start',
@@ -160,11 +251,11 @@ export const optionsGroupBar = {
             },
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
-                var currencyFormat = new Intl.NumberFormat('de-DE').format(value);
+                var currencyFormat = new Intl.NumberFormat('de-DE').format(value / 1000);
                 return currencyFormat;
             }
         }

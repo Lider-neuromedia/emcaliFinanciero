@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        height: '100vh',
+        // height: '100vh',
         overflow: 'auto',
         background: '#f2f5f9',
     },
@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
     },
     textBreadCrumbs: {
         color: '#365068'
-    }
+    },
+    
 }));
 
 
@@ -67,9 +68,9 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Ejecución Presupuestal</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-                <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
+                <Button className={'active'} style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/> Emcali</Button>
                 <Button style={{ padding: '0 1em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
-                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uent" style={{paddingRight: '10px'}}/>UENT</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
@@ -116,6 +117,7 @@ export default function EjecucionPresupuestal() {
         loadServerExcel(services.baseUrl + 'download-template/ejecucion_presupuestal', function (data, err) {
             setDataExcel(data.data);
             loadCharts(data.data);
+            console.log(data.data);
         });
     }
 
@@ -421,7 +423,8 @@ export default function EjecucionPresupuestal() {
                             <Grid item xs={12} md={4} lg={4}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaperAjust}>
+                                        {/* <Paper className={fixedHeightPaperAjust}> */}
+                                        <Paper className="paper">
                                             {(loading) ? 
                                                 <div>
                                                     <Skeleton variant="rect" width={'100%'} height={120} />
@@ -437,15 +440,18 @@ export default function EjecucionPresupuestal() {
                                                             <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ejecución acumulada</p>
                                                         </div>
                                                     </div>
-                                                    <HorizontalBar  data={dataEjecucionAcumulada} options={optionsEjecucionAcum} height={10}/>
+                                                    {/* <div class="chart-container" style={{position: 'relative', height:'20vh', width: '100%'}}> */}
+
+                                                    {/* </div>  */}
+                                                    <HorizontalBar  data={dataEjecucionAcumulada} options={optionsEjecucionAcum} height={70}/>
                                                     <div className="containerLabelsCharts">
                                                         <div className="itemChart">
                                                             <span className="iconList" style={{background: '#2DFF2D'}}></span>
-                                                            <p>Ingresos recaudados</p>
+                                                            <p>Ingresos Recaudados</p>
                                                         </div>
                                                         <div className="itemChart">
                                                             <span className="iconList" style={{background: '#FF0505'}}></span>
-                                                            <p>Gastos recaudados</p>
+                                                            <p>Gastos Causados</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -453,7 +459,8 @@ export default function EjecucionPresupuestal() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaperAjust}>
+                                        {/* <Paper className={fixedHeightPaperAjust}> */}
+                                        <Paper className="paper">
                                             {
                                                 loading ? 
                                                     <div>
@@ -470,15 +477,15 @@ export default function EjecucionPresupuestal() {
                                                                 <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ingresos</p>
                                                             </div>
                                                         </div>
-                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={10}/>
+                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={70}/>
                                                         <div className="containerLabelsCharts">
                                                             <div className="itemChart">
                                                                 <span className="iconList" style={{background: '#36FF36'}}></span>
-                                                                <p>Ingresos recaudados</p>
+                                                                <p>Proyectados</p>
                                                             </div>
                                                             <div className="itemChart">
                                                                 <span className="iconList" style={{background: '#052569'}}></span>
-                                                                <p>Ingresos proyectados</p>
+                                                                <p>Recaudados</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -488,7 +495,8 @@ export default function EjecucionPresupuestal() {
                                 </Grid>
                             </Grid>                            
                             <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaperVH}>
+                                {/* <Paper className={fixedHeightPaperVH}> */}
+                                <Paper className="paper">
                                     {(loading) ? 
                                         <div>
                                             <Skeleton variant="rect" width={'100%'} height={320} />
@@ -504,15 +512,15 @@ export default function EjecucionPresupuestal() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ingresos vs Gastos</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataIngreVsGas} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataIngreVsGas} options={optionsIngreVsGas} height={199}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#36FF36'}}></span>
-                                                    <p>Ingresos recaudados</p>
+                                                    <p>Ingresos Recaudados</p>
                                                 </div>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#FF0505'}}></span>
-                                                    <p>Gastos recaudados</p>
+                                                    <p>Gastos Causados</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -520,7 +528,8 @@ export default function EjecucionPresupuestal() {
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={4} lg={4}>
-                                <Paper className={fixedHeightPaperVH}>
+                                {/* <Paper className={fixedHeightPaperVH}> */}
+                                <Paper className="paper">
                                     {(loading) ? 
                                         <div>
                                             <Skeleton variant="rect" width={'100%'} height={320} />
@@ -536,15 +545,15 @@ export default function EjecucionPresupuestal() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '15px'}}>Ingresos</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={199}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#01205E'}}></span>
-                                                    <p>Ingresos proyectados</p>
+                                                    <p>Proyectado</p>
                                                 </div>
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#2BFF2B'}}></span>
-                                                    <p>Ingresos recaudados</p>
+                                                    <p>Recaudados</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -556,7 +565,8 @@ export default function EjecucionPresupuestal() {
                             <Grid item xs={12} md={5} lg={5}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaperAjust}>
+                                        {/* <Paper className={fixedHeightPaperAjust}> */}
+                                        <Paper className="paper">
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -603,7 +613,8 @@ export default function EjecucionPresupuestal() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={12} lg={12}>
-                                        <Paper className={fixedHeightPaperAjust}>
+                                        {/* <Paper className={fixedHeightPaperAjust}> */}
+                                        <Paper className="paper">
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -652,7 +663,8 @@ export default function EjecucionPresupuestal() {
                                     </Grid>
                                 </Grid>
                             <Grid item xs={12} md={7} lg={7}>
-                                <Paper className={fixedHeightPaperVH}>
+                                {/* <Paper className={fixedHeightPaperVH}> */}
+                                <Paper className="paper">
                                     {(loading) ? 
                                         <div>
                                             <Skeleton variant="rect" width={'100%'} height={300} />

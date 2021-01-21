@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
-        height: '100vh',
+        // height: '100vh',
         overflow: 'auto',
         background: '#f2f5f9',
     },
@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
     },
     fixedHeight: {
-        height: 240,
+        height: 280,
     },
     fixedHeightVH: {
-        height: 300,
+        height: 380,
     },
 }));
 
@@ -59,10 +59,10 @@ export const itemsHeader = (changeFilter) => {
                 <Typography color="textPrimary" className="txt-breadcrumb">Ingresos Operacionales</Typography>
             </Breadcrumbs>
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
-            <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="emcali" style={{paddingRight: '10px', width: 40}}/>EMCALI</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="emcali" style={{paddingRight: '10px', width: 40}}/>EMCALI</Button>
                 <Button style={{ padding: '0 1em' }} onClick={changeFilter('acueducto')}><img src={acueducto} alt="acueducto" style={{paddingRight: '10px'}}/>ACUEDUCTO</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('alcantarillado')}><img src={alcantarillado} alt="alcantarillado" style={{paddingRight: '10px'}}/>ALCANTARILLADO</Button>
-                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="telco" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '6px 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uent" style={{paddingRight: '10px'}}/>UENT</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
         </div>
@@ -428,7 +428,7 @@ export default function CostosOperacionales() {
                                     {
                                         loading ? 
                                             <div>
-                                                <Skeleton variant="rect" width={'100%'} height={180} />
+                                                <Skeleton variant="rect" width={'100%'} height={220} />
                                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                     <Skeleton variant="text" width={'40%'}/>
                                                     <Skeleton variant="text" width={'40%'}/>
@@ -441,7 +441,7 @@ export default function CostosOperacionales() {
                                                         <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Ingresos Operacionales</p>
                                                     </div>
                                                 </div>
-                                                <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={100} />
+                                                <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={60} />
                                                 <div className="containerLabelsCharts">
                                                     <div className="itemChart">
                                                         <span className="iconList" style={{background: '#2DFF2D'}}></span>
@@ -461,12 +461,12 @@ export default function CostosOperacionales() {
                                     {
                                         loading ? 
                                             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                <Skeleton variant="circle" width={145} height={145} />
+                                                <Skeleton variant="circle" width={180} height={180} />
                                             </div>
                                         :
                                             <div style={{display: 'flex'}}>
                                                 <div style={{width: '100%'}}>
-                                                    <Pie data={dataIngresosReales} options={optionsGastosDoughnut} height={130}/>
+                                                    <Pie data={dataIngresosReales} options={optionsGastosDoughnut} height={80}/>
                                                 </div>
                                             </div>
                                     }
@@ -477,7 +477,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -490,7 +490,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>UENE</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaUENE} options={optionsBarHorizontal} height={145}/>
+                                            <HorizontalBar  data={dataCostoVentaUENE} options={optionsBarHorizontal} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#28F828'}}></span>
@@ -512,7 +512,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -525,7 +525,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Telecomunicaciones</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaTELCO} options={optionsBarHorizontal} height={145}/>
+                                            <HorizontalBar  data={dataCostoVentaTELCO} options={optionsBarHorizontal} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#28F828'}}></span>
@@ -546,7 +546,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -559,7 +559,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Acueducto</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaACUEDUCTO} options={optionsBarHorizontal} height={145}/>
+                                            <HorizontalBar  data={dataCostoVentaACUEDUCTO} options={optionsBarHorizontal} height={80}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#28F828'}}></span>
@@ -580,7 +580,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -593,7 +593,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}} height={110}>Alcantarillado</p>
                                                 </div>
                                             </div>
-                                            <HorizontalBar  data={dataCostoVentaALCA} options={optionsBarHorizontal} height={145}/>
+                                            <HorizontalBar  data={dataCostoVentaALCA} options={optionsBarHorizontal} height={80}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#28F828'}}></span>
@@ -615,7 +615,7 @@ export default function CostosOperacionales() {
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -628,7 +628,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Ingresos Operacionales Acumulador</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataIngreVsGas} options={optionsMeses} height={130}/>
+                                            <Bar  data={dataIngreVsGas} options={optionsMeses} height={80}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#664F82'}}></span>
@@ -650,7 +650,7 @@ export default function CostosOperacionales() {
                                  {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={230} />
+                                            <Skeleton variant="rect" width={'100%'} height={320} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -663,7 +663,7 @@ export default function CostosOperacionales() {
                                                     <p style={{fontSize: '20px', fontWeight: 'bold', paddingBottom: '15px'}}>Mensualizados</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataMensualizados} options={optionsMeses} height={130}/>
+                                            <Bar  data={dataMensualizados} options={optionsMeses} height={80}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#664F82'}}></span>

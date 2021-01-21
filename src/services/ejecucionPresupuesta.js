@@ -152,23 +152,24 @@ export const optionsEjecucionAcum = {
         }
     },
     tooltips: {enabled: false},
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
+    responsive: true,
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'end',
             anchor: 'end',
             font: {
                 size: 11,
               },
-            offset: -150,
+            offset: -70,
             padding: 0,
             labels: {
                 title: {
                     horizontalAlign: 'left', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -214,7 +215,7 @@ export const optionsIngreVsGas = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             padding: 0,
             rotation: -90,
             align: 'start',
@@ -225,7 +226,7 @@ export const optionsIngreVsGas = {
             offset: -50,
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 },
             },
             formatter: function(value, context) {
@@ -269,7 +270,7 @@ export const optionsGastos = {
     tooltips: {enabled: false},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'end',
             anchor: 'end',
             font: {
@@ -282,7 +283,7 @@ export const optionsGastos = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -304,9 +305,10 @@ export const optionsGastosDoughnut = {
             bottom: 15
         }
     },
+    responsive: true,
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             labels: {
@@ -314,7 +316,7 @@ export const optionsGastosDoughnut = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -350,7 +352,7 @@ export const optionsStacked = {
     },
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'center',
             padding: 0,
             labels: {
@@ -358,7 +360,7 @@ export const optionsStacked = {
                     horizontalAlign: 'center', 
                 },
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {

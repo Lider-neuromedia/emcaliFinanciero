@@ -46,10 +46,13 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
     },
     fixedHeightVH: {
-        height: 384,
+        height: 505,
     },
     fixedHeightMedium: {
         height: 300,
+    },
+    fixedHeightLarge: {
+        height: 400,
     },
 }));
 
@@ -66,7 +69,7 @@ export const itemsHeader = (changeFilter) => {
             <ButtonGroup variant="text" color="default" aria-label="text default button group">
                 <Button style={{ padding: '0 1em' }} onClick={changeFilter('all')}><img src={logo} alt="uene" style={{paddingRight: '10px', width: 40}}/>Emcali</Button>
                 <Button style={{ padding: '0 1em' }} onClick={changeFilter('corporativo')}><img src={corporativo} alt="uene" style={{paddingRight: '10px'}}/>Corporativo</Button>
-                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uene" style={{paddingRight: '10px'}}/>TELCO</Button>
+                <Button style={{ padding: '0 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uent" style={{paddingRight: '10px'}}/>UENT</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uene" style={{paddingRight: '10px'}}/>UENAA</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
@@ -79,6 +82,7 @@ export default function Gastos() {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
     const fixedHeightMedium = clsx(classes.paper, classes.fixedHeightMedium);
+    const fixedHeightLarge = clsx(classes.paper, classes.fixedHeightLarge);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
     const [loading, setLoading] = useState(true);
@@ -537,7 +541,7 @@ export default function Gastos() {
                                                                 <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Gastos</p>
                                                             </div>
                                                         </div>
-                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={30}/>
+                                                        <HorizontalBar  data={dataIngresosAnios} options={optionsEjecucionAcum} height={42}/>
                                                         <div className="containerLabelsCharts">
                                                             <div className="itemChart">
                                                                 <span className="iconList" style={{background: '#052569'}}></span>
@@ -557,11 +561,11 @@ export default function Gastos() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightMedium}>
                                             {
                                                 loading ? 
                                                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                    <Skeleton variant="circle" width={100} height={100} />
+                                                    <Skeleton variant="circle" width={200} height={200} />
                                                 </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -578,11 +582,11 @@ export default function Gastos() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={6} lg={6}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightMedium}>
                                             {
                                                 loading ? 
                                                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                    <Skeleton variant="circle" width={100} height={100} />
+                                                    <Skeleton variant="circle" width={200} height={200} />
                                                 </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -605,7 +609,7 @@ export default function Gastos() {
                                 <Paper className={fixedHeightPaperVH}>
                                     {(loading) ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={330} />
+                                            <Skeleton variant="rect" width={'100%'} height={450} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -618,7 +622,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold'}}>Gastos</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataGastos} options={optionsIngreVsGas} height={200}/>
+                                            <Bar  data={dataGastos} options={optionsIngreVsGas} height={170}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#052569'}}></span>
@@ -640,11 +644,11 @@ export default function Gastos() {
                             <Grid item xs={12} md={12} lg={12}>
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} md={4} lg={4}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightMedium}>
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <Skeleton variant="circle" width={100} height={100} />
+                                                        <Skeleton variant="circle" width={200} height={200} />
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -679,11 +683,11 @@ export default function Gastos() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={4} lg={4}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightMedium}>
                                             {
                                                 loading ? 
                                                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                                        <Skeleton variant="circle" width={100} height={100} />
+                                                        <Skeleton variant="circle" width={200} height={200} />
                                                     </div>
                                                 :
                                                     <div style={{display: 'flex'}}>
@@ -718,11 +722,11 @@ export default function Gastos() {
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={12} md={4} lg={4}>
-                                        <Paper className={fixedHeightPaper}>
+                                        <Paper className={fixedHeightMedium}>
                                             {
                                                 loading ? 
                                                     <div>
-                                                        <Skeleton variant="rect" width={'100%'} height={125} />
+                                                        <Skeleton variant="rect" width={'100%'} height={230} />
                                                         <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                             <Skeleton variant="text" width={'25%'}/>
                                                             <Skeleton variant="text" width={'25%'}/>
@@ -744,11 +748,11 @@ export default function Gastos() {
                             
                             {/* Charts */}                       
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightMedium}>
+                                <Paper className={fixedHeightLarge}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={245} />
+                                            <Skeleton variant="rect" width={'100%'} height={340} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -761,7 +765,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Inversión</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={150}/>
+                                            <Bar  data={dataIngresos} options={optionsIngreVsGas} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -777,11 +781,11 @@ export default function Gastos() {
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightMedium}>
+                                <Paper className={fixedHeightLarge}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={245} />
+                                            <Skeleton variant="rect" width={'100%'} height={340} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -794,7 +798,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Operación</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataOperacion} options={optionsIngreVsGas} height={150}/>
+                                            <Bar  data={dataOperacion} options={optionsIngreVsGas} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -810,11 +814,11 @@ export default function Gastos() {
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightMedium}>
+                                <Paper className={fixedHeightLarge}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={245} />
+                                            <Skeleton variant="rect" width={'100%'} height={340} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -827,7 +831,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Funcionamiento</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={150}/>
+                                            <Bar  data={dataFuncionalidad} options={optionsIngreVsGas} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>
@@ -843,11 +847,11 @@ export default function Gastos() {
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} md={6} lg={6}>
-                                <Paper className={fixedHeightMedium}>
+                                <Paper className={fixedHeightLarge}>
                                 {
                                     loading ? 
                                         <div>
-                                            <Skeleton variant="rect" width={'100%'} height={245} />
+                                            <Skeleton variant="rect" width={'100%'} height={340} />
                                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                                 <Skeleton variant="text" width={'40%'}/>
                                                 <Skeleton variant="text" width={'40%'}/>
@@ -860,7 +864,7 @@ export default function Gastos() {
                                                     <p style={{fontSize: '16px', fontWeight: 'bold', paddingBottom: '10px'}}>Servicio de la Deuda</p>
                                                 </div>
                                             </div>
-                                            <Bar  data={dataServicio} options={optionsIngreVsGas} height={150}/>
+                                            <Bar  data={dataServicio} options={optionsIngreVsGas} height={120}/>
                                             <div className="containerLabelsCharts">
                                                 <div className="itemChart">
                                                     <span className="iconList" style={{background: '#4F81BD'}}></span>

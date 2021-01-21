@@ -1,15 +1,9 @@
 import * as XLSX from 'xlsx';
 
 const services = {
-<<<<<<< HEAD
-    // baseUrl : 'https://pruebasneuro.co/N-1006/api/',
-    // webUrl : 'https://pruebasneuro.co/N-1006/',
-    baseUrl : 'http://127.0.0.1:8000/api/',
-    webUrl : 'http://127.0.0.1:8000/',
-=======
+
     baseUrl : process.env.REACT_APP_API_URL,
     webUrl : process.env.REACT_APP_WEB_URL,
->>>>>>> 17557450b2c5b654d3498686c7e2919f2b385a71
     configAutorization : {
         headers : {
             Authorization: `Bearer ${localStorage.getItem('token')}`

@@ -208,13 +208,30 @@ a{
 ---------------------------------------------*/
 
 /* Ajusta el alto del AppBar del menu. */
-@media (min-width: 600px){
+.paper{
+  padding: 15px;
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: space-around;
+}
+@media (min-width: 320px){
+  
+}
+@media (min-width: 768px){
   .MuiToolbar-regular {
     min-height: auto !important;
   }
+ 
 }
 @media (min-width: 1280px){
   .MuiContainer-maxWidthLg {
     max-width: 100% !important;
+  }
+  
+}
+@media (min-width: 1920px){
+  .paper{
+    height: auto;
   }
 }

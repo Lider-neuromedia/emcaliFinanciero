@@ -95,6 +95,13 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '15px',
         letterSpacing: '1px'
     },
+    small:{
+        background: '#fff',
+        color: '#000',
+        padding: '2px 10px',
+        borderRadius: '4px',
+        fontSize: '16px',
+    },
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
@@ -261,7 +268,9 @@ export default function Header(props) {
                     <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
                         Menú
                     </Typography>
-
+                    <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
+                        Cifras en Millones COP | <small className={classes.small}>Septiembre 2020</small>
+                    </Typography>
                     {user.rol === 1 &&
                         <Link to="/configuracion">
                         <Button

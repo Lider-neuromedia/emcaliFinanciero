@@ -157,7 +157,7 @@ export const optionsInforGeneral = {
             labels: {
                 value: {
                     display: false,
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -173,7 +173,7 @@ export const optionsInforGeneral = {
 export const optionsGroupBarHorizontal = {
     scales: { 
         xAxes: [{
-            display: false,
+            // display: false,
             ticks: {
                 beginAtZero: true,
             },
@@ -182,7 +182,7 @@ export const optionsGroupBarHorizontal = {
             }
         }],
         yAxes: [{
-            display: true,
+            display: false,
             ticks: {
                 beginAtZero: true,
             },
@@ -197,12 +197,18 @@ export const optionsGroupBarHorizontal = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
-            align: 'right',
+            color: '#000',
+            offset: -50,
             padding: 0,
+            rotation: -90,
+            align: 'start',
+            anchor: 'end',
+            font: {
+                size: 11,
+            },
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {
@@ -241,13 +247,13 @@ export const optionsGroupBar = {
     tooltips: {enabled: true},
     plugins: {
         datalabels: {
-            color: '#365068',
+            color: '#000',
             align: 'top',
             padding: 0,
             rotation: -90,
             labels: {
                 value: {
-                    color: '#365068',
+                    color: '#000',
                 }
             },
             formatter: function(value, context) {

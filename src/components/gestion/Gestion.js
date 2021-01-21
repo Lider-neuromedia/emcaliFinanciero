@@ -34,13 +34,13 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
     },
     fixedHeight: {
-        height: 280,
+        height: 320,
     },
     heightFull: {
         height: '100%'
     },
     fixedHeightVH: {
-        height: 522,
+        height: 665,
     },
     titleGestion: {
         fontSize: '15px',
@@ -221,13 +221,16 @@ export default function Gestion(){
                 position: 'left', 
             }, 
             { 
-                id: 'B', 
-                type: 'linear', 
-                position: 'right', 
+                id: 'B',
+                type: 'linear',
+                position: 'right',
                 ticks: { 
-                    max: 9, 
-                    min: 0 
-                } 
+                    max: 9,
+                    min: 0,
+                    callback: function(value, index, values) {
+                        return value+' %';
+                    }
+                }
             }]
         },
         plugins: {
@@ -242,9 +245,12 @@ export default function Gestion(){
                     id: 'A',
                     value: {
                         display: false,
-                        color: '#365068',
+                        color: '#000',
                     }
                 },
+                formatter: function(value, context) {
+                    return value;
+                }
             }
         }
     }
@@ -303,7 +309,7 @@ export default function Gestion(){
                 padding: 0,
                 labels: {
                     value: {
-                        color: '#333',
+                        color: '#000',
                     }
                 },
                 formatter: function(value, context) {
@@ -357,7 +363,7 @@ export default function Gestion(){
         },
         plugins: {
             datalabels: {
-                color: '#365068',
+                color: '#000',
                 align: 'center',
                 padding: 0,
                 labels: {
@@ -365,7 +371,7 @@ export default function Gestion(){
                         horizontalAlign: 'center', 
                     },
                     value: {
-                        color: '#365068',
+                        color: '#000',
                     }
                 },
                 formatter: function(value, context) {
