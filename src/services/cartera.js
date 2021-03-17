@@ -32,6 +32,7 @@ export const filterEstrato = (data, nombreGerencia, estadoResidencial, anio, mes
     const dataFilter = data.filter((e) => {
         // creo validacion de nombre gerencia.
         var validateNomGerencia = false;
+        console.log(e);
         //Validar el nombre de gerencia. Pasando a minusculas todos los caracteres. 
         if(nombreGerencia !== 'all'){
             if(e.gerencia_estrato){

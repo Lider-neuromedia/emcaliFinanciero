@@ -123,7 +123,7 @@ export default function EjecucionPresupuestal() {
 
     // Cargar las graficas.
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var dataGastos = [];
         var dataIngresos = [];
         var dataIngresosProye = [];
@@ -256,7 +256,7 @@ export default function EjecucionPresupuestal() {
     
     // Grafica #2
     const dataIngreVsGas = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: 'Ingresos',
@@ -273,7 +273,7 @@ export default function EjecucionPresupuestal() {
     
     // Grafica #3
     const dataIngresos = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: 'Ing. proyectados',
@@ -390,7 +390,7 @@ export default function EjecucionPresupuestal() {
 
     // Grafica #9
     const dataGastosMeses = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: 'Proyectados',

@@ -125,7 +125,7 @@ export default function Gastos() {
     }
 
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var dataGastos_proyectados = [];
         var dataGastos_comprometidos = [];
         var dataGastos_causados = [];
@@ -420,7 +420,7 @@ export default function Gastos() {
 
     // Grafica #7
     const dataGastos = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: 'proyectados - 2020',
@@ -442,7 +442,7 @@ export default function Gastos() {
 
     // Grafico #8
     const dataIngresos = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: '2019',
@@ -459,7 +459,7 @@ export default function Gastos() {
 
     // Grafico #9
     const dataOperacion = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: '2019',
@@ -476,7 +476,7 @@ export default function Gastos() {
 
     // Grafico #10
     const dataFuncionalidad = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: '2019',
@@ -493,7 +493,7 @@ export default function Gastos() {
 
     // Grafico #11
     const dataServicio = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: '2019',

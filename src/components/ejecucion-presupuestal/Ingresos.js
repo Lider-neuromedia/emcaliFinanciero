@@ -112,7 +112,7 @@ export default function Ingresos() {
         });
     }
     const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var ingresos_recaudados_anio_anterior_data = [];
         var ingresos_proyectados_anio_act_data = [];
         var ingresos_recaudados_anio_act_data = [];

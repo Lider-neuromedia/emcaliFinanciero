@@ -155,7 +155,8 @@ const useStyles = makeStyles((theme) => ({
         color: '#5f7387',
         padding: '10px 24px',
         fontSize: '16px',
-        letterSpacing: '1px'
+        letterSpacing: '1px',
+        boxShadow: '0 0 5px 0 rgba(125 125 125 / 50%)',
     },
     menuItemActive : {
         background : '#f6faff',
@@ -268,9 +269,9 @@ export default function Header(props) {
                     <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
                         Menú
                     </Typography>
-                    <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
+                    {/* <Typography component="h4" variant="h6" color="inherit" noWrap className={classes.title}>
                         Cifras en Millones COP | <small className={classes.small}>Septiembre 2020</small>
-                    </Typography>
+                    </Typography> */}
                     {user.rol === 1 &&
                         <Link to="/configuracion">
                         <Button

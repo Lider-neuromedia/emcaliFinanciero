@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Breadcrumbs, Typography, ButtonGroup, Button, makeStyles, Container, Grid, Paper } from '@material-ui/core';
+import { Breadcrumbs, Typography, ButtonGroup, Button, makeStyles, Container, Grid, Paper, Select, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
 import { Link, Redirect } from 'react-router-dom';
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 // Items que iran en el header.
-export const itemsHeader = (changeFilter) => {
+export const itemsHeader = (changeFilter, changeSelect, mesesA) => {
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Breadcrumbs aria-label="breadcrumb">
@@ -65,6 +65,31 @@ export const itemsHeader = (changeFilter) => {
                 <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uenaa')}><img src={alcantarillado} alt="uenaa" style={{paddingRight: '10px'}}/>UENAA</Button>
                 <Button style={{ padding: '6px 2em' }} onClick={changeFilter('uene')} ><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/> UENE</Button>
             </ButtonGroup>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                <Typography component="h6" variant="h6" color="inherit" noWrap style={{fontSize: '15px',letterSpacing: '1px',paddingRight:'10px'}}>
+                            Cifras en Millones COP |
+                </Typography> 
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={mesesA}
+                    onChange={changeSelect}
+                    style={{marginRight:'10px'}}
+                >
+                    <MenuItem value={'Enero'}>Enero</MenuItem>
+                    <MenuItem value={'Febrero'}>Febrero</MenuItem>
+                    <MenuItem value={'Marzo'}>Marzo</MenuItem>
+                    <MenuItem value={'Abril'}>Abril</MenuItem>
+                    <MenuItem value={'Mayo'}>Mayo</MenuItem>
+                    <MenuItem value={'Junio'}>Junio</MenuItem>
+                    <MenuItem value={'Julio'}>Julio</MenuItem>
+                    <MenuItem value={'Agosto'}>Agosto</MenuItem>
+                    <MenuItem value={'Septiembre'}>Septiembre</MenuItem>
+                    <MenuItem value={'Octubre'}>Octubre</MenuItem>
+                    <MenuItem value={'Noviembre'}>Noviembre</MenuItem>
+                    <MenuItem value={'Diciembre'}>Diciembre</MenuItem>
+                </Select> 2020
+            </div>
         </div>
     );
 }
@@ -74,6 +99,12 @@ export default function CostosOperacionales() {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
+    const [mesesA, setAge] = useState('Enero');
+
+    const changeSelect = (event) => {
+      setAge(event.target.value);
+      loadCharts(dataExcel, filters.nombre_gerencia, event.target.value);
+    };
     const [loading, setLoading] = useState(true);
 
 
@@ -133,8 +164,8 @@ export default function CostosOperacionales() {
         return newElements;
     }
 
-    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia, mes_data = mesesA) => {
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         // var GastosOperUENE = ['Gasto de Personal', 'Gasto de Personal', 'Generales',  'Impuestos, contribuciones y tasas','Seguros'];
         var GastosOperUENE = ['Dep,  Amort, Deterioros y Provisiones', 'Gasto de Personal', 'Generales',  'Impuestos, contribuciones y tasas'];
         var GastosOperUENAA = ['Gasto de Personal', 'Generales',  'Dep,  Amort, Deterioros y Provisiones','Impuestos, contribuciones y tasas'];
@@ -194,10 +225,10 @@ export default function CostosOperacionales() {
         setGastosOpeAcumAct(substraction_ebitda_anio_act);
 
         // Grafica #4
-        var ingresoReales_total_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'all', 'Septiembre', 'Gastos reales');
-        var ingresoReales_acue_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'telco', 'Septiembre', 'Gastos reales');
-        var ingresoReales_alca_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'uenaa', 'Septiembre', 'Gastos reales');
-        var ingresoReales_uene_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'uene', 'Septiembre', 'Gastos reales');
+        var ingresoReales_total_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'all', mes_data, 'Gastos reales');
+        var ingresoReales_acue_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'telco', mes_data, 'Gastos reales');
+        var ingresoReales_alca_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'uenaa', mes_data, 'Gastos reales');
+        var ingresoReales_uene_anio_act = filterColumnMesTipoGastosOper(data, 2020, 'uene', mes_data, 'Gastos reales');
 
         var ingresoReales_acue_anio_act_data = Math.round((ingresoReales_acue_anio_act / ingresoReales_total_anio_act) * 100, -1);
         var ingresoReales_alca_anio_act_data = Math.round((ingresoReales_alca_anio_act / ingresoReales_total_anio_act) * 100, -1);
@@ -205,15 +236,15 @@ export default function CostosOperacionales() {
         setGastosOper_anioAct({valueOne : ingresoReales_acue_anio_act_data, valueTwo : ingresoReales_alca_anio_act_data, valueThree : ingresoReales_uene_anio_act_data})
 
         // Grafica #5
-        var grafico4_anio_act1 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, 'Septiembre', 'Costos Reales', 'Costos de Personal');
-        var grafico4_anio_act2 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, 'Septiembre', 'Gastos Reales', 'Gasto de Personal');
+        var grafico4_anio_act1 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, mes_data, 'Costos Reales', 'Costos de Personal');
+        var grafico4_anio_act2 = filterColumnMesTipoGastoOpera(data, 2020, nombre_gerencia, mes_data, 'Gastos Reales', 'Gasto de Personal');
         var total = Math.round(grafico4_anio_act1 + grafico4_anio_act2);
         setgrafico4_anioAct({valueOne :  Math.round((grafico4_anio_act1 * 100) / total, -1), valueTwo : Math.round((grafico4_anio_act2 * 100) / total, -1)});
 
         // Grafica #6
         GastosOperUENE.forEach(gastoOperUENE => {
-            var uene_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'uene', 'Septiembre', 'Gastos Reales', gastoOperUENE);
-            var uene_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'uene', 'Septiembre', 'Gastos Reales', gastoOperUENE);
+            var uene_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'uene', mes_data, 'Gastos Reales', gastoOperUENE);
+            var uene_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'uene', mes_data, 'Gastos Reales', gastoOperUENE);
             uene_anio_ant_data.push(uene_anio_anterior);
             uene_anio_act_data.push(uene_anio_act);
         });
@@ -222,8 +253,8 @@ export default function CostosOperacionales() {
 
         // Grafica #7
         GastosOperUENAA.forEach(gastoOperUENAA => {
-            var uenaa_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'uenaa', 'Septiembre', 'Gastos Reales', gastoOperUENAA);
-            var uenaa_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'uenaa', 'Septiembre', 'Gastos Reales', gastoOperUENAA);
+            var uenaa_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'uenaa', mes_data, 'Gastos Reales', gastoOperUENAA);
+            var uenaa_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'uenaa', mes_data, 'Gastos Reales', gastoOperUENAA);
             uenaa_anio_ant_data.push(uenaa_anio_anterior);
             uenaa_anio_act_data.push(uenaa_anio_act);
         });
@@ -232,8 +263,8 @@ export default function CostosOperacionales() {
 
         // Grafica #8
         GastosOperTelco.forEach(gastoOperTelco => {
-            var telco_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'telco', 'Septiembre', 'Gastos Reales', gastoOperTelco);
-            var telco_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'telco', 'Septiembre', 'Gastos Reales', gastoOperTelco);
+            var telco_anio_anterior = filterColumnMesTipoGastoOpera(data, 2019, 'telco', mes_data, 'Gastos Reales', gastoOperTelco);
+            var telco_anio_act = filterColumnMesTipoGastoOpera(data, 2020, 'telco', mes_data, 'Gastos Reales', gastoOperTelco);
             telco_anio_ant_data.push(telco_anio_anterior);
             telco_anio_act_data.push(telco_anio_act);
         });
@@ -274,7 +305,7 @@ export default function CostosOperacionales() {
 
     // Grafica #2
     const dataIngreVsGas = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
           {
             label: '2019',
@@ -291,7 +322,7 @@ export default function CostosOperacionales() {
 
     // Grafica #3
     const dataMensualizados = {
-        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
         datasets: [
         {
             label: '2019',
@@ -400,7 +431,7 @@ export default function CostosOperacionales() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia)} />
+                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia, changeSelect, mesesA)} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>

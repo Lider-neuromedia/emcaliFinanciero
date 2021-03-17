@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Breadcrumbs, Typography, ButtonGroup, Button, makeStyles, Container, Grid, Paper } from '@material-ui/core';
+import { Breadcrumbs, Typography, ButtonGroup, Button, makeStyles, Container, Grid, Paper, Select, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import Header from '../menu/Header';
 import { Link, Redirect } from 'react-router-dom';
@@ -46,12 +46,17 @@ const useStyles = makeStyles((theme) => ({
     fixedHeightVH: {
         height: 380,
     },
+    title: {
+        fontSize: '15px',
+        letterSpacing: '1px'
+    },
 }));
 
 // Items que iran en el header.
-export const itemsHeader = (changeFilter) => {
+export const itemsHeader = (changeFilter, changeSelect, mesesA) => {
+
     return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
             <Breadcrumbs aria-label="breadcrumb">
                 <Link color="inherit" to="/pyg">
                     Costos Operacionales
@@ -65,6 +70,31 @@ export const itemsHeader = (changeFilter) => {
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('telco')}><img src={internet} alt="uent" style={{paddingRight: '10px'}}/>UENT</Button>
                 <Button style={{ padding: '6px 1em' }} onClick={changeFilter('uene')}><img src={UENE} alt="uene" style={{paddingRight: '10px'}}/>UENE</Button>
             </ButtonGroup>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                <Typography component="h6" variant="h6" color="inherit" noWrap style={{fontSize: '15px',letterSpacing: '1px',paddingRight:'10px'}}>
+                            Cifras en Millones COP |
+                </Typography> 
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={mesesA}
+                    onChange={changeSelect}
+                    style={{marginRight:'10px'}}
+                >
+                    <MenuItem value={'Enero'}>Enero</MenuItem>
+                    <MenuItem value={'Febrero'}>Febrero</MenuItem>
+                    <MenuItem value={'Marzo'}>Marzo</MenuItem>
+                    <MenuItem value={'Abril'}>Abril</MenuItem>
+                    <MenuItem value={'Mayo'}>Mayo</MenuItem>
+                    <MenuItem value={'Junio'}>Junio</MenuItem>
+                    <MenuItem value={'Julio'}>Julio</MenuItem>
+                    <MenuItem value={'Agosto'}>Agosto</MenuItem>
+                    <MenuItem value={'Septiembre'}>Septiembre</MenuItem>
+                    <MenuItem value={'Octubre'}>Octubre</MenuItem>
+                    <MenuItem value={'Noviembre'}>Noviembre</MenuItem>
+                    <MenuItem value={'Diciembre'}>Diciembre</MenuItem>
+                </Select> 2020
+            </div>
         </div>
     );
 }
@@ -75,6 +105,12 @@ export default function CostosOperacionales() {
     const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
+    const [mesesA, setAge] = useState('Enero');
+
+    const changeSelect = (event) => {
+      setAge(event.target.value);
+      loadCharts(dataExcel, filters.nombre_gerencia, event.target.value);
+    };
     const [loading, setLoading] = useState(true);
 
 
@@ -134,8 +170,8 @@ export default function CostosOperacionales() {
         return newElements;
     }
 
-    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia, mes_data = mesesA) => {
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         // var CostosVenta = ['Devoluciones', 'Venta de bienes', 'Otros Servicios', 'Arrendamiento Operativo', 'Cobertura de flujos de efectivo', 'Distribución', 'Comercialización'];
         var CostosVenta = ['Comercialización', 'Distribución', 'Cobertura de flujos de efectivo',  'Arrendamiento Operativo','Otros Servicios' ,'Venta de bienes', 'Devoluciones'];
         var IngresosTelco = ['Servicio de telecomunicaciones', 'Servicios de comunicaciones (Televisión)', 'Arrendamiento operativo',  'Otros servicios - Facturación terceros','Servicios informáticos' ,'Devoluciones, rebajas y descuentos'];
@@ -168,9 +204,9 @@ export default function CostosOperacionales() {
 
 
         // Grafica #1
-        var proyectados_anio_anterior = filterColumnMesTipoIngreso2(data, 2019, nombre_gerencia, 'Septiembre', 'ingresos reales');
-        var reales_anio_act = filterColumnMesTipoIngreso2(data, 2020, nombre_gerencia, 'Septiembre', 'ingresos reales');
-        var pro_anio_act = filterColumnMesTipoIngreso2(data, 2020, nombre_gerencia, 'Septiembre', 'ingresos proyectados');
+        var proyectados_anio_anterior = filterColumnMesTipoIngreso2(data, 2019, nombre_gerencia, mes_data, 'ingresos reales');
+        var reales_anio_act = filterColumnMesTipoIngreso2(data, 2020, nombre_gerencia, mes_data, 'ingresos reales');
+        var pro_anio_act = filterColumnMesTipoIngreso2(data, 2020, nombre_gerencia, mes_data, 'ingresos proyectados');
         setIngresosAnioAnt({
             proyectadosAnt_data : proyectados_anio_anterior, 
             realesAnt_data : reales_anio_act, 
@@ -178,11 +214,11 @@ export default function CostosOperacionales() {
         });
 
         // Grafica #2
-        var ingresoReales_total_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'all', 'Septiembre', 'Ingresos reales');
-        var ingresoReales_acue_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'acueducto', 'Septiembre', 'Ingresos reales');
-        var ingresoReales_alca_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'alcantarillado', 'Septiembre', 'Ingresos reales');
-        var ingresoReales_telco_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'telco', 'Septiembre', 'Ingresos reales');
-        var ingresoReales_uene_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'uene', 'Septiembre', 'Ingresos reales');
+        var ingresoReales_total_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'all', mes_data, 'Ingresos reales');
+        var ingresoReales_acue_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'acueducto', mes_data, 'Ingresos reales');
+        var ingresoReales_alca_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'alcantarillado', mes_data, 'Ingresos reales');
+        var ingresoReales_telco_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'telco', mes_data, 'Ingresos reales');
+        var ingresoReales_uene_anio_act = filterColumnMesTipoIngreso2(data, 2020, 'uene', mes_data, 'Ingresos reales');
 
         var ingresoReales_acue_anio_act_data = Math.round((ingresoReales_acue_anio_act / ingresoReales_total_anio_act) * 100, -1);
         var ingresoReales_alca_anio_act_data = Math.round((ingresoReales_alca_anio_act / ingresoReales_total_anio_act) * 100, -1);
@@ -192,8 +228,8 @@ export default function CostosOperacionales() {
 
         // Grafica #3
         CostosVenta.forEach(costo => {
-            var uene_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'uene', 'Septiembre', 'Ingresos reales', costo);
-            var uene_anio_act = filterColumnMesTipoIngreso(data, 2020, 'uene', 'Septiembre', 'Ingresos reales', costo);
+            var uene_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'uene', mes_data, 'Ingresos reales', costo);
+            var uene_anio_act = filterColumnMesTipoIngreso(data, 2020, 'uene', mes_data, 'Ingresos reales', costo);
             uene_anio_ant_data.push(uene_anio_anterior);
             uene_anio_act_data.push(uene_anio_act);
         });
@@ -202,8 +238,8 @@ export default function CostosOperacionales() {
 
         // Grafica #4
         IngresosTelco.forEach(ingresoTelco => {
-            var telco_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'telco', 'Septiembre', 'Ingresos reales', ingresoTelco);
-            var telco_anio_act = filterColumnMesTipoIngreso(data, 2020, 'telco', 'Septiembre', 'Ingresos reales', ingresoTelco);
+            var telco_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'telco', mes_data, 'Ingresos reales', ingresoTelco);
+            var telco_anio_act = filterColumnMesTipoIngreso(data, 2020, 'telco', mes_data, 'Ingresos reales', ingresoTelco);
             telco_anio_ant_data.push(telco_anio_anterior);
             telco_anio_act_data.push(telco_anio_act);
         });
@@ -212,8 +248,8 @@ export default function CostosOperacionales() {
 
         // Grafica #5
         IngresosAcueducto.forEach(ingresoAcueducto => {
-            var acueducto_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'acueducto', 'Septiembre', 'Ingresos reales', ingresoAcueducto);
-            var acueducto_anio_act = filterColumnMesTipoIngreso(data, 2020, 'acueducto', 'Septiembre', 'Ingresos reales', ingresoAcueducto);
+            var acueducto_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'acueducto', mes_data, 'Ingresos reales', ingresoAcueducto);
+            var acueducto_anio_act = filterColumnMesTipoIngreso(data, 2020, 'acueducto', mes_data, 'Ingresos reales', ingresoAcueducto);
             acueducto_anio_ant_data.push(acueducto_anio_anterior);
             acueducto_anio_act_data.push(acueducto_anio_act);
         });
@@ -222,8 +258,8 @@ export default function CostosOperacionales() {
 
         // Grafica #6
         IngresosAlca.forEach(ingresoAlca => {
-            var alca_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'alcantarillado', 'Septiembre', 'Ingresos reales', ingresoAlca);
-            var alca_anio_act = filterColumnMesTipoIngreso(data, 2020, 'alcantarillado', 'Septiembre', 'Ingresos reales', ingresoAlca);
+            var alca_anio_anterior = filterColumnMesTipoIngreso(data, 2019, 'alcantarillado', mes_data, 'Ingresos reales', ingresoAlca);
+            var alca_anio_act = filterColumnMesTipoIngreso(data, 2020, 'alcantarillado', mes_data, 'Ingresos reales', ingresoAlca);
             alca_anio_ant_data.push(alca_anio_anterior);
             alca_anio_act_data.push(alca_anio_act);
         });
@@ -416,7 +452,7 @@ export default function CostosOperacionales() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia)} />
+                <Header active={'pyg'} itemsHeader={() => itemsHeader(changeFilterNomGerencia, changeSelect, mesesA)} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>

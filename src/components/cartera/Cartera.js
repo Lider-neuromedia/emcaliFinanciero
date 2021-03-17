@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper, Tabs, Tab } from '@material-ui/core';
+import {Breadcrumbs, Typography, makeStyles, Container, Grid, Paper, Tabs, Tab, Select, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import services from '../../services';
 import {loadServerExcel} from '../../services';
@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#5c6166',
         marginBottom: '15px'
     },
+    title: {
+        fontSize: '15px',
+        letterSpacing: '1px'
+    },
     tabs: {
         "& .MuiTab-wrapper": {
             textTransform: 'initial',
@@ -86,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // Items que iran en el header.
-export const ItemsHeader = (changeFilter) => {
+export const ItemsHeader = (changeFilter, changeSelectA, mesesA, changeSelectB, mesesB) => {
 
     const [tabActive, setTabActive] = useState('UENE');
     const [value, setValue] = useState(0);
@@ -117,6 +121,51 @@ export const ItemsHeader = (changeFilter) => {
                 <Tab label="Alcantarillado" onClick={changeFilter('alcantarillado')}  icon={<img src={alcantarillado} style={{marginRight: '5px', marginBottom: 0}} alt="alcantarillado" />}/>
                 <Tab label="Telecomunicaciones" onClick={changeFilter('telecomunicaciones')} icon={<img src={telecomunicaciones} style={{marginRight: '5px', marginBottom: 0}} alt="telecomunicaciones" />} />
             </Tabs>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                <Typography component="h6" variant="h6" color="inherit" noWrap style={{fontSize: '15px',letterSpacing: '1px',paddingRight:'10px'}}>
+                            Cifras en Millones COP |
+                </Typography> 
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={mesesA}
+                    onChange={changeSelectA}
+                    style={{marginRight:'10px'}}
+                >
+                    <MenuItem value={'Enero'}>Enero</MenuItem>
+                    <MenuItem value={'Febrero'}>Febrero</MenuItem>
+                    <MenuItem value={'Marzo'}>Marzo</MenuItem>
+                    <MenuItem value={'Abril'}>Abril</MenuItem>
+                    <MenuItem value={'Mayo'}>Mayo</MenuItem>
+                    <MenuItem value={'Junio'}>Junio</MenuItem>
+                    <MenuItem value={'Julio'}>Julio</MenuItem>
+                    <MenuItem value={'Agosto'}>Agosto</MenuItem>
+                    <MenuItem value={'Septiembre'}>Septiembre</MenuItem>
+                    <MenuItem value={'Octubre'}>Octubre</MenuItem>
+                    <MenuItem value={'Noviembre'}>Noviembre</MenuItem>
+                    <MenuItem value={'Diciembre'}>Diciembre</MenuItem>
+                </Select>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={mesesB}
+                    onChange={changeSelectB}
+                    style={{marginRight:'10px'}}
+                >
+                    <MenuItem value={'Enero'}>Enero</MenuItem>
+                    <MenuItem value={'Febrero'}>Febrero</MenuItem>
+                    <MenuItem value={'Marzo'}>Marzo</MenuItem>
+                    <MenuItem value={'Abril'}>Abril</MenuItem>
+                    <MenuItem value={'Mayo'}>Mayo</MenuItem>
+                    <MenuItem value={'Junio'}>Junio</MenuItem>
+                    <MenuItem value={'Julio'}>Julio</MenuItem>
+                    <MenuItem value={'Agosto'}>Agosto</MenuItem>
+                    <MenuItem value={'Septiembre'}>Septiembre</MenuItem>
+                    <MenuItem value={'Octubre'}>Octubre</MenuItem>
+                    <MenuItem value={'Noviembre'}>Noviembre</MenuItem>
+                    <MenuItem value={'Diciembre'}>Diciembre</MenuItem>
+                </Select> 2020
+            </div>
         </div>
     );
 }
@@ -127,7 +176,17 @@ export default function Cartera() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const fixedHeightPaperVH = clsx(classes.paper, classes.fixedHeightVH);
-    
+    const [mesesA, setAgeA] = useState('Enero');
+    const [mesesB, setAgeB] = useState('Enero');
+
+    const changeSelectA = (event) => {
+      setAgeA(event.target.value);
+      loadCharts(dataExcel, filters.nombre_gerencia, event.target.value);
+    };
+    const changeSelectB = (event) => {
+      setAgeB(event.target.value);
+      loadCharts(dataExcel, filters.nombre_gerencia, event.target.value);
+    };
     // Estados
     const [dataExcel, setDataExcel] = useState([]);
     const [filters, setFilters] = useState({nombre_gerencia : 'all'});
@@ -162,9 +221,9 @@ export default function Cartera() {
     }
 
     // Carga de las estadisticas.
-    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia) => {
+    const loadCharts = (data, nombre_gerencia = filters.nombre_gerencia, mes_dataA = mesesA, mes_dataB = mesesB) => {
 
-        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre'];
+        var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         var estadosResidenciales = ['ESTRATO 1', 'ESTRATO 2', 'ESTRATO 3', 'ESTRATO 4', 'ESTRATO 5', 'ESTRATO 6', 'SUBNORMAL'];
         var estadosSegmento = ['PROVISIONAL', 'ALUMBRADO PUBLICO', 'ESPECIAL', 'INDUSTRIAL', 'PUBLICO', 'COMERCIAL', 'RESIDENCIAL'];
         var edadCartera = ['30 dias', '60-120 dias', '121-360 dias', '361-1800', 'mayores A 1800'];
@@ -188,9 +247,10 @@ export default function Cartera() {
         var sep_anio_act = [];
 
         estadosResidenciales.forEach( estado => {
-            sep_anio_ant.push(filterEstrato(data, nombre_gerencia, estado, 2019, 'Septiembre 2019', 'valor_estrato'));
-            ago_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, 'Agosto 2020', 'valor_estrato'));
-            sep_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, 'Septiembre 2020', 'valor_estrato'));
+            sep_anio_ant.push(filterEstrato(data, nombre_gerencia, estado, 2019, mes_dataA, 'valor_estrato'));
+            ago_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, mes_dataB, 'valor_estrato'));
+            sep_anio_act.push(filterEstrato(data, nombre_gerencia, estado, 2020, mes_dataA, 'valor_estrato'));
+            console.log(sep_anio_ant);
         });
 
         // Grafica #3 - Segmentos
@@ -200,10 +260,10 @@ export default function Cartera() {
         var telecomunicaciones = [];
         
         estadosSegmento.forEach(segmento => {
-            acueducto.push(filterSegmento(data, 'ACUEDUCTO', segmento, 'Septiembre', 'valor_segmento'));
-            alcantarillado.push(filterSegmento(data, 'ALCANTARILLADO', segmento, 'Septiembre', 'valor_segmento'));
-            energia.push(filterSegmento(data, 'ENERGIA', segmento, 'Septiembre', 'valor_segmento'));
-            telecomunicaciones.push(filterSegmento(data, 'TELECOMUNICACIONES', segmento, 'Septiembre', 'valor_segmento'));
+            acueducto.push(filterSegmento(data, 'ACUEDUCTO', segmento, mes_dataA, 'valor_segmento'));
+            alcantarillado.push(filterSegmento(data, 'ALCANTARILLADO', segmento, mes_dataA, 'valor_segmento'));
+            energia.push(filterSegmento(data, 'ENERGIA', segmento, mes_dataA, 'valor_segmento'));
+            telecomunicaciones.push(filterSegmento(data, 'TELECOMUNICACIONES', segmento, mes_dataA, 'valor_segmento'));
         })
 
         // Grafica #4 - Cartera
@@ -213,10 +273,10 @@ export default function Cartera() {
         var telecomunicacionesCart = [];
         
         edadCartera.forEach(cartera => {
-            acueductoCart.push(filterEdadCartera(data, 'ACUEDUCTO', cartera, 'Septiembre', 'valor_cartera'));
-            alcantarilladoCart.push(filterEdadCartera(data, 'ALCANTARILLADO', cartera, 'Septiembre', 'valor_cartera'));
-            energiaCart.push(filterEdadCartera(data, 'ENERGIA', cartera, 'Septiembre', 'valor_cartera'));
-            telecomunicacionesCart.push(filterEdadCartera(data, 'TELECOMUNICACIONES', cartera, 'Septiembre', 'valor_cartera'));
+            acueductoCart.push(filterEdadCartera(data, 'ACUEDUCTO', cartera, mes_dataA, 'valor_cartera'));
+            alcantarilladoCart.push(filterEdadCartera(data, 'ALCANTARILLADO', cartera, mes_dataA, 'valor_cartera'));
+            energiaCart.push(filterEdadCartera(data, 'ENERGIA', cartera, mes_dataA, 'valor_cartera'));
+            telecomunicacionesCart.push(filterEdadCartera(data, 'TELECOMUNICACIONES', cartera, mes_dataA, 'valor_cartera'));
         })
 
         // Cambiar estados. 
@@ -263,7 +323,7 @@ export default function Cartera() {
         DATA - GRAFICOS.
     */
    const data = {
-    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
     datasets: [
       {
         label: 'Facturación mensual',
@@ -296,21 +356,21 @@ export default function Cartera() {
     const dataEstratos = {
         labels: ['ESTRATO 1', 'ESTRATO 2', 'ESTRATO 3', 'ESTRATO 4', 'ESTRATO 5', 'ESTRATO 6', 'SUBNORMAL'],
         datasets: [
-          {
-            label: 'Septiembre 2019',
-            data: estratoMesAnt,
-            backgroundColor: '#FF0000',
-          },
-          {
-            label: 'Agosto 2020',
-            data: estratoMesAct,
-            backgroundColor: '#002060',
-          },
-          {
-            label: 'Septiembre 2020',
-            data: estratoMesAct2,
-            backgroundColor: '#FFFF00',
-          },
+            {
+                label: mesesA+' 2019',
+                data: estratoMesAnt,
+                backgroundColor: '#FF0000',
+            },
+            {
+                label: mesesB+' 2020',
+                data: estratoMesAct,
+                backgroundColor: '#002060',
+            },
+            {
+                label: mesesA+' 2020',
+                data: estratoMesAct2,
+                backgroundColor: '#FFFF00',
+            },
         ],
     }
        
@@ -373,7 +433,7 @@ export default function Cartera() {
             <Redirect to="/" />
          :
             <div className={classes.root}>
-                <Header active={'cartera'} itemsHeader={() => ItemsHeader(changeFilterNomGerencia)} />
+                <Header active={'cartera'} itemsHeader={() => ItemsHeader(changeFilterNomGerencia, changeSelectA, mesesA, changeSelectB, mesesB)} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} style={{ minHeight: '8em' }} />
                     <Container maxWidth="lg" className={classes.container}>
